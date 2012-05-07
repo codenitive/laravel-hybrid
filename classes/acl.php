@@ -2,7 +2,7 @@
 
 use \Closure, \Str;
 
-class AclException extends \Exception {}
+class AclException extends \Exception { }
 
 class Acl
 {

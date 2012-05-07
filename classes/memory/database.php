@@ -1,8 +1,3 @@
-<?php
+<?php namespace Hybrid;
 
-namespace Hybrid;
-
-class Memory_Database extends Memory_Driver
-{
-	
-}
+class Memory_Database extends Memory_Driver { }

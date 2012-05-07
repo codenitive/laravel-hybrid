@@ -13,4 +13,5 @@ class Memory_Runtime extends Memory_Driver
 	public function initiate() { }
 
 	public function shutdown() { }
+
 }

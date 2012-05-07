@@ -1,9 +1,6 @@
-<?php
+<?php namespace Hybrid;
 
-namespace Hybrid;
-
-use \Closure;
-use \Str;
+use \Closure, \Str;
 
 class AclException extends \Exception {}
 
@@ -30,15 +27,9 @@ class Acl
 	 */
 	public static function make($name = null)
 	{
-		if (is_null($name))
-		{
-			$name = 'default';
-		}
+		if (is_null($name)) $name = 'default';
 
-		if ( ! isset(static::$instances[$name]))
-		{
-			static::$instances[$name] = new static($name);
-		}
+		if ( ! isset(static::$instances[$name])) static::$instances[$name] = new static($name);
 
 		return static::$instances[$name];
 	}
@@ -70,7 +61,7 @@ class Acl
 	 *
 	 * @access  protected
 	 */
-	protected function __construct($name = null, $registry = null) 
+	protected function __construct($name = null) 
 	{
 		$this->name = $name;
 	}
@@ -112,10 +103,7 @@ class Acl
 	{
 		$role = strval($role);
 
-		if ( ! empty($role) and in_array($role, $this->roles))
-		{
-			return true;
-		}
+		if ( ! empty($role) and in_array($role, $this->roles)) return true;
 
 		return false;
 	}
@@ -125,15 +113,12 @@ class Acl
 	 * 
 	 * @access  public
 	 * @param   mixed   $roles      A string or an array of roles
-	 * @return  bool
+	 * @return  Acl                 chaining
 	 * @throws  AclException
 	 */
 	public function add_roles($roles = null)
 	{
-		if (is_string($roles)) 
-		{
-			$roles = func_get_args();
-		}
+		if (is_string($roles)) $roles = func_get_args();
 		
 		if (is_array($roles)) 
 		{
@@ -148,11 +133,9 @@ class Acl
 					continue;
 				}
 			}
-
-			return true;
 		}
 
-		return false;
+		return $this;
 	}
 
 	/**
@@ -160,12 +143,12 @@ class Acl
 	 * 
 	 * @access  public
 	 * @param   mixed   $role       A string or an array of roles
-	 * @return  bool
+	 * @return  Acl                 chaining
 	 * @throws  AclException
 	 */
 	public function add_role($role)
 	{
-		if (null === $role) 
+		if (is_null($role)) 
 		{
 			throw new AclException(__METHOD__.": Can't add NULL role.");
 		}
@@ -174,16 +157,12 @@ class Acl
 
 		if ( ! $this->has_role($role))
 		{
-			array_push($this->roles, $role);
-			
-			! empty($this->registry) and $this->registry->set("acl_".$this->name.".roles", $this->roles);
-
-			return true;
-		}
-		else
-		{
 			throw new AclException(__METHOD__.": Role {$role} already exist.");
 		}
+
+		array_push($this->roles, $role);
+
+		return $this;
 	}
 
 	/**
@@ -197,10 +176,7 @@ class Acl
 	{
 		$action = strval($action);
 
-		if ( ! empty($action) and in_array($action, $this->actions))
-		{
-			return true;
-		}
+		if ( ! empty($action) and in_array($action, $this->actions)) return true;
 
 		return false;
 	}
@@ -209,16 +185,13 @@ class Acl
 	 * Add new action(s) to this instance
 	 * 
 	 * @access  public
-	 * @param   mixed   $actions      A string of action name
-	 * @return  bool
+	 * @param   mixed   $actions    A string of action name
+	 * @return  Acl                 chaining
 	 * @throws  AclException
 	 */
 	public function add_actions($actions = null) 
 	{
-		if (is_string($actions)) 
-		{
-			$actions = func_get_args();
-		}
+		if (is_string($actions)) $actions = func_get_args();
 		
 		if (is_array($actions)) 
 		{
@@ -239,40 +212,36 @@ class Acl
 					continue;
 				}
 			}
-
-			return true;
 		}
 
-		return false;
+		return $this;
 	}
 
 	/**
 	 * Add new action to this instance
 	 * 
 	 * @access  public
-	 * @param   mixed   $actions      A string of action name
-	 * @return  bool
+	 * @param   mixed   $actions    A string of action name
+	 * @return  Acl                 chaining
 	 * @throws  AclException
 	 */
 	public function add_action($action, $callback = null) 
 	{
-		if (null === $action) 
+		if (is_null($action)) 
 		{
 			throw new AclException(__METHOD__.": Can't add NULL actions.");
 		}
 
 		$action = trim(Str::slug($action, '-'));
 		
-		if ( ! $this->has_action($action))
-		{
-			array_push($this->actions, $action);
-
-			return true;
-		}
-		else
+		if ($this->has_action($action))
 		{
 			throw new AclException(__METHOD__.": Action {$action} already exist.");
 		}
+
+		array_push($this->actions, $action);
+
+		return $this;
 	}
 
 	/**
@@ -297,15 +266,9 @@ class Acl
 		if (is_null(Auth::user()))
 		{
 			// only add guest if it's available
-			if (in_array('guest', $this->roles))
-			{
-				array_push($roles, 'guest');
-			}
+			if (in_array('guest', $this->roles)) array_push($roles, 'guest');
 		}
-		else 
-		{
-			$roles = Auth::roles();
-		}
+		else $roles = Auth::roles();
 
 		$action = Str::slug($action, '-');
 
@@ -313,10 +276,7 @@ class Acl
 		{
 			$role = Str::slug($role, '-');
 
-			if (isset($this->acl[$role.'/'.$action])) 
-			{
-				return $this->acl[$role.'/'.$action];
-			}
+			if (isset($this->acl[$role.'/'.$action])) return $this->acl[$role.'/'.$action];
 		}
 
 		return false;
@@ -334,7 +294,6 @@ class Acl
 	 */
 	public function allow($roles, $actions, $allow = true) 
 	{
-
 		if ( ! is_array($roles)) 
 		{
 			switch (true)

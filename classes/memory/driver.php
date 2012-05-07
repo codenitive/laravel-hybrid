@@ -75,6 +75,7 @@ abstract class Memory_Driver
 	}
 
 	public abstract function initiate();
+	
 	public abstract function shutdown();
 
 }

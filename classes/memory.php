@@ -1,12 +1,11 @@
-<?php
+<?php namespace Hybrid;
 
-namespace Hybrid;
-
-use \Event;
-use \Exception;
+use \Event, \Exception;
 
 class Memory
 {
+	protected static $initiated = false;
+
 	/**
 	 * Cache registry instance so we can reuse it
 	 * 
@@ -16,38 +15,28 @@ class Memory
 	 */
 	protected static $instances = array();
 
-	protected static $initiated = false;
-
 	/**
 	 * Initiate a new Memory instance
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $name       instance name
-	 * @return  object
+	 * @param   string  $instance_name      instance name
+	 * @param   array   $config
+	 * @return  Memory
 	 * @throws  \Exception
 	 */
 	public static function make($instance_name = null, $config = array())
 	{
 		if (false === static::$initiated)
 		{
-			Event::listen('laravel.done', function($response) 
-			{
-				Memory::shutdown();
-			});
+			Event::listen('laravel.done', function($response) { Memory::shutdown(); });
 
 			static::$initiated = true;
 		}
 
-		if (is_null($instance_name))
-		{
-			$instance_name = 'runtime.default';
-		}
+		if (is_null($instance_name)) $instance_name = 'runtime.default';
 
-		if (false === strpos($instance_name, '.'))
-		{
-			$instance_name = $instance_name.'.default';
-		}
+		if (false === strpos($instance_name, '.')) $instance_name = $instance_name.'.default';
 
 		list($storage, $name) = explode('.', $instance_name, 2);
 
@@ -66,14 +55,12 @@ class Memory
 			$driver = "\Hybrid\Memory_".ucfirst($storage);
 
 			// instance has yet to be initiated
-			if (class_exists($driver))
-			{
-				static::$instances[$instance_name] = new $driver($name, $config);
-			}
-			else
+			if ( ! class_exists($driver))
 			{
 				throw new Exception("Requested {$driver} does not exist.");
 			}
+
+			static::$instances[$instance_name] = new $driver($name, $config);
 		}
 
 		return static::$instances[$instance_name];

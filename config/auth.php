@@ -13,7 +13,7 @@ return array(
 	|
 	|   'roles' => function ($id, $roles)
 	|   {
-	|       \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+	|       \User_Role::with('role')->where('user_id', '=', $id)->get();
 	|
 	|       foreach ($user_roles as $role)
 	|       {

@@ -33,14 +33,22 @@ The Acl class provides a standardized interface for authorization/priviledge in 
 		$acl->add_actions('post comment', 'moderate content');
 		
 		/* now lets start building our ACL */
-		$acl->allow('*', 'view content'); // any roles can view content (even guest)
-		$acl->allow('!guest', 'edit account'); // any roles except guest can edit account
 		
-		$acl->allow('admin', 'manage all'); // only admin can manage all
+		// any roles can view content (even guest)
+		$acl->allow('*', 'view content'); 
 		
-		$acl->allow('*', 'post content'); // any roles can post content
-		$acl->deny(array('subscriber', 'guest'), 'post content'); // oh wait, deny post content for guest and subscriber
+		// any roles except guest can edit account
+		$acl->allow('!guest', 'edit account'); 
 		
+		// only admin can manage all
+		$acl->allow('admin', 'manage all'); 
+		
+		// any roles can post content
+		$acl->allow('*', 'post content'); 
+		
+		// oh wait, deny post content for guest and subscriber
+		$acl->deny(array('subscriber', 'guest'), 'post content');
+				
 		return $acl;
 	}); 
 	

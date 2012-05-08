@@ -2,13 +2,13 @@
 
 use \Config;
 
-class Chart_Area extends Chart_Driver 
+class Chart_Timeline extends Chart_Driver 
 {
 	public function __construct() 
 	{
 		parent::__construct();
 
-		$this->configure(Config::get('hybrid::chart.area', array()));
+		$this->configure(Config::get('hybrid::chart.timeline', array()));
 	}
 
 	public function render($width = '100%', $height = '300px') 
@@ -21,19 +21,19 @@ class Chart_Area extends Chart_Driver
 
 		$options    = json_encode($this->config);
 
-		$id         = 'areachart_'.md5($columns.$rows.time().microtime());
+		$id         = 'timeline_'.md5($columns.$rows.time().microtime());
 
 		return <<<SCRIPT
-<div id="{$id}"></div>
+<div id="{$id}" style="width:{$width}px; height:{$height}px;"></div>
 <script type="text/javascript">
-google.load("visualization", "1", {packages:["corechart"]});
+google.load("visualization", "1", {packages:["annotatedtimeline"]});
 google.setOnLoadCallback(draw_{$id});
 function draw_{$id}() {
 	var data = new google.visualization.DataTable();
 	{$columns}
 	{$rows}
 	
-	var chart = new google.visualization.AreaChart(document.getElementById('{$id}'));
+	var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('{$id}'));
 	chart.draw(data, {$options});
 };
 </script>

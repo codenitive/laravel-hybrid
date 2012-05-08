@@ -2,13 +2,13 @@
 
 use \Config;
 
-class Chart_Area extends Chart_Driver 
+class Chart_Line extends Chart_Driver 
 {
 	public function __construct() 
 	{
 		parent::__construct();
 
-		$this->configure(Config::get('hybrid::chart.area', array()));
+		$this->configure(Config::get('hybrid::chart.line', array()));
 	}
 
 	public function render($width = '100%', $height = '300px') 
@@ -21,7 +21,7 @@ class Chart_Area extends Chart_Driver
 
 		$options    = json_encode($this->config);
 
-		$id         = 'areachart_'.md5($columns.$rows.time().microtime());
+		$id         = 'linechart_'.md5($columns.$rows.time().microtime());
 
 		return <<<SCRIPT
 <div id="{$id}"></div>
@@ -33,7 +33,7 @@ function draw_{$id}() {
 	{$columns}
 	{$rows}
 	
-	var chart = new google.visualization.AreaChart(document.getElementById('{$id}'));
+	var chart = new google.visualization.LineChart(document.getElementById('{$id}'));
 	chart.draw(data, {$options});
 };
 </script>

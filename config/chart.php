@@ -8,13 +8,12 @@ return array(
 	 */
 	'area' => array (
 		'axisTitlesPosition' => 'in',
-		//'colors' => array ('#0077CC', '#EDAB1E', '#86B22B'),
-		'fontSize' => 11,
-		//'hAxis' => array ('showTextEvery' => 7),
-		'legend' => 'top',
-		'lineWidth' => 4,
-		'pointSize' => 4,
-
+		//'colors'           => array ('#0077CC', '#EDAB1E', '#86B22B'),
+		'fontSize'           => 11,
+		//'hAxis'            => array ('showTextEvery' => 7),
+		'legend'             => 'top',
+		'lineWidth'          => 4,
+		'pointSize'          => 4,
 	),
 	
 	/**
@@ -24,13 +23,12 @@ return array(
 	 */
 	'area' => array (
 		'axisTitlesPosition' => 'in',
-		//'colors' => array ('#0077CC', '#EDAB1E', '#86B22B'),
-		'fontSize' => 11,
-		//'hAxis' => array ('showTextEvery' => 7),
-		'legend' => 'top',
-		'lineWidth' => 4,
-		'pointSize' => 4,
-
+		//'colors'           => array ('#0077CC', '#EDAB1E', '#86B22B'),
+		'fontSize'           => 11,
+		//'hAxis'            => array ('showTextEvery' => 7),
+		'legend'             => 'top',
+		'lineWidth'          => 4,
+		'pointSize'          => 4,
 	),
 
 
@@ -41,12 +39,12 @@ return array(
 	 */
 	'line' => array(
 		'axisTitlesPosition' => 'in',
-		//'colors' => array ('#0077CC', '#EDAB1E', '#86B22B'),
-		'fontSize' => 11,
-		//'hAxis' => array ('showTextEvery' => 7),
-		'legend' => 'top',
-		'lineWidth' => 4,
-		'pointSize' => 4,
+		//'colors'           => array ('#0077CC', '#EDAB1E', '#86B22B'),
+		'fontSize'           => 11,
+		//'hAxis'            => array ('showTextEvery' => 7),
+		'legend'             => 'top',
+		'lineWidth'          => 4,
+		'pointSize'          => 4,
 	),
 
 	/**
@@ -62,12 +60,12 @@ return array(
 	
 	'scatter' => array (
 		'axisTitlesPosition' => 'in',
-		//'colors' => array ('#0077CC', '#EDAB1E', '#86B22B'),
-		'fontSize' => 11,
-		//'hAxis' => array ('showTextEvery' => 7),
-		'legend' => 'top',
-		'lineWidth' => 4,
-		'pointSize' => 4,
+		//'colors'           => array ('#0077CC', '#EDAB1E', '#86B22B'),
+		'fontSize'           => 11,
+		//'hAxis'            => array ('showTextEvery' => 7),
+		'legend'             => 'top',
+		'lineWidth'          => 4,
+		'pointSize'          => 4,
 	),
 	
 	/**
@@ -83,10 +81,10 @@ return array(
 	 * @see http://code.google.com/apis/visualization/documentation/gallery/annotatedtimeline.html
 	 */
 	'timeline' => array (
-		//'colors' => array('#0077CC', '#EDAB1E', '#86B22B'),
-		'dateFormat' => 'MMM d',
+		//'colors'           => array('#0077CC', '#EDAB1E', '#86B22B'),
+		'dateFormat'         => 'MMM d',
 		'displayAnnotations' => false,
-		'thickness' => 3,
+		'thickness'          => 3,
 	),
 	
 );

@@ -150,14 +150,14 @@ class Acl
 	{
 		if (is_null($role)) 
 		{
-			throw new AclException(__METHOD__.": Can't add NULL role.");
+			throw new AclException(__FUNCTION__.": Can't add NULL role.");
 		}
 
 		$role = trim(Str::slug($role, '-'));
 
 		if ( ! $this->has_role($role))
 		{
-			throw new AclException(__METHOD__.": Role {$role} already exist.");
+			throw new AclException(__FUNCTION__.": Role {$role} already exist.");
 		}
 
 		array_push($this->roles, $role);
@@ -229,14 +229,14 @@ class Acl
 	{
 		if (is_null($action)) 
 		{
-			throw new AclException(__METHOD__.": Can't add NULL actions.");
+			throw new AclException(__FUNCTION__.": Can't add NULL actions.");
 		}
 
 		$action = trim(Str::slug($action, '-'));
 		
 		if ($this->has_action($action))
 		{
-			throw new AclException(__METHOD__.": Action {$action} already exist.");
+			throw new AclException(__FUNCTION__.": Action {$action} already exist.");
 		}
 
 		array_push($this->actions, $action);
@@ -260,7 +260,7 @@ class Acl
 
 		if ( ! in_array(Str::slug($action, '-'), $this->actions)) 
 		{
-			throw new AclException(__METHOD__.": Unable to verify unknown action {$action}.");
+			throw new AclException(__FUNCTION__.": Unable to verify unknown action {$action}.");
 		}
 
 		if (is_null(Auth::user()))
@@ -333,7 +333,7 @@ class Acl
 
 			if ( ! $this->has_role($role)) 
 			{
-				throw new AclException(__METHOD__.": Role {$role} does not exist.");
+				throw new AclException(__FUNCTION__.": Role {$role} does not exist.");
 			}
 
 			foreach ($actions as $action) 
@@ -342,7 +342,7 @@ class Acl
 
 				if ( ! $this->has_action($action)) 
 				{
-					throw new AclException(__METHOD__.": Action {$action} does not exist.");
+					throw new AclException(__FUNCTION__.": Action {$action} does not exist.");
 				}
 
 				$id             = $role.'/'.$action;

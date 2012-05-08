@@ -155,7 +155,7 @@ class Acl
 
 		$role = trim(Str::slug($role, '-'));
 
-		if ( ! $this->has_role($role))
+		if ($this->has_role($role))
 		{
 			throw new AclException(__FUNCTION__.": Role {$role} already exist.");
 		}

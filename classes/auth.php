@@ -28,7 +28,7 @@ class Auth extends Laravel_Auth
 				$callback = function($id, $roles)
 				{
 					// in situation config is not a closure, we will use a basic convention structure.
-					$user_roles = \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+					$user_roles = \User_Role::with('role')->where('user_id', '=', $id)->get();
 					
 					foreach ($user_roles as $role)
 					{

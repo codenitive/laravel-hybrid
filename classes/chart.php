@@ -1,5 +1,7 @@
 <?php namespace Hybrid;
 
+use \Exception;
+
 class Chart 
 {
 	/**
@@ -18,12 +20,12 @@ class Chart
 	 * @access  public
 	 * @param   string  $name
 	 * @return  Chart_Driver 
-	 * @throws  \FuelException
+	 * @throws  \Exception
 	 */
 	public static function make($name) 
 	{
 		if (is_null($name)) $name = 'default';
-		
+
 		$name = strtolower($name);
 
 		if ( ! isset(static::$instances[$name]))
@@ -32,7 +34,7 @@ class Chart
 			
 			if ( ! class_exists($driver))
 			{
-				throw new FuelException("Requested {$driver} does not exist.");
+				throw new Exception("Requested {$driver} does not exist.");
 			}
 
 			static::$instances[$name] = new $driver();

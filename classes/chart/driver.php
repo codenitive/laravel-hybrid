@@ -16,7 +16,7 @@ abstract class Chart_Driver
 		return new static();
 	}
 
-	protected $options = array();
+	protected $config  = array();
 	protected $hAxis   = 'string';
 	protected $columns = '';
 	protected $rows    = '';
@@ -39,7 +39,7 @@ abstract class Chart_Driver
 	 */
 	public function clear() 
 	{
-		$this->options = array();
+		$this->config = array();
 		$this->columns = '';
 		$this->rows    = '';
 
@@ -52,7 +52,7 @@ abstract class Chart_Driver
 	 * @access  public
 	 * @param   array   $data 
 	 */
-	public function set_columns($data = array()) 
+	public function columns($data = array()) 
 	{
 		$this->columns = '';
 		$count         = 0;
@@ -74,29 +74,29 @@ abstract class Chart_Driver
 	}
 
 	/**
-	 * Set chart options
+	 * Set chart options / configuration
 	 * 
 	 * @access  public
 	 * @param   mixed   $name
 	 * @param   mixed   $value
 	 * @return  bool
 	 */
-	public function set_options($name, $value = '') 
+	public function configure($name, $value = '') 
 	{
 		if (is_array($name)) 
 		{
 			foreach ($name as $key => $value) 
 			{
-				$this->options[$key] = $value;
+				$this->config[$key] = $value;
 			}
 		}
 		elseif (is_string($name) and ! empty($name)) 
 		{
-			$this->options[$name] = $value;
+			$this->config[$name] = $value;
 		}
 		else
 		{
-			throw new FuelException(__FUNCTION__.': require \$name to be set.');
+			throw new Exception(__FUNCTION__.': require \$name to be set.');
 		}
 
 		return $this;
@@ -108,7 +108,7 @@ abstract class Chart_Driver
 	 * @access  public
 	 * @param   array   $data 
 	 */
-	public function set_rows($data = array()) 
+	public function rows($data = array()) 
 	{
 		$this->rows = "";
 		$dataset    = '';

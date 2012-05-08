@@ -20,12 +20,12 @@ class Memory
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $instance_name      instance name
+	 * @param   string  $name      instance name
 	 * @param   array   $config
 	 * @return  Memory
 	 * @throws  \Exception
 	 */
-	public static function make($instance_name = null, $config = array())
+	public static function make($name = null, $config = array())
 	{
 		if (false === static::$initiated)
 		{
@@ -34,11 +34,11 @@ class Memory
 			static::$initiated = true;
 		}
 
-		if (is_null($instance_name)) $instance_name = 'runtime.default';
+		if (is_null($name)) $name = 'runtime.default';
 
-		if (false === strpos($instance_name, '.')) $instance_name = $instance_name.'.default';
+		if (false === strpos($name, '.')) $name = $name.'.default';
 
-		list($storage, $name) = explode('.', $instance_name, 2);
+		list($storage, $_name) = explode('.', $name, 2);
 
 		switch ($storage)
 		{
@@ -48,9 +48,9 @@ class Memory
 			break;
 		}
 
-		$instance_name = $storage.'.'.$name;
+		$name = $storage.'.'.$_name;
 		
-		if ( ! isset(static::$instances[$instance_name]))
+		if ( ! isset(static::$instances[$name]))
 		{
 			$driver = "\Hybrid\Memory_".ucfirst($storage);
 
@@ -60,10 +60,10 @@ class Memory
 				throw new Exception("Requested {$driver} does not exist.");
 			}
 
-			static::$instances[$instance_name] = new $driver($name, $config);
+			static::$instances[$name] = new $driver($_name, $config);
 		}
 
-		return static::$instances[$instance_name];
+		return static::$instances[$name];
 	}
 
 	/**

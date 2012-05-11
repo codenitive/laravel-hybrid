@@ -36,7 +36,7 @@ class Auth extends Laravel_Auth
 					}
 
 					return $roles;
-				}
+				};
 			}
 
 			$roles = $callback($user_id, $roles);

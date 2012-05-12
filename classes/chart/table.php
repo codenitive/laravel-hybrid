@@ -34,7 +34,7 @@ class Chart_Table extends Chart_Driver
 	{
 		parent::__construct();
 
-		$this->configure(Config::get('hybrid::chart.table', array()));
+		$this->put(Config::get('hybrid::chart.table', array()));
 	}
 
 	public function render($width = '100%', $height = '300px') 
@@ -42,8 +42,8 @@ class Chart_Table extends Chart_Driver
 		$columns    = $this->columns;
 		$rows       = $this->rows;
 
-		$this->configure('width', $width);
-		$this->configure('height', $height);
+		$this->put('width', $width);
+		$this->put('height', $height);
 
 		$options    = json_encode($this->config);
 

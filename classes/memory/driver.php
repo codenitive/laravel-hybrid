@@ -55,7 +55,7 @@ abstract class Memory_Driver
 	 * @param   mixed   $value      The value.
 	 * @return  void
 	 */
-	public function set($key, $value = '')
+	public function put($key, $value = '')
 	{
 		array_set($this->data, $key, $value);
 
@@ -69,7 +69,7 @@ abstract class Memory_Driver
 	 * @param   string  $key        A string of key to delete.
 	 * @return  bool
 	 */
-	public function delete($key = null)
+	public function forget($key = null)
 	{
 		return array_forget($this->data, $key);
 	}

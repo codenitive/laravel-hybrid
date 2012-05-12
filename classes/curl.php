@@ -160,7 +160,7 @@ class Curl
 			break;   
 		}
 
-		$this->set($option);
+		$this->put($option);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ class Curl
 	 * @param   string  $value
 	 * @return  Curl 
 	 */
-	public function set($option, $value = null)
+	public function put($option, $value = null)
 	{
 		if (is_array($option))
 		{
@@ -194,7 +194,7 @@ class Curl
 	 */
 	public function __set($key, $value) 
 	{
-		$this->set($key, $value);
+		$this->put($key, $value);
 	}
 	
 	/**

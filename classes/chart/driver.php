@@ -81,7 +81,7 @@ abstract class Chart_Driver
 	 * @param   mixed   $value
 	 * @return  bool
 	 */
-	public function configure($name, $value = '') 
+	public function put($name, $value = '') 
 	{
 		if (is_array($name)) 
 		{
@@ -100,6 +100,31 @@ abstract class Chart_Driver
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Set chart options / configuration
+	 * 
+	 * @access  public
+	 * @param   mixed   $name
+	 * @param   mixed   $value
+	 * @return  bool
+	 */
+	public function __set($name, $value)
+	{
+		$this->put($name, $value);
+	}
+
+	/**
+	 * Get chart options / configuration
+	 * 
+	 * @access  public
+	 * @param   mixed   $name
+	 * @return  bool
+	 */
+	public function __get($name)
+	{
+		return $this->config[$name];
 	}
 
 	/**

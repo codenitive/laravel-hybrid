@@ -24,7 +24,7 @@ class Memory_Fluent extends Memory_Driver
 		{
 			$value = unserialize($memory->value);
 
-			$this->set($memory->name, $value);
+			$this->put($memory->name, $value);
 
 			$this->key_map[$memory->name] = array(
 				'id'       => $memory->id,

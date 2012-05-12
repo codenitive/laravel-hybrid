@@ -17,6 +17,8 @@ Autoloader::map(array(
 	'Hybrid\\Chart_Table'    => Bundle::path('hybrid').'classes/chart/table'.EXT,
 	'Hybrid\\Chart_Timeline' => Bundle::path('hybrid').'classes/chart/timeline'.EXT,
 
+	'Hybrid\\Curl' => Bundle::path('hybrid').'classes/curl'.EXT,
+
 	'Hybrid\\Memory'          => Bundle::path('hybrid').'classes/memory'.EXT,
 	'Hybrid\\Memory_Driver'   => Bundle::path('hybrid').'classes/memory/driver'.EXT,
 	'Hybrid\\Memory_Eloquent' => Bundle::path('hybrid').'classes/memory/eloquent'.EXT,

@@ -22,14 +22,15 @@ class Acl
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $name
+	 * @param   string        $name
+	 * @param   Memory_Driver $memory
 	 * @return  Acl
 	 */
-	public static function make($name = null)
+	public static function make($name = null, Memory_Driver $memory = null)
 	{
 		if (is_null($name)) $name = 'default';
 
-		if ( ! isset(static::$instances[$name])) static::$instances[$name] = new static($name);
+		if ( ! isset(static::$instances[$name])) static::$instances[$name] = new static($name, $memory);
 
 		return static::$instances[$name];
 	}
@@ -60,13 +61,19 @@ class Acl
 	 * Construct a new object.
 	 *
 	 * @access  protected
+	 * @param   string        $name
+	 * @param   Memory_Driver $memory
 	 */
-	protected function __construct($name = null) 
+	protected function __construct($name, Memory_Driver $memory = null) 
 	{
 		$this->name = $name;
+
+		$this->attach($memory);
 	}
 
 	protected $name = null;
+
+	protected $memory = null;
 
 	/**
 	 * List of roles
@@ -91,6 +98,67 @@ class Acl
 	 * @var     array
 	 */
 	protected $acl = array();
+
+	/**
+	 * Bind current Acl instance with a Registry
+	 *
+	 * @access  public				
+	 * @param   Memory_Driver   $memory
+	 * @return  void
+	 * @throws  FuelException
+	 */
+	public function attach(Memory_Driver $memory = null)
+	{
+		if (null !== $this->memory)
+		{
+			throw new Exception(__METHOD__.": Unable to assign multiple Hybrid\Memory instance.");
+		}
+
+		if (null === $memory) return;
+
+		$this->memory = $memory;
+
+
+		$default = array(
+			'acl'     => array(),
+			'actions' => array(),
+			'roles'   => array(),
+		);
+		
+		$data = $this->memory->get("acl_".$this->name, $default);
+
+		$data = array_merge($data, $default);
+
+		foreach ($data['roles'] as $role)
+		{
+			if ( ! $this->has_role($role))
+			{
+				$this->add_role($role);
+			}
+		}
+
+		$this->memory->put("acl_".$this->name.".roles", $this->roles);
+
+		foreach ($data['actions'] as $action)
+		{
+			if ( ! $this->has_action($action))
+			{
+				$this->add_action($action);
+			}
+		}
+
+		$this->memory->put("acl_".$this->name.".actions", $this->actions);
+
+		foreach ($data['acl'] as $role => $actions)
+		{
+			foreach ($actions as $action => $allow)
+			{
+				$this->allow($role, $action, $allow);
+			}
+		}
+
+		$this->memory->put("acl_".$this->name.".acl", $this->acl);
+	}
 
 	/**
 	 * Check if given role is available
@@ -159,6 +227,8 @@ class Acl
 		{
 			throw new AclException(__FUNCTION__.": Role {$role} already exist.");
 		}
+
+		! empty($this->memory) and $this->memory->put("acl_".$this->name.".roles", $this->roles);
 
 		array_push($this->roles, $role);
 
@@ -238,6 +308,9 @@ class Acl
 		{
 			throw new AclException(__FUNCTION__.": Action {$action} already exist.");
 		}
+
+		! empty($this->memory) and $this->memory->put("acl_".$this->name.".actions", $this->actions);
+			
 
 		array_push($this->actions, $action);
 
@@ -347,6 +420,16 @@ class Acl
 
 				$id             = $role.'/'.$action;
 				$this->acl[$id] = $allow;
+
+				if ( ! empty($this->memory))
+				{
+					$value = array_merge(
+						$this->memory->get("acl_".$this->name.".acl", array()), 
+						array("{$role}" => array("{$action}" => $allow))
+					);
+					
+					$this->memory->put("acl_".$this->name.".acl", $value);
+				}
 			}
 		}
 

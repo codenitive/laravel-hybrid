@@ -7,7 +7,7 @@ class Memory
 	protected static $initiated = false;
 
 	/**
-	 * Cache registry instance so we can reuse it
+	 * Cache memory instance so we can reuse it
 	 * 
 	 * @static
 	 * @access  protected

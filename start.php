@@ -17,8 +17,10 @@ Autoloader::map(array(
 	'Hybrid\\Chart_Table'    => Bundle::path('hybrid').'classes/chart/table'.EXT,
 	'Hybrid\\Chart_Timeline' => Bundle::path('hybrid').'classes/chart/timeline'.EXT,
 
-	'Hybrid\\Memory'         => Bundle::path('hybrid').'classes/memory'.EXT,
-	'Hybrid\\Memory_Driver'  => Bundle::path('hybrid').'classes/memory/driver'.EXT,
-	'Hybrid\\Memory_Runtime' => Bundle::path('hybrid').'classes/memory/runtime'.EXT,
+	'Hybrid\\Memory'          => Bundle::path('hybrid').'classes/memory'.EXT,
+	'Hybrid\\Memory_Driver'   => Bundle::path('hybrid').'classes/memory/driver'.EXT,
+	'Hybrid\\Memory_Eloquent' => Bundle::path('hybrid').'classes/memory/eloquent'.EXT,
+	'Hybrid\\Memory_Fluent'   => Bundle::path('hybrid').'classes/memory/fluent'.EXT,
+	'Hybrid\\Memory_Runtime'  => Bundle::path('hybrid').'classes/memory/runtime'.EXT,
 
 ));

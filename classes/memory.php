@@ -42,6 +42,12 @@ class Memory
 
 		switch ($storage)
 		{
+			case 'fluent' :
+				$storage = 'fluent';
+				break;
+			case 'eloquent' :
+				$storage = 'eloquent';
+				break;
 			case 'runtime' :
 			default :
 				$storage = 'runtime';

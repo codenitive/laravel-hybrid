@@ -109,12 +109,13 @@ class Acl
 	 */
 	public function attach(Memory_Driver $memory = null)
 	{
-		if (null !== $this->memory)
+		if ( ! is_null($this->memory))
 		{
 			throw new Exception(__METHOD__.": Unable to assign multiple Hybrid\Memory instance.");
 		}
 
-		if (null === $memory) return;
+		// since we already check instanceof, only check for NULL
+		if ( ! is_null($memory)) return;
 
 		$this->memory = $memory;
 
@@ -131,20 +132,14 @@ class Acl
 
 		foreach ($data['roles'] as $role)
 		{
-			if ( ! $this->has_role($role))
-			{
-				$this->add_role($role);
-			}
+			if ( ! $this->has_role($role)) $this->add_role($role);
 		}
 
 		$this->memory->put("acl_".$this->name.".roles", $this->roles);
 
 		foreach ($data['actions'] as $action)
 		{
-			if ( ! $this->has_action($action))
-			{
-				$this->add_action($action);
-			}
+			if ( ! $this->has_action($action)) $this->add_action($action);
 		}
 
 		$this->memory->put("acl_".$this->name.".actions", $this->actions);
@@ -154,7 +149,6 @@ class Acl
 			foreach ($actions as $action => $allow)
 			{
 				$this->allow($role, $action, $allow);
-			}
 		}
 
 		$this->memory->put("acl_".$this->name.".acl", $this->acl);

@@ -18,19 +18,13 @@ The Acl class provides a standardized interface for authorization/priviledge in 
 		$acl->add_role('subscriber');
 		
 		// add multiple roles
-		$acl->add_roles(array('admin', 'manager'));
-		
-		// or
-		$acl->add_roles('editor', 'contributor');
+		$acl->add_roles(array('admin', 'manager', 'editor', 'contributor'));
 		
 		// add actions
 		$acl->add_action('post content');
 		
 		// same with role, you can add multiple actions
-		$acl->add_actions(array('manage all', 'view content', 'edit account'));
-		
-		// or 
-		$acl->add_actions('post comment', 'moderate content');
+		$acl->add_actions(array('manage all', 'view content', 'edit account', 'post comment', 'moderate content'));
 		
 		/* now lets start building our ACL */
 		
@@ -62,22 +56,64 @@ Given we are logged in as subscriber
 <a name="methods"></a>
 ## Methods
 
-### make([String $name])
+### make($name, $memory = null)
 
 Creates a new instance of the Acl. 
 
-	@param	String 	$name 	will default to 'default' if none is provided
+	@param	String 					$name 		will default to 'default' if none is provided
+	@param  Hybrid\Memory_Driver	$memory		need to be an instanceof Hybrid\Memory_Driver
 	@return self
 	
 	$acl = Hybrid\Acl::make('client');
 	
-### register([String|Closure $name, Closure $callback])
+### register($name, $callback = null)
 
-### has_role(String $role)
+Register an Acl instance with Closure.
 
-### add_role(String $role)
+	@param	mixed		$name
+	@param  Closure 	$callback
+	@return self
+	
+	$acl = Hybrid\Acl::register('default', function ($acl)
+	{
+		// configure the default instance
+	});
+	
+	// alternatively, you can skip first param for 'default'
+	$acl = Hybrid\Acl::register(function ($acl)
+	{
+		// same as above
+	});
 
-### add_roles(String|Array $roles)
+
+### has_role($role)
+
+Check if given role is available.
+
+	@param 	String		$role
+	@return bool
+	
+	$acl->has_role('admin'); // true
+
+### add_role($role)
+
+Add single user' role to the this instance.
+
+	@param 	String			$role
+	@throws AclException
+	@return	self
+	
+	$acl->add_role('top-manager');
+
+### add_roles($roles)
+
+Add multiple user' roles to the this instance.
+
+	@param	Array			$roles
+	@throws AclException
+	@return self
+	
+	$acl->add_roles(array('sys-admin', 'dept-admin'));
 
 ### has_action(String $action)
 

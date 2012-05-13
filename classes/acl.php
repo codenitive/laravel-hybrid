@@ -36,7 +36,7 @@ class Acl
 	}
 
 	/**
-	 * Register an Acl instance.
+	 * Register an Acl instance with Closure.
 	 * 
 	 * @static
 	 * @access  public
@@ -180,7 +180,7 @@ class Acl
 	 */
 	public function add_roles($roles = null)
 	{
-		if (is_string($roles)) $roles = func_get_args();
+		if (is_string($roles)) $roles = array($roles);
 		
 		if (is_array($roles)) 
 		{
@@ -255,7 +255,7 @@ class Acl
 	 */
 	public function add_actions($actions = null) 
 	{
-		if (is_string($actions)) $actions = func_get_args();
+		if (is_string($actions)) $actions = array($actions);
 		
 		if (is_array($actions)) 
 		{

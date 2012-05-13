@@ -16,7 +16,12 @@ Autoloader::map(array(
 	'Hybrid\\Chart_Scatter'  => Bundle::path('hybrid').'classes/chart/scatter'.EXT,
 	'Hybrid\\Chart_Table'    => Bundle::path('hybrid').'classes/chart/table'.EXT,
 	'Hybrid\\Chart_Timeline' => Bundle::path('hybrid').'classes/chart/timeline'.EXT,
-
+	
+	'Hybrid\\Core'                     => Bundle::path('hybrid').'classes/core'.EXT,
+	'Hybrid\\InvalidArgumentException' => Bundle::path('hybrid').'classes/core'.EXT,
+	'Hybrid\\OutOfBoundsException'     => Bundle::path('hybrid').'classes/core'.EXT,
+	'Hybrid\\RuntimeException'         => Bundle::path('hybrid').'classes/core'.EXT,
+	
 	'Hybrid\\Curl' => Bundle::path('hybrid').'classes/curl'.EXT,
 
 	'Hybrid\\Image'             =>  Bundle::path('hybrid').'classes/image'.EXT,
@@ -25,10 +30,6 @@ Autoloader::map(array(
 	'Hybrid\\Image_Imagemagick' =>  Bundle::path('hybrid').'classes/imagemagick'.EXT,
 	'Hybrid\\Image_Imagick'     =>  Bundle::path('hybrid').'classes/imagick'.EXT,
 
-	'Hybrid\\InvalidArgumentException' => Bundle::path('hybrid').'classes/core'.EXT,
-	'Hybrid\\OutOfBoundsException'     => Bundle::path('hybrid').'classes/core'.EXT,
-	'Hybrid\\RuntimeException'         => Bundle::path('hybrid').'classes/core'.EXT,
-
 	'Hybrid\\Memory'          => Bundle::path('hybrid').'classes/memory'.EXT,
 	'Hybrid\\Memory_Driver'   => Bundle::path('hybrid').'classes/memory/driver'.EXT,
 	'Hybrid\\Memory_Eloquent' => Bundle::path('hybrid').'classes/memory/eloquent'.EXT,
@@ -36,3 +37,6 @@ Autoloader::map(array(
 	'Hybrid\\Memory_Runtime'  => Bundle::path('hybrid').'classes/memory/runtime'.EXT,
 
 ));
+
+// Lets listen to when Hybrid bundle is started.
+Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });

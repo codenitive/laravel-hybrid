@@ -10,10 +10,10 @@ class Curl
 	 * @static
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @return  static 
 	 */
-	public static function make($uri = '', $dataset = array())
+	public static function make($uri, $data = array())
 	{
 		$segments = explode(' ', $uri);
 		$type     = 'GET';
@@ -28,9 +28,9 @@ class Curl
 			throw new Exception(__METHOD__.": Provided {$uri} can't be processed.");
 		}
 
-		$dataset = array_merge(static::query_string($uri), $dataset);
+		$data = array_merge(static::query_string($uri), $data);
 
-		return new static($uri, $dataset, $type);
+		return new static($uri, $data, $type);
 	}
 
 	/**
@@ -39,14 +39,14 @@ class Curl
 	 * @static
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @return  static 
 	 */
-	public static function get($uri, $dataset = array())
+	public static function get($uri, $data = array())
 	{
-		$dataset = array_merge(static::query_string($uri), $dataset);
+		$data = array_merge(static::query_string($uri), $data);
 		
-		return new static($uri, $dataset, 'GET');
+		return new static($uri, $data, 'GET');
 	}
 	
 	/**
@@ -55,12 +55,12 @@ class Curl
 	 * @static
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @return  static 
 	 */
-	public static function post($uri, $dataset = array())
+	public static function post($uri, $data = array())
 	{
-		return new static($uri, $dataset, 'POST');
+		return new static($uri, $data, 'POST');
 	}
 	
 	/**
@@ -69,12 +69,12 @@ class Curl
 	 * @static
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @return  static 
 	 */
-	public static function put($url, $dataset = array())
+	public static function put($url, $data = array())
 	{
-		return new static($uri, $dataset, 'PUT');
+		return new static($uri, $data, 'PUT');
 	}
 	
 	/**
@@ -83,12 +83,12 @@ class Curl
 	 * @static
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @return  static 
 	 */
-	public static function delete($url, $dataset = array())
+	public static function delete($url, $data = array())
 	{
-		return new static($uri, $dataset, 'DELETE');
+		return new static($uri, $data, 'DELETE');
 	}
 	
 	/**
@@ -101,16 +101,16 @@ class Curl
 	 */
 	protected static function query_string($uri)
 	{
-		$query_dataset = array();
-		$query_string  = parse_url($uri);
+		$query_data   = array();
+		$query_string = parse_url($uri);
 		
 		if (isset($query_string['query'])) 
 		{
 			$uri = $query_string['path'];
-			parse_str($query_string['query'], $query_dataset);
+			parse_str($query_string['query'], $query_data);
 		}
 		
-		return $query_dataset;
+		return $query_data;
 	}
 	
 	protected $request_uri    = '';
@@ -123,10 +123,10 @@ class Curl
 	 * 
 	 * @access  public
 	 * @param   string  $uri
-	 * @param   array   $dataset
+	 * @param   array   $data
 	 * @param   string  $type 
 	 */
-	public function __construct($uri, $dataset = array(), $type = 'GET')
+	public function __construct($uri, $data = array(), $type = 'GET')
 	{
 		if ( ! function_exists('curl_init'))
 		{
@@ -135,7 +135,7 @@ class Curl
 
 		$this->request_uri    = $uri;
 		$this->request_method = $type;
-		$this->request_data   = $dataset;
+		$this->request_data   = $data;
 		$this->adapter        = curl_init();
 
 		$option = array();
@@ -147,39 +147,39 @@ class Curl
 			break;
 
 			case 'PUT' :
-				$dataset = (is_array($dataset) ? http_build_query($dataset) : $dataset);
+				$data = (is_array($data) ? http_build_query($data) : $data);
 				$option[CURLOPT_CUSTOMREQUEST]  = 'PUT';
 				$option[CURLOPT_RETURNTRANSFER] = true;
-				$option[CURLOPT_HTTPHEADER]     = array('Content-Type: '.strlen($dataset));
-				$option[CURLOPT_POSTFIELDS]     = $dataset;
+				$option[CURLOPT_HTTPHEADER]     = array('Content-Type: '.strlen($data));
+				$option[CURLOPT_POSTFIELDS]     = $data;
 			break;
 			
 			case 'POST' :
 				$option[CURLOPT_POST]       = true;
-				$option[CURLOPT_POSTFIELDS] = $dataset;
+				$option[CURLOPT_POSTFIELDS] = $data;
 			break;   
 		}
 
-		$this->put($option);
+		$this->option($option);
 	}
 	
 	/**
 	 * Set curl options
 	 * 
 	 * @access  public
-	 * @param   mixed   $option
+	 * @param   mixed   $name
 	 * @param   string  $value
 	 * @return  Curl 
 	 */
-	public function put($option, $value = null)
+	public function option($name, $value = null)
 	{
-		if (is_array($option))
+		if (is_array($name))
 		{
-			curl_setopt_array($this->adapter, $option);
+			curl_setopt_array($this->adapter, $name);
 		}
-		elseif (is_string($option) and isset($value))
+		elseif (is_string($name) and isset($value))
 		{
-			curl_setopt($this->adapter, $option, $value);
+			curl_setopt($this->adapter, $name, $value);
 		}
 		
 		return $this;
@@ -194,7 +194,7 @@ class Curl
 	 */
 	public function __set($key, $value) 
 	{
-		$this->put($key, $value);
+		$this->option($key, $value);
 	}
 	
 	/**
@@ -206,7 +206,7 @@ class Curl
 	public function call()
 	{
 		$uri = $this->request_uri.'?'.http_build_query($this->request_data, '', '&');
-		curl_setopt($this->adapter, CURLOPT_URL, $uri); 
+		$this->option(CURLOPT_URL, $uri); 
 		
 		$info = curl_getinfo($this->adapter);
 		

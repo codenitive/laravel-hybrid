@@ -7,7 +7,13 @@ A set of class that extends the functionality of Laravel without affecting the s
 
 ## Installation
 
+Installation with Laravel Artisan
+
 	php artisan bundle:install hybrid
+
+### Bundle Registration
+
+	'hybrid' => array('auto' => true),
 
 ## Key Features
 

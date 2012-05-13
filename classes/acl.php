@@ -24,7 +24,7 @@ class Acl
 	 * @access  public
 	 * @param   string        $name
 	 * @param   Memory_Driver $memory
-	 * @return  Acl
+	 * @return  self
 	 */
 	public static function make($name = null, Memory_Driver $memory = null)
 	{
@@ -42,7 +42,7 @@ class Acl
 	 * @access  public
 	 * @param   string  $name
 	 * @param   Closure $callback
-	 * @return  Acl
+	 * @return  self
 	 */
 	public static function register($name, $callback = null)
 	{
@@ -55,6 +55,8 @@ class Acl
 		$instance = static::make($name);
 
 		$callback($instance);
+
+		return $instance;
 	}
 
 	/**
@@ -104,8 +106,8 @@ class Acl
 	 *
 	 * @access  public				
 	 * @param   Memory_Driver   $memory
-	 * @return  void
-	 * @throws  FuelException
+	 * @return  self
+	 * @throws  Exception
 	 */
 	public function attach(Memory_Driver $memory = null)
 	{
@@ -152,6 +154,8 @@ class Acl
 		}
 
 		$this->memory->put("acl_".$this->name.".acl", $this->acl);
+
+		return $this;
 	}
 
 	/**
@@ -171,11 +175,11 @@ class Acl
 	}
 
 	/**
-	 * Add new user role(s) to the this instance
+	 * Add multiple user' roles to the this instance
 	 * 
 	 * @access  public
 	 * @param   mixed   $roles      A string or an array of roles
-	 * @return  Acl                 chaining
+	 * @return  self
 	 * @throws  AclException
 	 */
 	public function add_roles($roles = null)
@@ -201,11 +205,11 @@ class Acl
 	}
 
 	/**
-	 * Add new user role to the this instance
+	 * Add single user' role to the this instance
 	 * 
 	 * @access  public
 	 * @param   mixed   $role       A string or an array of roles
-	 * @return  Acl                 chaining
+	 * @return  self
 	 * @throws  AclException
 	 */
 	public function add_role($role)
@@ -246,11 +250,11 @@ class Acl
 	}
 
 	/**
-	 * Add new action(s) to this instance
+	 * Add multiple actions to this instance
 	 * 
 	 * @access  public
 	 * @param   mixed   $actions    A string of action name
-	 * @return  Acl                 chaining
+	 * @return  self
 	 * @throws  AclException
 	 */
 	public function add_actions($actions = null) 
@@ -259,17 +263,11 @@ class Acl
 		
 		if (is_array($actions)) 
 		{
-			foreach ($actions as $action => $callback)
+			foreach ($actions as $action)
 			{
-				if (is_numeric($action))
-				{
-					$action   = $callback;
-					$callback = null;
-				}
-
 				try
 				{
-					$this->add_action($action, $callback);
+					$this->add_action($action);
 				}
 				catch (AclException $e)
 				{
@@ -282,14 +280,14 @@ class Acl
 	}
 
 	/**
-	 * Add new action to this instance
+	 * Add single action to this instance
 	 * 
 	 * @access  public
 	 * @param   mixed   $actions    A string of action name
-	 * @return  Acl                 chaining
+	 * @return  self
 	 * @throws  AclException
 	 */
-	public function add_action($action, $callback = null) 
+	public function add_action($action) 
 	{
 		if (is_null($action)) 
 		{
@@ -350,13 +348,13 @@ class Acl
 	}
 
 	/**
-	 * Assign single or multiple $roles + $actions to have $type access
+	 * Assign single or multiple $roles + $actions to have access
 	 * 
 	 * @access  public
 	 * @param   mixed   $roles          A string or an array of roles
 	 * @param   mixed   $actions        A string or an array of action name
-	 * @param   bool    $type
-	 * @return  bool
+	 * @param   bool    $allow
+	 * @return  self
 	 * @throws  AclException
 	 */
 	public function allow($roles, $actions, $allow = true) 
@@ -427,11 +425,11 @@ class Acl
 			}
 		}
 
-		return true;
+		return $this;
 	}
 
 	/**
-	 * Shorthand function to deny access for single or multiple $roles and $resouces
+	 * Shorthand function to deny access for single or multiple $roles and $actions
 	 * 
 	 * @access  public
 	 * @param   mixed   $roles          A string or an array of roles

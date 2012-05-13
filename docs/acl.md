@@ -115,12 +115,65 @@ Add multiple user' roles to the this instance.
 	
 	$acl->add_roles(array('sys-admin', 'dept-admin'));
 
-### has_action(String $action)
+### has_action($action)
 
-### add_action(String $action)
+Check if given action is available.
+
+	@param 	String		$action
+	@return bool
+	
+	$acl->has_action('post content'); // true
+
+### add_action($action)
+
+Add single action to this instance.
+
+	@param	String			$action
+	@throws AclException
+	@return self
+	
+	$acl->add_action('export content');
+
 
 ### add_actions(String|Array $actions)
 
-### allow(String|Array $roles, String|Array $actions[, Boolean $type])
+Add multiple actions to this instance.
 
-### deny(String|Array $roles, String|Array $actions)
+	@param	Array			$actions
+	@throws AclException
+	@return self
+	
+	$acl->add_actions(array('edit content', 'delete content'));
+
+### allow($roles, $actions, $allow = true)
+
+Assign single or multiple `$roles` + `$actions` to have access.
+
+	@param  mixed   $roles          A string or an array of roles
+	@param  mixed   $actions        A string or an array of action name
+	@param  bool    $allow
+	@return self
+	
+	$acl->allow('dept-admin', 'delete content');
+
+### deny($roles, $actions)
+
+Shorthand function to deny access for single or multiple `$roles` and `$actions`
+
+	@param  mixed   $roles          A string or an array of roles
+	@param  mixed   $actions        A string or an array of action name
+	@return self
+	
+	$acl->deny('top-manager', 'post content');
+	
+### can($action)
+
+Verify whether current user has sufficient roles to access the actions based on available type of access.
+
+	@param  mixed   $action     A string of action name
+	@return bool
+	@throws AclException
+	
+	// as a dept-admin
+	$acl->can('delete content');	// true
+	$acl->can('post content');		// false

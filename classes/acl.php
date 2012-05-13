@@ -117,17 +117,19 @@ class Acl
 		}
 
 		// since we already check instanceof, only check for NULL
-		if ( ! is_null($memory)) return;
+		if (is_null($memory))
+		{
+			return;
+		}
 
 		$this->memory = $memory;
-
 
 		$default = array(
 			'acl'     => array(),
 			'actions' => array(),
 			'roles'   => array(),
 		);
-		
+
 		$data = $this->memory->get("acl_".$this->name, $default);
 
 		$data = array_merge($data, $default);
@@ -151,6 +153,7 @@ class Acl
 			foreach ($actions as $action => $allow)
 			{
 				$this->allow($role, $action, $allow);
+			}
 		}
 
 		$this->memory->put("acl_".$this->name.".acl", $this->acl);

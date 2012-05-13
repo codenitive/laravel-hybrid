@@ -1,7 +1,5 @@
-laravel-hybrid
-==============
-
 Hybrid Bundle for Laravel
+==============
 
 A set of class that extends the functionality of Laravel without affecting the standard workflow when the application doesn't actually utilize Hybrid feature.
 

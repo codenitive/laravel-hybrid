@@ -50,7 +50,7 @@ class Image
 	{
 		! is_array($config) and $config = array();
 
-		$config = array_merge(Config::get('hybrid::image', array()), $config);
+		$config = array_merge(Config::get('image', Config::get('hybrid::image', array())), $config);
 
 		$protocol = ucfirst( ! empty($config['driver']) ? $config['driver'] : 'gd');
 		$class    = 'Image_'.$protocol;

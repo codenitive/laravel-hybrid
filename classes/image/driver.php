@@ -31,11 +31,11 @@ abstract class Image_Driver
 	{
 		if (is_array($config))
 		{
-			$this->config = array_merge(Config::get('hybrid::image'), $config);
+			$this->config = array_merge(Config::get('hybrid::image', array()), $config);
 		}
 		else
 		{
-			$this->config = Config::get('hybrid::image');
+			$this->config = Config::get('hybrid::image', array());
 		}
 
 		$this->debug("Image Class was initialized using the " . $this->config['driver'] . " driver.");

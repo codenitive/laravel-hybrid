@@ -210,7 +210,6 @@ class Curl
 		$response->status = $info['http_code'];
 		$response->info   = $info;
 		
-		var_dump($response);
 		// clean up curl session
 		curl_close($this->adapter);
 		

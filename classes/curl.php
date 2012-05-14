@@ -136,31 +136,29 @@ class Curl
 		$this->request_uri    = $uri;
 		$this->request_method = $type;
 		$this->request_data   = $data;
-		$this->adapter        = curl_init();
 
-		$option = array();
+		$this->adapter        = curl_init($uri);
+		$this->option(CURLOPT_URL, $uri);
 
 		switch ($type)
 		{
 			case 'GET' :
-				$option[CURLOPT_HTTPGET] = true;
+				$this->option(CURLOPT_HTTPGET, 1);
 			break;
 
 			case 'PUT' :
 				$data = (is_array($data) ? http_build_query($data) : $data);
-				$option[CURLOPT_CUSTOMREQUEST]  = 'PUT';
-				$option[CURLOPT_RETURNTRANSFER] = true;
-				$option[CURLOPT_HTTPHEADER]     = array('Content-Type: '.strlen($data));
-				$option[CURLOPT_POSTFIELDS]     = $data;
+				$this->option(CURLOPT_CUSTOMREQUEST, 'PUT');
+				$this->option(CURLOPT_RETURNTRANSFER, 1);
+				$this->option(CURLOPT_HTTPHEADER, array('Content-Type: '.strlen($data)));
+				$this->option(CURLOPT_POSTFIELDS, $data);
 			break;
 			
 			case 'POST' :
-				$option[CURLOPT_POST]       = true;
-				$option[CURLOPT_POSTFIELDS] = $data;
+				$this->option(CURLOPT_POST, 1);
+				$this->option(CURLOPT_POSTFIELDS, $data);
 			break;   
 		}
-
-		$this->option($option);
 	}
 	
 	/**
@@ -177,7 +175,7 @@ class Curl
 		{
 			curl_setopt_array($this->adapter, $name);
 		}
-		elseif (is_string($name) and isset($value))
+		elseif (isset($value))
 		{
 			curl_setopt($this->adapter, $name, $value);
 		}
@@ -205,16 +203,14 @@ class Curl
 	 */
 	public function call()
 	{
-		$uri = $this->request_uri.'?'.http_build_query($this->request_data, '', '&');
-		$this->option(CURLOPT_URL, $uri); 
-		
-		$info = curl_getinfo($this->adapter);
-		
 		$response         = new stdClass();
 		$response->body   = $response->raw_body = curl_exec($this->adapter);
+		
+		$info             = curl_getinfo($this->adapter);
 		$response->status = $info['http_code'];
 		$response->info   = $info;
 		
+		var_dump($response);
 		// clean up curl session
 		curl_close($this->adapter);
 		

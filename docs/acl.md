@@ -8,7 +8,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-The Acl class provides a standardized interface for authorization/priviledge in Fuel, using authentication from `Hybrid\Auth`.
+The Acl class provides a standardized interface for authorization/priviledge in Laravel, using authentication from `Hybrid\Auth`.
 
 ### Examples
 

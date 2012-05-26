@@ -108,7 +108,7 @@ abstract class Driver
 	 * @access  public
 	 * @param   mixed   $name
 	 * @param   mixed   $value
-	 * @return  bool
+	 * @return  void
 	 */
 	public function __set($name, $value)
 	{
@@ -120,13 +120,25 @@ abstract class Driver
 	 * 
 	 * @access  public
 	 * @param   mixed   $name
-	 * @return  bool
+	 * @return  mixed
 	 */
 	public function __get($name)
 	{
 		return $this->config[$name];
 	}
 
+	/**
+	 * Isset chart option / configuration
+	 *
+	 * @access  public
+	 * @param   mixed   $name
+	 * @return  bool
+	 */
+	public function __isset($name)
+	{
+		return isset($this->config[$name]);
+	}
+	
 	/**
 	 * Set rows information
 	 * 

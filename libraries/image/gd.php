@@ -1,5 +1,9 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Image;
 
+use Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
 /**
  * Part of the Fuel framework.
  *
@@ -12,7 +16,7 @@
  * @link		http://fuelphp.com
  */
 
- class Image_Gd extends Image_Driver
+ class Gd extends Driver
 {
 
 	protected $image_data          = null;

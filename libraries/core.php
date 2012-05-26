@@ -1,10 +1,6 @@
 <?php namespace Hybrid;
 
-use \Closure, \Exception;
-
-class InvalidArgumentException extends Exception {}
-class OutOfBoundsException extends Exception {}
-class RuntimeException extends Exception {}
+use \Closure;
 
 class Core
 {

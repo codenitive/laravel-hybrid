@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Memory;
 
 use \DB;
 
-class Memory_Fluent extends Memory_Driver 
+class Fluent extends Driver 
 {
 	/**
 	 * @access  protected

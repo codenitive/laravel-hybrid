@@ -1,6 +1,6 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Memory;
 
-class Memory_Eloquent extends Memory_Driver 
+class Eloquent extends Driver 
 {
 	/**
 	 * @access  protected

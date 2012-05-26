@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
 use \Config;
 
-class Chart_Area extends Chart_Driver 
+class Area extends Driver 
 {
 	public function __construct() 
 	{

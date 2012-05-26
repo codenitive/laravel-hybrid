@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
-use \Config, \Exception;
+use \Config, Hybrid\Exception;
 
-abstract class Chart_Driver 
+abstract class Driver 
 {
 	/**
 	 * A shortcode to initiate this class as a new object

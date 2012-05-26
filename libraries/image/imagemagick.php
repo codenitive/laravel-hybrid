@@ -1,6 +1,9 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Image;
 
-use \Exception;
+use Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
 
 /**
  * Part of the Fuel framework.
@@ -14,7 +17,7 @@ use \Exception;
  * @link		http://fuelphp.com
  */
 
-class Image_Imagemagick extends Image_Driver
+class Imagemagick extends Driver
 {
 
 	protected $image_temp          = null;

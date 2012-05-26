@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
 use \Config;
 
-class Chart_Pie extends Chart_Driver 
+class Pie extends Driver 
 {
 	public function __construct() 
 	{

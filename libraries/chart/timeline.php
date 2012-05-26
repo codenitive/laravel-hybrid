@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
 use \Config;
 
-class Chart_Timeline extends Chart_Driver 
+class Timeline extends Driver 
 {
 	public function __construct() 
 	{

@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Event, \Exception;
+use \Event;
 
 class Memory
 {
@@ -44,9 +44,11 @@ class Memory
 		{
 			case 'fluent' :
 				$storage = 'fluent';
+				if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
 				break;
 			case 'eloquent' :
 				$storage = 'eloquent';
+				if ($_name === 'default') $_name = Config::get('hybrid::memory.default_table');
 				break;
 			case 'runtime' :
 			default :
@@ -58,15 +60,22 @@ class Memory
 		
 		if ( ! isset(static::$instances[$name]))
 		{
-			$driver = "\Hybrid\Memory_".ucfirst($storage);
-
-			// instance has yet to be initiated
-			if ( ! class_exists($driver))
+			switch ($storage)
 			{
-				throw new Exception("Requested {$driver} does not exist.");
+				case 'fluent' :
+					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
+					static::$instances[$name] = new Memory\Fluent($_name, $config);
+					break;
+				case 'eloquent' :
+					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_table');
+					static::$instances[$name] = new Memory\Eloquent($_name, $config);
+					break;
+				case 'runtime' :
+					static::$instances[$name] = new Memory\Runtime($_name, $config);
+					break;
+				default :
+					throw new Exception("Requested Hybrid\Memory Driver [$storage] does not exist.");
 			}
-
-			static::$instances[$name] = new $driver($_name, $config);
 		}
 
 		return static::$instances[$name];

@@ -1,8 +1,6 @@
-<?php
+<?php namespace Hybrid\Memory;
 
-namespace Hybrid;
-
-class Memory_Runtime extends Memory_Driver
+class Runtime extends Driver
 {
 	/**
 	 * @access  protected

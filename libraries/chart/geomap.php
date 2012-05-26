@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
 use \Config;
 
-class Chart_GeoMap extends Chart_Driver 
+class GeoMap extends Driver 
 {
 	public function __construct() 
 	{

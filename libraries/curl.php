@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Exception, \stdClass;
+use \stdClass;
 
 class Curl
 {

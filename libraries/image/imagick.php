@@ -1,5 +1,10 @@
 <?php namespace Hybrid;
 
+use Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
+
 /**
  * Part of the Fuel framework.
  *
@@ -12,7 +17,7 @@
  * @link		http://fuelphp.com
  */
 
-class Image_Imagick extends Image_Driver
+class Imagick extends Driver
 {
 
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');

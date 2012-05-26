@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Config, \Exception;
+use \Config, Hybrid\Exception;
 
 /**
  * Part of the Fuel framework.
@@ -53,7 +53,7 @@ class Image
 		$config = array_merge(Config::get('image', Config::get('hybrid::image', array())), $config);
 
 		$protocol = ucfirst( ! empty($config['driver']) ? $config['driver'] : 'gd');
-		$class    = 'Image_'.$protocol;
+		$class    = 'Image\\'.$protocol;
 
 		if ($protocol == 'Driver' || ! class_exists($class))
 		{

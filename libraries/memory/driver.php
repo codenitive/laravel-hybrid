@@ -1,8 +1,6 @@
-<?php
+<?php namespace Hybrid\Memory;
 
-namespace Hybrid;
-
-abstract class Memory_Driver
+abstract class Driver
 {
 	protected $name = null;
 

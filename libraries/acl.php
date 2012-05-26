@@ -2,8 +2,6 @@
 
 use \Closure, \Str;
 
-class AclException extends \Exception { }
-
 class Acl
 {
 	protected static $initiated = false;
@@ -23,14 +21,17 @@ class Acl
 	 * @static
 	 * @access  public
 	 * @param   string        $name
-	 * @param   Memory_Driver $memory
+	 * @param   Memory\Driver $memory
 	 * @return  self
 	 */
-	public static function make($name = null, Memory_Driver $memory = null)
+	public static function make($name = null, Memory\Driver $memory = null)
 	{
 		if (is_null($name)) $name = 'default';
 
-		if ( ! isset(static::$instances[$name])) static::$instances[$name] = new static($name, $memory);
+		if ( ! isset(static::$instances[$name]))
+		{
+			static::$instances[$name] = new static($name, $memory);
+		}
 
 		return static::$instances[$name];
 	}
@@ -64,9 +65,9 @@ class Acl
 	 *
 	 * @access  protected
 	 * @param   string        $name
-	 * @param   Memory_Driver $memory
+	 * @param   Memory\Driver $memory
 	 */
-	protected function __construct($name, Memory_Driver $memory = null) 
+	protected function __construct($name, Memory\Driver $memory = null) 
 	{
 		$this->name = $name;
 
@@ -105,11 +106,11 @@ class Acl
 	 * Bind current Acl instance with a Registry
 	 *
 	 * @access  public				
-	 * @param   Memory_Driver   $memory
+	 * @param   Memory\Driver   $memory
 	 * @return  self
 	 * @throws  Exception
 	 */
-	public function attach(Memory_Driver $memory = null)
+	public function attach(Memory\Driver $memory = null)
 	{
 		if ( ! is_null($this->memory))
 		{

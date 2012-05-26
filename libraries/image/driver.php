@@ -1,6 +1,9 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Image;
 
-use \Config;
+use \Config, Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
 
 /**
  * Part of the Fuel framework.
@@ -14,7 +17,7 @@ use \Config;
  * @link		http://fuelphp.com
  */
 
-abstract class Image_Driver
+abstract class Driver
 {
 
 	protected $image_fullpath  = null;
@@ -45,7 +48,7 @@ abstract class Image_Driver
 	 *
 	 * @param   string  $index  The index to be set, or an array of configuration options.
 	 * @param   mixed   $value  The value to be set if $index is not an array.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function config($index = null, $value = null)
 	{
@@ -75,7 +78,7 @@ abstract class Image_Driver
 	 * Exectues the presets set in the config. Additional parameters replace the $1, $2, ect.
 	 *
 	 * @param   string  $name  The name of the preset.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function preset($name)
 	{
@@ -117,7 +120,7 @@ abstract class Image_Driver
 	 *
 	 * @param   string  $filename     The file to load
 	 * @param   string  $return_data  Decides if it should return the images data, or just "$this".
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function load($filename, $return_data = false)
 	{
@@ -172,7 +175,7 @@ abstract class Image_Driver
 	 * @param   integer  $y1  Y-Coordinate for first set.
 	 * @param   integer  $x2  X-Coordinate for second set.
 	 * @param   integer  $y2  Y-Coordinate for second set.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function crop($x1, $y1, $x2, $y2)
 	{
@@ -217,7 +220,7 @@ abstract class Image_Driver
 	 * @param   integer  $height  The new height of the image.
 	 * @param   boolean  $keepar  If false, allows stretching of the image.
 	 * @param   boolean  $pad     Adds padding to the image when resizing.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function resize($width, $height = null, $keepar = true, $pad = false)
 	{
@@ -383,7 +386,7 @@ abstract class Image_Driver
 	 * Rotates the image
 	 *
 	 * @param   integer  $degrees  The degrees to rotate, negatives integers allowed.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function rotate($degrees)
 	{
@@ -417,7 +420,7 @@ abstract class Image_Driver
 	 * @param   string   $filename  The filename of the watermark file to use.
 	 * @param   string   $position  The position of the watermark, ex: "bottom right", "center center", "top left"
 	 * @param   integer  $padding   The amount of padding (in pixels) from the position.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function watermark($filename, $position, $padding = 5)
 	{
@@ -497,7 +500,7 @@ abstract class Image_Driver
 	 *
 	 * @param   integer  $size   The side of the border, in pixels.
 	 * @param   string   $color  A hexadecimal color.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function border($size, $color = null)
 	{
@@ -529,7 +532,7 @@ abstract class Image_Driver
 	 * Masks the image using the alpha channel of the image input.
 	 *
 	 * @param   string  $maskimage  The location of the image to use as the mask
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function mask($maskimage)
 	{
@@ -558,7 +561,7 @@ abstract class Image_Driver
 	 * @param   integer  $radius
 	 * @param   integer  $sides      Accepts any combination of "tl tr bl br" separated by spaces, or null for all sides
 	 * @param   integer  $antialias  Sets the antialias range.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function rounded($radius, $sides = null, $antialias = null)
 	{
@@ -607,7 +610,7 @@ abstract class Image_Driver
 	/**
 	 * Turns the image into a grayscale version
 	 *
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function grayscale()
 	{
@@ -632,7 +635,7 @@ abstract class Image_Driver
 		$directory = dirname($filename);
 		if ( ! is_dir($directory))
 		{
-			throw new \OutOfBoundsException("Could not find directory \"$directory\"");
+			throw new OutOfBoundsException("Could not find directory \"$directory\"");
 		}
 
 		if ( ! $this->check_extension($filename, true))
@@ -664,7 +667,7 @@ abstract class Image_Driver
 	 * @param   string   $prepend      The string to prepend to the filename
 	 * @param   string   $extension    The extension to save the image as, null defaults to the loaded images extension.
 	 * @param   integer  $permissions  The permissions to attempt to set on the file.
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function save_pa($append, $prepend = null, $extension = null, $permissions = null)
 	{
@@ -672,6 +675,7 @@ abstract class Image_Driver
 		$fullpath = $this->image_directory.'/'.$append.$filename.$prepend.'.'.
 			($extension !== null ? $extension : $this->image_extension);
 		$this->save($fullpath, $permissions);
+
 		return $this;
 	}
 
@@ -698,7 +702,7 @@ abstract class Image_Driver
 		}
 		else
 		{
-			throw new \FuelException("Image extension $filetype is unsupported.");
+			throw new Exception("Image extension $filetype is unsupported.");
 		}
 
 		$this->debug('', "Outputting image as $filetype");
@@ -866,7 +870,7 @@ abstract class Image_Driver
 	/**
 	 * Reloads the image.
 	 *
-	 * @return  Image_Driver
+	 * @return  self
 	 */
 	public function reload()
 	{

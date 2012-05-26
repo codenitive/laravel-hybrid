@@ -1,8 +1,8 @@
-<?php namespace Hybrid;
+<?php namespace Hybrid\Chart;
 
 use \Config;
 
-class Chart_Scatter extends Chart_Driver 
+class Scatter extends Driver 
 {
 	public function __construct() 
 	{

@@ -1,7 +1,5 @@
 <?php namespace Hybrid;
 
-use \Exception;
-
 class Chart 
 {
 	/**
@@ -30,11 +28,11 @@ class Chart
 
 		if ( ! isset(static::$instances[$name]))
 		{
-			$driver = "\Hybrid\Chart_".ucfirst($name);
+			$driver = 'Chart\\'.ucfirst($name);
 			
 			if ( ! class_exists($driver))
 			{
-				throw new Exception("Requested {$driver} does not exist.");
+				throw new Exception("Requested Hybrid\Chart Driver [{$driver}] does not exist.");
 			}
 
 			static::$instances[$name] = new $driver();

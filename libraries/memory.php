@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Event;
+use \Config, \Event;
 
 class Memory
 {
@@ -23,7 +23,7 @@ class Memory
 	 * @param   string  $name      instance name
 	 * @param   array   $config
 	 * @return  Memory
-	 * @throws  \Exception
+	 * @throws  Exception
 	 */
 	public static function make($name = null, $config = array())
 	{
@@ -40,22 +40,6 @@ class Memory
 
 		list($storage, $_name) = explode('.', $name, 2);
 
-		switch ($storage)
-		{
-			case 'fluent' :
-				$storage = 'fluent';
-				if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
-				break;
-			case 'eloquent' :
-				$storage = 'eloquent';
-				if ($_name === 'default') $_name = Config::get('hybrid::memory.default_table');
-				break;
-			case 'runtime' :
-			default :
-				$storage = 'runtime';
-			break;
-		}
-
 		$name = $storage.'.'.$_name;
 		
 		if ( ! isset(static::$instances[$name]))
@@ -63,11 +47,11 @@ class Memory
 			switch ($storage)
 			{
 				case 'fluent' :
-					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
+					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_table');
 					static::$instances[$name] = new Memory\Fluent($_name, $config);
 					break;
 				case 'eloquent' :
-					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_table');
+					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
 					static::$instances[$name] = new Memory\Eloquent($_name, $config);
 					break;
 				case 'runtime' :

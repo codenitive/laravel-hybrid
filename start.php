@@ -1,7 +1,7 @@
 <?php
 
-Autoloader::directories(array(
-	Bundle::path('hybrid').'libraries',
+Autoloader::namespaces(array(
+	'Hybrid' => Bundle::path('hybrid').'libraries',
 ));
 
 Autoloader::map(array(
@@ -13,4 +13,4 @@ Autoloader::map(array(
 ));
 
 // Lets listen to when Hybrid bundle is started.
-Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });
+Event::listen('laravel.started: hybrid', function () { });

@@ -341,7 +341,7 @@ class Acl
 
 		$action = Str::slug($action, '-');
 
-		foreach ($roles as $role) 
+		foreach ((array) $roles as $role) 
 		{
 			$role = Str::slug($role, '-');
 

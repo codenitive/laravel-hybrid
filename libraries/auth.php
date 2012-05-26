@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Auth as Laravel_Auth, Config;
+use \Auth as Laravel_Auth, \Config, \Event;
 
 class Auth extends Laravel_Auth
 {
@@ -22,24 +22,7 @@ class Auth extends Laravel_Auth
 		{
 			$user_id = $user->id;
 
-			// get associated roles from configuration.
-			if ( ! (($callback = Config::get('hybrid::auth.roles')) instanceof Closure))
-			{
-				$callback = function($id, $roles)
-				{
-					// in situation config is not a closure, we will use a basic convention structure.
-					$user_roles = \User_Role::with('role')->where('user_id', '=', $id)->get();
-					
-					foreach ($user_roles as $role)
-					{
-						array_push($roles, $role->role->name);
-					}
-
-					return $roles;
-				};
-			}
-
-			$roles = $callback($user_id, $roles);
+			$roles = Event::until('hybrid.auth.roles', array($user_id, $roles));
 		}
 
 		return $roles;

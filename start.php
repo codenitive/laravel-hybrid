@@ -14,3 +14,13 @@ Autoloader::map(array(
 
 // Lets listen to when Hybrid bundle is started.
 Event::listen('laravel.started: hybrid', function () { });
+
+Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+{
+	$callback = Config::get('hybrid::auth.roles');
+
+	if ($callback instanceof \Closure)
+	{
+		return $callback($user_id, $roles);
+	}
+});

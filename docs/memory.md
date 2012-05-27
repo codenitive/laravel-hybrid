@@ -1,6 +1,9 @@
 # Hybrid Memory
 
 ## Table of Contents
+ 
+- [Introduction](#introduction)
+- [Methods](#methods) 
 
 <a name="introduction"></a>
 ## Introduction
@@ -62,6 +65,7 @@ Other than the default, you can also use following method.
 		echo Hybrid\Memory::make('fluent')->get('foo.bar'); // return 'hello world'
 	};
 	
+<a name="methods"></a>
 ## Methods
 
 ### make($name, $config)

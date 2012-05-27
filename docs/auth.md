@@ -2,28 +2,45 @@
 
 ## The Contents
 
+- [Introduction](#introduction)
 - [Configuration](#configuration)
+- [Event](#event)
 - [Convention](#convention)
+
+<a name="introduction"></a>
+## Introduction
+
+`Hybrid\Auth` extends the functionality of `Laravel\Auth` with the extra functionality to retrieve users' role. This is important when we want to use `Hybrid\Acl` to manage application Access Control List (ACL).
 
 <a name="configuration"></a>
 ## Configuration
 
-`Hybrid\Auth` extends the functionality of `Laravel\Auth` with the extra functionality to retrieve users' role. This is important when we want to use `Hybrid\Acl` to manage application Access Control List (ACL).
+Laravel Hybrid would need to know the list of roles (name) associated to the current user, in relevant to all role defined in `\Hybrid\Acl::add_role()`. This can be done by editing `hybrid/config/auth.php`.
 
-Laravel Hybrid would need to know the list of roles (name) associated to the current user, in relevant to all role defined in `\Hybrid\Acl::add_role()`.
-
-    'roles' => function ($id, $roles)
+    'roles' => function ($user_id, $roles)
 	{
-	 	 \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+		if ( ! class_exists('User_Role', true)) return null;
+
+	 	$user_roles = \User_Role::with('role')->where('user_id', '=', $user_id)->get();
 	 
-	 	 foreach ($user_roles as $role)
-	 	 {
-	 	 	 array_push($roles, $role->role->name);
-	 	 }
+	 	foreach ($user_roles as $role)
+	 	{
+	 	 	array_push($roles, $role->role->name);
+	 	}
 	 	 
-	 	 return $roles;
+	 	return $roles;
 	 }
-	    
+
+<a name="event"></a>
+## Event
+
+By using Event, the default configuration can be overwritten easily without modifying the config file as mention above.
+
+	Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+	{
+		return array('manager', 'admin');
+	});
+
 <a name="convention"></a>
 ## Convention
 

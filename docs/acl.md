@@ -61,7 +61,7 @@ Given we are logged in as subscriber
 Creates a new instance of the Acl. 
 
 	@param	String 					$name 		will default to 'default' if none is provided
-	@param  Hybrid\Memory_Driver	$memory		need to be an instanceof Hybrid\Memory_Driver
+	@param  Hybrid\Memory\Driver	$memory		need to be an instanceof Hybrid\Memory_Driver
 	@return self
 	
 	$acl = Hybrid\Acl::make('client');
@@ -85,6 +85,7 @@ Register an Acl instance with Closure.
 		// same as above
 	});
 
+### with($memory)
 
 ### has_role($role)
 

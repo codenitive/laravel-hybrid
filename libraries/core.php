@@ -4,8 +4,28 @@ use \Closure;
 
 class Core
 {
-	public static function start() { }
+	/**
+	 * Start Hybrid
+	 *
+	 * @static
+	 * @access  public
+	 * @return  void
+	 */
+	public static function start() 
+	{
 
+	}
+
+	/**
+	 * Import file
+	 *
+	 * @static
+	 * @access  public
+	 * @param   string      $file_path
+	 * @param   string      $folder
+	 * @param   string      $scope
+	 * @return  void
+	 */
 	public static function import($file_path, $folder, $scope = 'hybrid') 
 	{
 		switch ($scope)
@@ -26,7 +46,7 @@ class Core
 
 		if (is_file($file))
 		{
-			require_once $scope.$folder.DS.$file_path.EXT;
+			include $scope.$folder.DS.$file_path.EXT;
 		}
 	}
 }

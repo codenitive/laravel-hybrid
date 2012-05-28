@@ -13,7 +13,7 @@ Autoloader::map(array(
 ));
 
 // Lets listen to when Hybrid bundle is started.
-Event::listen('laravel.started: hybrid', function () { });
+Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });
 
 Event::listen('hybrid.auth.roles', function ($user_id, $roles)
 {

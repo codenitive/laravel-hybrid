@@ -125,30 +125,30 @@ class Acl
 
 		$this->memory = $memory;
 
-		$default = array(
+		$data = $this->memory->get("acl_".$this->name, array());
+
+		$data = array_merge($data, array(
 			'acl'     => array(),
 			'actions' => array(),
 			'roles'   => array(),
-		);
+		));
 
-		$data = $this->memory->get("acl_".$this->name, $default);
-
-		$data = array_merge($data, $default);
-
+		// Loop through all the roles in memory and add it to
+		// this ACL instance.
 		foreach ($data['roles'] as $role)
 		{
 			if ( ! $this->has_role($role)) $this->add_role($role);
 		}
 
-		$this->memory->put("acl_".$this->name.".roles", $this->roles);
-
+		// Loop through all the actions in memory and add it to 
+		// this ACL instance.
 		foreach ($data['actions'] as $action)
 		{
 			if ( ! $this->has_action($action)) $this->add_action($action);
 		}
 
-		$this->memory->put("acl_".$this->name.".actions", $this->actions);
-
+		// Loop through all the acl in memory and add it to 
+		// this ACL instance.
 		foreach ($data['acl'] as $role => $actions)
 		{
 			foreach ($actions as $action => $allow)
@@ -157,6 +157,11 @@ class Acl
 			}
 		}
 
+		// Re-sync memory with acl instance, make sure anything
+		// that added before ->with($memory) got called is appended
+		// to memory as well.
+		$this->memory->put("acl_".$this->name.".actions", $this->actions);
+		$this->memory->put("acl_".$this->name.".roles", $this->roles);
 		$this->memory->put("acl_".$this->name.".acl", $this->acl);
 
 		return $this;
@@ -188,20 +193,16 @@ class Acl
 	 */
 	public function add_roles($roles = null)
 	{
-		if (is_string($roles)) $roles = array($roles);
 		
-		if (is_array($roles)) 
+		foreach ((array) $roles as $role)
 		{
-			foreach ($roles as $role)
+			try
 			{
-				try
-				{
-					$this->add_role($role);
-				}
-				catch (AclException $e)
-				{
-					continue;
-				}
+				$this->add_role($role);
+			}
+			catch (AclException $e)
+			{
+				continue;
 			}
 		}
 
@@ -263,20 +264,15 @@ class Acl
 	 */
 	public function add_actions($actions = null) 
 	{
-		if (is_string($actions)) $actions = array($actions);
-		
-		if (is_array($actions)) 
+		foreach ((array) $actions as $action)
 		{
-			foreach ($actions as $action)
+			try
 			{
-				try
-				{
-					$this->add_action($action);
-				}
-				catch (AclException $e)
-				{
-					continue;
-				}
+				$this->add_action($action);
+			}
+			catch (AclException $e)
+			{
+				continue;
 			}
 		}
 

@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \stdClass;
+use Hybrid\Curl\Response;
 
 class Curl
 {
@@ -203,11 +203,9 @@ class Curl
 	 */
 	public function call()
 	{
-		$response         = new stdClass();
-		$response->body   = $response->raw_body = curl_exec($this->adapter);
-		
+		$raw_body         = curl_exec($this->adapter);
 		$info             = curl_getinfo($this->adapter);
-		$response->status = $info['http_code'];
+		$response         = Response::make($raw_body, $info['http_code']);
 		$response->info   = $info;
 		
 		// clean up curl session

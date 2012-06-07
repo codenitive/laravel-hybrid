@@ -42,8 +42,8 @@ class Table
 		// Set instance name when provided.
 		if (is_string($name)) $this->name = $name;
 
-		// Instantiate Table\Grid, this wrapper emulate table designer script to 
-		// create the table
+		// Instantiate Table\Grid, this wrapper emulate 
+		// table designer script to create the table
 		$this->grid = new Table\Grid;
 
 		// run the table designer

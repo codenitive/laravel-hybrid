@@ -4,44 +4,88 @@ use \Closure, \HTML, \Str;
 
 class Table 
 {
-	protected static $instances = array();
+	/**
+	 * All of the registered table names.
+	 *
+	 * @var array
+	 */
+	protected static $names = array();
 
-	public static function make($name = null, $callback = null)
+	/**
+	 * Create a new Table instance
+	 *
+	 * <code>
+	 *		// Create a new table instance
+	 *		$view = View::make('home.index');
+	 * </code>
+	 *
+	 * @static
+	 * @access  public
+	 * @param   Closure     $callback
+	 * @return  Table
+	 */
+	public static function make(Closure $callback)
 	{
-		if ($name instanceof Closure)
-		{
-			$callback = $name;
-			$name     = null;
-		}
-
-		if (is_null($name)) $name = Str::random(50);
-
-		if ( ! isset(static::$instances[$name]))
-		{
-			static::$instances[$name] = new static($name, $callback);
-		}
-
-		return static::$instances[$name];
+		return new static($callback);
 	}
 
-	protected function __construct($name, $callback)
+	/**
+	 * Create a new Table instance
+	 *
+	 * @access  protected
+	 * @param   Closure     $callback
+	 * @param   string      $name
+	 * @return  void
+	 */
+	protected function __construct(Closure $callback, $name = null)
 	{
-		if ( ! ($callback instanceof Closure))
-		{
-			throw new Exception(__METHOD__.": Excepted a closure but not given");
-		}
+		// Set instance name when provided.
+		if (is_string($name)) $this->name = $name;
 
-		$this->name = $name;
+		// Instantiate Table\Grid, this wrapper emulate table designer script to 
+		// create the table
 		$this->grid = new Table\Grid;
 
+		// run the table designer
 		call_user_func($callback, $this->grid);
 	}
 
+	/**
+	 * Create a new table instance of a named table.
+	 *
+	 * @static
+	 * @access   public
+	 * @param    string	    $name
+	 * @param    Closure	$callback
+	 * @return   Table
+	 */
+	public static function of($name, Closure $callback)
+	{
+		if ( ! isset(static::$names[$name]))
+		{
+			static::$names[$name] = new static($callback, $name);
+		}
+
+		return static::$names[$name];
+	}
+
+	/**
+	 * An alias to render()
+	 *
+	 * @access  public
+	 * @see     render()
+	 */
 	public function __toString()
 	{
 		return $this->render();
 	}
 
+	/**
+	 * Render the table
+	 *
+	 * @access  public
+	 * @return  string
+	 */
 	public function render()
 	{	
 		$table = '<table '.HTML::attributes($this->grid->attr).'>';

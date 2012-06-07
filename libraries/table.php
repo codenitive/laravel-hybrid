@@ -16,7 +16,12 @@ class Table
 	 *
 	 * <code>
 	 *		// Create a new table instance
-	 *		$view = View::make('home.index');
+	 *		$view = Table::make(function ($table) {
+	 *			$table->with(User::all());
+	 *
+	 *			$table->column('username');
+	 *			$table->column('password');
+	 * 		});
 	 * </code>
 	 *
 	 * @static
@@ -52,6 +57,16 @@ class Table
 
 	/**
 	 * Create a new table instance of a named table.
+	 *
+	 * <code>
+	 *		// Create a new table instance
+	 *		$view = Table::of('user-table', function ($table) {
+	 *			$table->with(User::all());
+	 *
+	 *			$table->column('username');
+	 *			$table->column('password');
+	 * 		});
+	 * </code>
 	 *
 	 * @static
 	 * @access   public
@@ -98,7 +113,7 @@ class Table
 					->with('columns', $columns)
 					->with('rows', $rows);
 
-		if ($this->grid->paginate) $view->with('pagination', $this->grid->model->links());
+		$view->with('pagination', (true === $this->grid->paginate ? $this->grid->model->links() : ''));
 
 		return $view->render();
 	}

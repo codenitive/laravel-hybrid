@@ -159,11 +159,14 @@ class Grid
 	 *		// add a new column by using a field name and closure
 	 *		$table->column('fullname', function ($column)
 	 *		{
-	 *			$table->name  = 'User Name';
-	 *			$table->value = function ($row) { 
+	 *			$table->heading = 'User Name';
+	 *			$table->value   = function ($row) { 
 	 * 				return $row->first_name.' '.$row->last_name; 
 	 * 			};
-	 * 			$table->attr(function ($row) { 
+	 *
+	 * 			$table->heading_attr(array('class' => 'header-class'));
+	 *
+	 * 			$table->cell_attr(function ($row) { 
 	 *				return array('data-id' => $row->id);
 	 *			});
 	 *		});

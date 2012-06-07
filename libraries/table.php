@@ -1,6 +1,6 @@
 <?php namespace Hybrid;
 
-use \Closure, \HTML, \Str;
+use \Closure, \HTML, \Str, \View;
 
 class Table 
 {
@@ -87,80 +87,19 @@ class Table
 	 * @return  string
 	 */
 	public function render()
-	{	
-		$table = '<table '.HTML::attributes($this->grid->attr).'>';
-
-		$dataset = $this->grid->dataset();
+	{
 		$columns = $this->grid->columns();
+		$rows    = $this->grid->rows();
 
-		if ($this->grid->structure === 'horizontal')
-		{
-			$head = '';
-			$body = '';
-			
-			foreach ($columns as $key => $column)
-			{
-				$head .= '<th>'.$column->name.'</th>';
-			}
+		$view = View::make($this->grid->view)
+					->with('table_attr', $this->grid->table_attr)
+					->with('row_attr', $this->grid->rows->attr)
+					->with('row_empty', $this->grid->rows->empty)
+					->with('columns', $columns)
+					->with('rows', $rows);
 
-			foreach ($dataset as $id => $data)
-			{
-				$body .= '<tr>';
+		if ($this->grid->paginate) $view->with('pagination', $this->grid->model->links());
 
-				foreach ($columns as $key => $column)
-				{
-					$attr = $column->attr;
-
-					if ($attr instanceof Closure) $attr = $attr($data);
-
-					$body .= '<td '.HTML::attributes($attr).'>'.call_user_func($column->value, $data).'</td>';
-				}
-
-				$body .= '</tr>';
-			}
-
-			$table .= '<thead>';
-			$table .= '<tr>'.$head.'</tr>';
-			$table .= '</thead>';
-			$table .= '<tbody>';
-			$table .= $body;
-			$table .= '</tbody>';
-		}
-		else
-		{
-			$body = '';
-			
-			foreach ($columns as $key => $column)
-			{
-				$body .= '<tr>';
-
-				$body .= '<th>'.$column->name.'</th>';
-
-				foreach ($dataset as $id => $data)
-				{
-					$attr = $column->attr;
-
-					if ($attr instanceof Closure) $attr = $attr($data);
-					
-					$body .= '<td'.HTML::attributes($attr).'>'.call_user_func($column->value, $data).'</td>';
-				}
-
-				$body .= '</tr>';
-			}
-
-			$table .= '<tbody>';
-			$table .= $body;
-			$table .= '</tbody>';
-		}
-
-		$table .= '</table>';
-
-		// create pagination
-		if ($this->grid->paginate)
-		{
-			$table .= $this->grid->model->links();
-		}
-
-		return $table;
+		return $view->render();
 	}
 }

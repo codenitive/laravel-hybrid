@@ -486,8 +486,6 @@ class Format
 	{
 		if ( ! is_array($arr)) return false;
 
-		//$current = current($arr);
-
 		return ! is_int(key($arr));
 	}
 }

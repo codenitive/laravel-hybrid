@@ -39,14 +39,10 @@ class Table
 	 *
 	 * @access  protected
 	 * @param   Closure     $callback
-	 * @param   string      $name
 	 * @return  void
 	 */
-	protected function __construct(Closure $callback, $name = null)
+	protected function __construct(Closure $callback)
 	{
-		// Set instance name when provided.
-		if (is_string($name)) $this->name = $name;
-
 		// Instantiate Table\Grid, this wrapper emulate 
 		// table designer script to create the table
 		$this->grid = new Table\Grid;
@@ -54,6 +50,19 @@ class Table
 		// run the table designer
 		call_user_func($callback, $this->grid);
 	}
+
+	/**
+	 * Name of table
+	 *
+	 * @var  string
+	 */
+	public $name = null;
+	/**
+	 * Table Grid instance
+	 *
+	 * @var  Table\Grid
+	 */
+	protected $grid = null;
 
 	/**
 	 * Create a new table instance of a named table.
@@ -78,7 +87,8 @@ class Table
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name] = new static($callback, $name);
+			static::$names[$name]       = new static($callback, $name);
+			static::$names[$name]->name = $name;
 		}
 
 		return static::$names[$name];

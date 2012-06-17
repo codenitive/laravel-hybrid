@@ -7,9 +7,11 @@ class Auth extends Laravel_Auth
 	/**
 	 * Get the current user's roles of the application.
 	 *
-	 * If the user is a guest, null should be returned.
+	 * If the user is a guest, empty array should be returned.
 	 *
-	 * @return array
+	 * @static
+	 * @access  public
+	 * @return  array
 	 */
 	public static function roles()
 	{
@@ -18,12 +20,9 @@ class Auth extends Laravel_Auth
 		$user_id = 0;
 
 		// only search for roles when user is logged
-		if ( ! is_null($user))
-		{
-			$user_id = $user->id;
-
-			$roles = Event::until('hybrid.auth.roles', array($user_id, $roles));
-		}
+		if ( ! is_null($user)) $user_id = $user->id;
+		
+		$roles = Event::until('hybrid.auth.roles', array($user_id, $roles));
 
 		return $roles;
 	}

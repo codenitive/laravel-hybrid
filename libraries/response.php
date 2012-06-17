@@ -8,9 +8,9 @@ class Response extends Laravel_Response
 	/**
 	 * Create a new RESTful response or View response depending on requested format.
 	 * 
-	 * @param  array   $data   
-	 * @param  integer $status 
-	 * @return Response        
+	 * @param  array        $data   
+	 * @param  integer      $status 
+	 * @return Response      
 	 */
 	public static function restful($data = array(), $status = 200)
 	{

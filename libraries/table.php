@@ -57,6 +57,7 @@ class Table
 	 * @var  string
 	 */
 	public $name = null;
+
 	/**
 	 * Table Grid instance
 	 *
@@ -95,6 +96,17 @@ class Table
 	}
 
 	/**
+	 * Return protected grid
+	 * 
+	 * @param  string       $key
+	 * @return Table\Grid 
+	 */
+	public function __get($key)
+	{
+		if ($key === 'grid') return $this->grid;
+	}
+
+	/**
 	 * An alias to render()
 	 *
 	 * @access  public
@@ -113,8 +125,9 @@ class Table
 	 */
 	public function render()
 	{
-		$columns = $this->grid->columns();
-		$rows    = $this->grid->rows();
+		$columns  = $this->grid->columns();
+		$rows     = $this->grid->rows();
+		$paginate = (true === $this->grid->paginate ? $this->grid->model->links() : '');
 
 		$view = View::make($this->grid->view)
 					->with('table_attr', $this->grid->table_attr)
@@ -123,7 +136,7 @@ class Table
 					->with('columns', $columns)
 					->with('rows', $rows);
 
-		$view->with('pagination', (true === $this->grid->paginate ? $this->grid->model->links() : ''));
+		$view->with('pagination', $paginate);
 
 		return $view->render();
 	}

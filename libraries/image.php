@@ -34,7 +34,7 @@ class Image
 	{
 		if (is_null(static::$instance))
 		{
-			static::$instance = static::forge(static::$config);
+			static::$instance = static::make(static::$config);
 		}
 
 		return static::$instance;

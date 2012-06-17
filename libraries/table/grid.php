@@ -64,10 +64,8 @@ class Grid
 	public function __construct() 
 	{
 		$this->rows = new Fluent(array(
-			'data' => array(),
-			'attr' => function ($row) {
-				return array();	
-			},
+			'data'  => array(),
+			'attr'  => function ($row) { return array();	},
 			'empty' => __($this->empty, null, 'No records'),
 		));
 	}
@@ -172,7 +170,7 @@ class Grid
 	 *		});
 	 * </code>
 	 *
-	 * @access  public				
+	 * @access  public			
 	 * @param   mixed       $name
 	 * @param   mixed       $callback
 	 * @return  Fluent
@@ -194,7 +192,7 @@ class Grid
 				$callback = null;
 				break;
 			default :
-				$name  = Str::lower($name);
+				$name    = Str::lower($name);
 				$heading = Str::title($name);
 				break;
 		}

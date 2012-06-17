@@ -13,11 +13,14 @@ return array(
 	|
 	|   'roles' => function ($id, $roles)
 	|   {
-	|       \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+	|		if ( ! class_exists('Role_User', true)) return null;
+	|
+	|       // in situation config is not a closure, we will use a basic convention structure.
+	|		$user_roles = \Role_User::with('roles')->where('user_id', '=', $user_id)->get();
 	|
 	|       foreach ($user_roles as $role)
 	|       {
-	|           array_push($roles, $role->role->name);
+	|           array_push($roles, $role->roles->name);
 	|       }
 	|
 	|       return $roles;
@@ -25,14 +28,14 @@ return array(
 	*/
 	'roles' => function ($user_id, $roles)
 	{
-		if ( ! class_exists('User_Role', true)) return null;
+		if ( ! class_exists('Role_User', true)) return null;
 		
 		// in situation config is not a closure, we will use a basic convention structure.
-		$user_roles = \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+		$user_roles = \Role_User::with('roles')->where('user_id', '=', $user_id)->get();
 		
 		foreach ($user_roles as $role)
 		{
-			array_push($roles, $role->role->name);
+			array_push($roles, $role->roles->name);
 		}
 
 		return $roles;

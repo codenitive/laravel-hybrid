@@ -157,9 +157,11 @@ class Acl
 			}
 		}
 
-		// Re-sync memory with acl instance, make sure anything
-		// that added before ->with($memory) got called is appended
-		// to memory as well.
+		/*
+		 * Re-sync memory with acl instance, make sure anything
+		 * that added before ->with($memory) got called is appended
+		 * to memory as well.
+		 */
 		$this->memory->put("acl_".$this->name.".actions", $this->actions);
 		$this->memory->put("acl_".$this->name.".roles", $this->roles);
 		$this->memory->put("acl_".$this->name.".acl", $this->acl);
@@ -283,7 +285,7 @@ class Acl
 	 * Add single action to this instance
 	 * 
 	 * @access  public
-	 * @param   mixed   $actions    A string of action name
+	 * @param   mixed   $action     A string of action name
 	 * @return  self
 	 * @throws  AclException
 	 */
@@ -315,7 +317,6 @@ class Acl
 	 *
 	 * @access  public
 	 * @param   mixed   $action     A string of action name
-	 * @param   string  $type       need to be any one of deny, view, create, edit, delete or all
 	 * @return  bool
 	 * @throws  AclException
 	 */

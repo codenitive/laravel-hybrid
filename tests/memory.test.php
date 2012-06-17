@@ -39,6 +39,11 @@ class TestMemory extends PHPUnit_Framework_TestCase
 		Hybrid\Memory::make('orm');
 	}
 
+	/**
+	 * Test that Hybrid\Memory return valid values
+	 *
+	 * @test
+	 */
 	public function testGetMock()
 	{
 		$mock = Hybrid\Memory::make('runtime.mock');

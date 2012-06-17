@@ -1,9 +1,23 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Hybrid Library
+|--------------------------------------------------------------------------
+|
+| Map Hybrid Library using PSR-0 standard namespace. 
+ */
 Autoloader::namespaces(array(
 	'Hybrid' => Bundle::path('hybrid').'libraries',
 ));
 
+/*
+|--------------------------------------------------------------------------
+| Hybrid Exceptions
+|--------------------------------------------------------------------------
+|
+| List of exceptions for Hybrid bundle.
+ */
 Autoloader::map(array(
 	'Hybrid\\AclException'             => Bundle::path('hybrid').'libraries/exceptions'.EXT,
 	'Hybrid\\Exception'                => Bundle::path('hybrid').'libraries/exceptions'.EXT,
@@ -12,7 +26,13 @@ Autoloader::map(array(
 	'Hybrid\\RuntimeException'         => Bundle::path('hybrid').'libraries/exceptions'.EXT,
 ));
 
-// Lets listen to when Hybrid bundle is started.
+/*
+|--------------------------------------------------------------------------
+| Hybrid Events Listener
+|--------------------------------------------------------------------------
+|
+| Lets listen to when Hybrid bundle is started and `hybrid.auth.roles` event.
+ */ 
 Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });
 
 Event::listen('hybrid.auth.roles', function ($user_id, $roles)

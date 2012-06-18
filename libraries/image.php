@@ -12,7 +12,7 @@
  * @link		http://fuelphp.com
  */
 
-use \Config, Hybrid\Exception;
+use \Config;
 
 class Image
 {

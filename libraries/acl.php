@@ -62,7 +62,7 @@ class Acl
 	 */
 	public static function register($name, $callback = null)
 	{
-		if ($name instanceof Closure)
+		if (is_callable($name))
 		{
 			$callback = $name;
 			$name     = null;

@@ -12,6 +12,13 @@ use \Config, \Event;
 
 class Memory
 {
+	/**
+	 * Memory initiated status
+	 *
+	 * @static
+	 * @access  protected
+	 * @var     boolean
+	 */
 	protected static $initiated = false;
 
 	/**

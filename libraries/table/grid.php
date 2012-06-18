@@ -77,7 +77,7 @@ class Grid
 	{
 		$this->rows = new Fluent(array(
 			'data'  => array(),
-			'attr'  => function ($row) { return array();	},
+			'attr'  => function ($row) { return array(); },
 			'empty' => __($this->empty, null, 'No records'),
 		));
 	}
@@ -224,7 +224,7 @@ class Grid
 		}
 
 		// run closure
-		if ($callback instanceof Closure) call_user_func($callback, $column);
+		if (is_callable($callback)) call_user_func($callback, $column);
 
 		return $this->columns[] = $column;
 	}

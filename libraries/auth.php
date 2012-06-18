@@ -8,7 +8,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Auth as Laravel_Auth, \Config, \Event;
+use \Auth as Laravel_Auth, \Event;
 
 class Auth extends Laravel_Auth
 {

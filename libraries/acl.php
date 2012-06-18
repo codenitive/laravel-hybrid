@@ -12,6 +12,13 @@ use \Closure, \Str;
 
 class Acl
 {
+	/**
+	 * Acl initiated status
+	 *
+	 * @static
+	 * @access  protected
+	 * @var     boolean
+	 */
 	protected static $initiated = false;
 
 	/**

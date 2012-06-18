@@ -47,6 +47,7 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	public function testGetMock()
 	{
 		$mock = Hybrid\Memory::make('runtime.mock');
+		
 		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
 		$this->assertEquals('hello world', $mock->get('foo.bar'));
 		$this->assertEquals('laravel', $mock->get('username'));

@@ -39,8 +39,8 @@ Event::listen('hybrid.auth.roles', function ($user_id, $roles)
 {
 	$callback = Config::get('hybrid::auth.roles');
 
-	if ($callback instanceof \Closure)
+	if (is_callable($callback))
 	{
-		return $callback($user_id, $roles);
+		return call_user_func($callback, $user_id, $roles);
 	}
 });

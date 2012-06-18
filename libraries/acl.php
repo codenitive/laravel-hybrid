@@ -8,7 +8,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, \Str;
+use \Str;
 
 class Acl
 {

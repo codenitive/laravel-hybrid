@@ -1,5 +1,14 @@
 <?php namespace Hybrid\Chart;
 
+/**
+ * BarChart class using Google Visualization API
+ *
+ * @package    Hybrid\Chart
+ * @category   Bar
+ * @author     Laravel Hybrid Development Team
+ * @see        http://code.google.com/apis/visualization/documentation/gallery/barchart.html 
+ */
+
 use \Config;
 
 class Bar extends Driver 

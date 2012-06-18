@@ -23,23 +23,7 @@ return array(
 	 | 
 	 | @see http://code.google.com/apis/visualization/documentation/gallery/barchart.html 
 	 */
-	'area' => array (
-		'axisTitlesPosition' => 'in',
-		'fontSize'           => 11,
-		'legend'             => 'top',
-		'lineWidth'          => 4,
-		'pointSize'          => 4,
-	),
-
-
-	/*
-	 |--------------------------------------------------------------------------
-	 | Configuration for Area Chart
-	 |--------------------------------------------------------------------------
-	 | 
-	 | @see http://code.google.com/apis/visualization/documentation/gallery/areachart.html 
-	 */
-	'line' => array(
+	'bar' => array (
 		'axisTitlesPosition' => 'in',
 		'fontSize'           => 11,
 		'legend'             => 'top',
@@ -57,10 +41,39 @@ return array(
 	'geomap' => array(
 		'dataMode' => 'regions',
 	),
+
+	/*
+	 |--------------------------------------------------------------------------
+	 | Configuration for Line Chart
+	 |--------------------------------------------------------------------------
+	 | 
+	 | @see http://code.google.com/apis/visualization/documentation/gallery/linechart.html 
+	 */
+	'line' => array(
+		'axisTitlesPosition' => 'in',
+		'fontSize'           => 11,
+		'legend'             => 'top',
+		'lineWidth'          => 4,
+		'pointSize'          => 4,
+	),
 	
-	'pie' => array (),
+	/*
+	 |--------------------------------------------------------------------------
+	 | Configuration for Pie Chart
+	 |--------------------------------------------------------------------------
+	 |
+	 | @see https://developers.google.com/chart/interactive/docs/gallery/piechart.html
+	 */
+	'pie' => array(),
 	
-	'scatter' => array (
+	/*
+	 |--------------------------------------------------------------------------
+	 | Configuration for Scatter Chart
+	 |--------------------------------------------------------------------------
+	 |
+	 | @see https://developers.google.com/chart/interactive/docs/gallery/scatterchart.html
+	 */
+	'scatter' => array(
 		'axisTitlesPosition' => 'in',
 		'fontSize'           => 11,
 		'legend'             => 'top',
@@ -75,7 +88,7 @@ return array(
 	 | 
 	 | @see http://code.google.com/apis/visualization/documentation/gallery/table.html
 	 */
-	'table' => array (),
+	'table' => array(),
 
 	/*
 	 |--------------------------------------------------------------------------
@@ -84,7 +97,7 @@ return array(
 	 | 
 	 | @see http://code.google.com/apis/visualization/documentation/gallery/annotatedtimeline.html
 	 */
-	'timeline' => array (
+	'timeline' => array(
 		'dateFormat'         => 'MMM d',
 		'displayAnnotations' => false,
 		'thickness'          => 3,

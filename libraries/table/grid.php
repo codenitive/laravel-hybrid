@@ -1,5 +1,17 @@
 <?php namespace Hybrid\Table;
 
+/**
+ * Table class
+ *
+ * Table Generator Class inspired by Squi Bundle for Laravel 
+ *
+ * @package    Hybrid\Table
+ * @category   Grid
+ * @author     Laravel Hybrid Development Team
+ * @author     Kelly Banman <https://github.com/kbanman>
+ * @link       https://github.com/kbanman/laravel-squi
+ */
+
 use \Closure, Laravel\Fluent, \Str, 
 	Hybrid\Exception;
 

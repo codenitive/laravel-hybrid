@@ -1,9 +1,4 @@
-<?php namespace Hybrid;
-
-use Hybrid\Exception,
-	Hybrid\InvalidArgumentException, 
-	Hybrid\OutOfBoundsException,
-	Hybrid\RuntimeException;
+<?php namespace Hybrid\Image;
 
 /**
  * Part of the Fuel framework.
@@ -16,6 +11,11 @@ use Hybrid\Exception,
  * @copyright	2010 - 2011 Fuel Development Team
  * @link		http://fuelphp.com
  */
+
+use Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
 
 class Imagick extends Driver
 {

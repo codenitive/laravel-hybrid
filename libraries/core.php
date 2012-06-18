@@ -1,6 +1,12 @@
 <?php namespace Hybrid;
 
-use \Closure;
+/**
+ * Core class
+ *
+ * @package    Hybrid
+ * @category   Core
+ * @author     Laravel Hybrid Development Team
+ */
 
 class Core
 {
@@ -11,10 +17,7 @@ class Core
 	 * @access  public
 	 * @return  void
 	 */
-	public static function start() 
-	{
-
-	}
+	public static function start() {}
 
 	/**
 	 * Import file

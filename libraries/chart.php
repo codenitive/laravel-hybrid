@@ -1,5 +1,13 @@
 <?php namespace Hybrid;
 
+/**
+ * Chart class using Google Visualization API
+ *
+ * @package    Hybrid
+ * @category   Chart
+ * @author     Laravel Hybrid Development Team
+ */
+
 class Chart 
 {
 	/**
@@ -12,13 +20,13 @@ class Chart
 	protected static $instances = array();
 
 	/**
-	 * Initiate a new Chart_Driver instance.
+	 * Initiate a new Chart\Driver instance.
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $name
-	 * @return  Chart_Driver 
-	 * @throws  \Exception
+	 * @param   string          $name
+	 * @return  Chart\Driver 
+	 * @throws  Exception
 	 */
 	public static function make($name) 
 	{
@@ -46,7 +54,7 @@ class Chart
 	 *
 	 * @access  protected
 	 */
-	protected function __construct() { }
+	protected function __construct() {}
 	
 	/**
 	 * Load Google JavaSript API Library

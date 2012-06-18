@@ -1,20 +1,39 @@
 <?php namespace Hybrid\Memory;
 
+/**
+ * Driver for Memory class
+ *
+ * @abstract
+ * @package    Hybrid\Memory
+ * @category   Driver
+ * @author     Laravel Hybrid Development Team
+ */
+
 abstract class Driver
 {
 	protected $name = null;
 
+	/**
+	 * Memory configuration
+	 *
+	 * @access  protected
+	 * @var     array
+	 */
 	protected $config = array();
 
 	/**
+	 * Collection of key-value pair of either configuration or data
+	 * 
 	 * @access  protected
-	 * @var     array   collection of key-value pair of either configuration or data
+	 * @var     array
 	 */
 	protected $data = array();
 
 	/**
+	 * Storage name
+	 * 
 	 * @access  protected
-	 * @var     string  storage configuration, currently only support runtime.
+	 * @var     string  
 	 */
 	protected $storage;
 
@@ -72,8 +91,22 @@ abstract class Driver
 		return array_forget($this->data, $key);
 	}
 
+	/**
+	 * Initialize method
+	 *
+	 * @abstract
+	 * @access  public
+	 * @return  void
+	 */
 	public abstract function initiate();
 	
+	/**
+	 * Shutdown method
+	 *
+	 * @abstract
+	 * @access  public
+	 * @return  void
+	 */
 	public abstract function shutdown();
 
 }

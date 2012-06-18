@@ -1,5 +1,13 @@
 <?php namespace Hybrid;
 
+/**
+ * Response class
+ *
+ * @package    Hybrid
+ * @category   Response
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \File, \Input, \View,
 	Laravel\Response as Laravel_Response;
 

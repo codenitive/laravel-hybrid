@@ -1,5 +1,13 @@
 <?php namespace Hybrid;
 
+/**
+ * Auth class
+ *
+ * @package    Hybrid
+ * @category   Auth
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \Auth as Laravel_Auth, \Config, \Event;
 
 class Auth extends Laravel_Auth

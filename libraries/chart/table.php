@@ -1,5 +1,14 @@
 <?php namespace Hybrid\Chart;
 
+/**
+ * Table class using Google Visualization API
+ *
+ * @package    Hybrid\Chart
+ * @category   Table
+ * @author     Laravel Hybrid Development Team
+ * @see        http://code.google.com/apis/visualization/documentation/gallery/table.html 
+ */
+
 use \Config;
 
 class Table extends Driver 

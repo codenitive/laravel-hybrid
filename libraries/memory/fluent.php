@@ -1,19 +1,47 @@
 <?php namespace Hybrid\Memory;
 
+/**
+ * Fluent Memory class
+ *
+ * @package    Hybrid\Memory
+ * @category   Fluent
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \DB;
 
 class Fluent extends Driver 
 {
 	/**
+	 * Storage name
+	 * 
 	 * @access  protected
-	 * @var     string  storage configuration, currently only support runtime.
+	 * @var     string  
 	 */
 	protected $storage = 'fluent';
 
+	/**
+	 * Database table name
+	 *
+	 * @access  protected
+	 * @var     string
+	 */
 	protected $table   = null;
 
+	/**
+	 * Cached key value map with md5 checksum
+	 *
+	 * @access  protected
+	 * @var     array
+	 */
 	protected $key_map = array();
 
+	/**
+	 * Load the data from database using Fluent Query Builder
+	 *
+	 * @access  public
+	 * @return  void
+	 */
 	public function initiate() 
 	{
 		$this->table = isset($this->config['table']) ? $this->config['table'] : $this->name;
@@ -34,7 +62,7 @@ class Fluent extends Driver
 	}
 
 	/**
-	 * Add a shutdown event for DB engine
+	 * Add a shutdown event using Fluent Query Builder
 	 *
 	 * @access  public
 	 * @return  void
@@ -64,6 +92,7 @@ class Fluent extends Driver
 
 			if (true === $is_new and $count < 1)
 			{
+				// Insert the new key:value
 				DB::table($this->table)
 					->insert(array(
 						'name' => $key,
@@ -72,6 +101,7 @@ class Fluent extends Driver
 			}
 			else
 			{
+				// Update the key:value
 				DB::table($this->table)
 					->where('id', '=', $id)
 					->update(array(
@@ -80,5 +110,4 @@ class Fluent extends Driver
 			}
 		}
 	}
-
 }

@@ -1,15 +1,36 @@
 <?php namespace Hybrid\Memory;
 
+/**
+ * Runtime Memory class
+ *
+ * @package    Hybrid\Memory
+ * @category   Runtime
+ * @author     Laravel Hybrid Development Team
+ */
+
 class Runtime extends Driver
 {
 	/**
+	 * Storage name
+	 * 
 	 * @access  protected
-	 * @var     string  storage configuration, currently only support runtime.
+	 * @var     string  
 	 */
 	protected $storage = 'runtime';
 
-	public function initiate() { }
+	/**
+	 * No initialize method for runtime
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function initiate() {}
 
-	public function shutdown() { }
-
+	/**
+	 * No shutdown method for runtime
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function shutdown() {}
 }

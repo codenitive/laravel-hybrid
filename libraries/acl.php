@@ -1,5 +1,13 @@
 <?php namespace Hybrid;
 
+/**
+ * Acl class
+ *
+ * @package    Hybrid
+ * @category   Acl
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \Closure, \Str;
 
 class Acl

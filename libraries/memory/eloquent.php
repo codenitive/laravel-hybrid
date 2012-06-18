@@ -1,15 +1,37 @@
 <?php namespace Hybrid\Memory;
 
+/**
+ * Eloquent Memory class
+ *
+ * @package    Hybrid\Memory
+ * @category   Eloquent
+ * @author     Laravel Hybrid Development Team
+ */
+
 class Eloquent extends Driver 
 {
 	/**
+	 * Storage name
+	 * 
 	 * @access  protected
-	 * @var     string  storage configuration, currently only support runtime.
+	 * @var     string  
 	 */
 	protected $storage = 'eloquent';
 
+	/**
+	 * Cached key value map with md5 checksum
+	 *
+	 * @access  protected
+	 * @var     array
+	 */
 	protected $key_map = array();
 
+	/**
+	 * Load the data from database using Eloquent ORM
+	 *
+	 * @access  public
+	 * @return  void
+	 */
 	public function initiate() 
 	{
 		$this->name = isset($this->config['name']) ? $this->config['name'] : $this->name;
@@ -30,7 +52,7 @@ class Eloquent extends Driver
 	}
 
 	/**
-	 * Add a shutdown event for DB engine
+	 * Add a shutdown event using Eloquent ORM
 	 *
 	 * @access  public
 	 * @return  void

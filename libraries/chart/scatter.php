@@ -1,5 +1,14 @@
 <?php namespace Hybrid\Chart;
 
+/**
+ * Scatter Chart class using Google Visualization API
+ *
+ * @package    Hybrid\Chart
+ * @category   Scatter
+ * @author     Laravel Hybrid Development Team
+ * @see        http://code.google.com/apis/visualization/documentation/gallery/scatterchart.html 
+ */
+
 use \Config;
 
 class Scatter extends Driver 

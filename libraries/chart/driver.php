@@ -1,5 +1,14 @@
 <?php namespace Hybrid\Chart;
 
+/**
+ * Driver for Chart class using Google Visualization API
+ *
+ * @abstract
+ * @package    Hybrid\Chart
+ * @category   Driver
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \Config, Hybrid\Exception;
 
 abstract class Driver 

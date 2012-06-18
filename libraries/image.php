@@ -1,11 +1,9 @@
 <?php namespace Hybrid;
 
-use \Config, Hybrid\Exception;
-
 /**
- * Part of the Fuel framework.
- *
  * Image manipulation class.
+ * 
+ * Part of the Fuel framework.
  *
  * @package		Fuel
  * @version		1.0
@@ -13,6 +11,8 @@ use \Config, Hybrid\Exception;
  * @copyright	2010 - 2011 Fuel Development Team
  * @link		http://fuelphp.com
  */
+
+use \Config, Hybrid\Exception;
 
 class Image
 {
@@ -53,7 +53,7 @@ class Image
 		$config = array_merge(Config::get('image', Config::get('hybrid::image', array())), $config);
 
 		$protocol = ucfirst( ! empty($config['driver']) ? $config['driver'] : 'gd');
-		$class    = 'Image\\'.$protocol;
+		$class    = 'Hybrid\\Image\\'.$protocol;
 
 		if ($protocol == 'Driver' || ! class_exists($class))
 		{

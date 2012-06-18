@@ -1,5 +1,13 @@
 <?php namespace Hybrid;
 
+/**
+ * Memory class
+ *
+ * @package    Hybrid
+ * @category   Memory
+ * @author     Laravel Hybrid Development Team
+ */
+
 use \Config, \Event;
 
 class Memory

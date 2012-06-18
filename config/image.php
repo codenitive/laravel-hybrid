@@ -58,12 +58,12 @@ return array(
 	/**
 	 * Temporary directory to store image files in that are being edited.
 	 */
-	'temp_dir' => APPPATH.'tmp'.DS,
+	'temp_dir' => path('storage').'work'.DS,
 
 	/**
 	 * The string of text to append to the image.
 	 */
-	'temp_append' => 'fuelimage_',
+	'temp_append' => 'image_',
 
 	/**
 	 * Sets if the queue should be cleared after a save(), save_pa(), or output().

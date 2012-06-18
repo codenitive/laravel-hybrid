@@ -1,10 +1,5 @@
 <?php namespace Hybrid\Image;
 
-use \Config, Hybrid\Exception,
-	Hybrid\InvalidArgumentException, 
-	Hybrid\OutOfBoundsException,
-	Hybrid\RuntimeException;
-
 /**
  * Part of the Fuel framework.
  *
@@ -16,6 +11,11 @@ use \Config, Hybrid\Exception,
  * @copyright	2010 - 2011 Fuel Development Team
  * @link		http://fuelphp.com
  */
+
+use \Config, Hybrid\Exception,
+	Hybrid\InvalidArgumentException, 
+	Hybrid\OutOfBoundsException,
+	Hybrid\RuntimeException;
 
 abstract class Driver
 {

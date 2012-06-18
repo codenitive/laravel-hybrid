@@ -18,7 +18,7 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test that Hybrid\Memory::make() return an instanceof Hybrid\Curl.
+	 * Test that Hybrid\Memory::make() return an instanceof Hybrid\Memory.
 	 * 
 	 * @test
 	 * @return  void

@@ -1,5 +1,14 @@
 <?php namespace Hybrid\Chart;
 
+/**
+ * PieChart class using Google Visualization API
+ *
+ * @package    Hybrid\Chart
+ * @category   Pie
+ * @author     Laravel Hybrid Development Team
+ * @see        http://code.google.com/apis/visualization/documentation/gallery/piechart.html 
+ */
+
 use \Config;
 
 class Pie extends Driver 

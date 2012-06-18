@@ -1,6 +1,12 @@
 <?php namespace Hybrid;
 
-use Hybrid\Curl\Response;
+/**
+ * Curl class
+ *
+ * @package    Hybrid
+ * @category   Curl
+ * @author     Laravel Hybrid Development Team
+ */
 
 class Curl
 {
@@ -205,7 +211,7 @@ class Curl
 	{
 		$raw_body         = curl_exec($this->adapter);
 		$info             = curl_getinfo($this->adapter);
-		$response         = Response::make($raw_body, $info['http_code']);
+		$response         = Curl\Response::make($raw_body, $info['http_code']);
 		$response->info   = $info;
 		
 		// clean up curl session

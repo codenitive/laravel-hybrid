@@ -96,5 +96,4 @@ class Eloquent extends Driver
 			}
 		}
 	}
-
 }

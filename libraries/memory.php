@@ -69,6 +69,9 @@ class Memory
 					if ($_name === 'default') $_name = Config::get('hybrid::memory.default_model');
 					static::$instances[$name] = new Memory\Eloquent($_name, $config);
 					break;
+				case 'cache' :
+					static::$instances[$name] = new Memory\Cache($_name, $config);
+					break;
 				case 'runtime' :
 					static::$instances[$name] = new Memory\Runtime($_name, $config);
 					break;

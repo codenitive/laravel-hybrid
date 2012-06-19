@@ -11,6 +11,12 @@
 
 abstract class Driver
 {
+	/**
+	 * Memory name
+	 *
+	 * @access  protected
+	 * @var     string
+	 */
 	protected $name = null;
 
 	/**
@@ -108,5 +114,4 @@ abstract class Driver
 	 * @return  void
 	 */
 	public abstract function shutdown();
-
 }

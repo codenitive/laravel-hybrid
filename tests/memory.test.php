@@ -15,6 +15,11 @@ class TestMemory extends PHPUnit_Framework_TestCase
 
 		$mock->put('foo.bar', 'hello world');
 		$mock->put('username', 'laravel');
+
+		$mock = Hybrid\Memory::make('cache.mock');
+
+		$mock->put('foo.bar', 'hello world');
+		$mock->put('username', 'laravel');
 	}
 
 	/**
@@ -26,6 +31,7 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	public function testMake()
 	{
 		$this->assertInstanceOf('Hybrid\Memory\Runtime', Hybrid\Memory::make('runtime')); 
+		$this->assertInstanceOf('Hybrid\Memory\Cache', Hybrid\Memory::make('cache')); 
 	}
 
 	/**
@@ -44,9 +50,23 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	 *
 	 * @test
 	 */
-	public function testGetMock()
+	public function testGetRuntimeMock()
 	{
 		$mock = Hybrid\Memory::make('runtime.mock');
+		
+		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
+		$this->assertEquals('hello world', $mock->get('foo.bar'));
+		$this->assertEquals('laravel', $mock->get('username'));
+	}
+
+	/**
+	 * Test that Hybrid\Memory return valid values
+	 *
+	 * @test
+	 */
+	public function testCacheCacheMock()
+	{
+		$mock = Hybrid\Memory::make('cache.mock');
 		
 		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
 		$this->assertEquals('hello world', $mock->get('foo.bar'));

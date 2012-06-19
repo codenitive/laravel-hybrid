@@ -53,6 +53,8 @@ Given we are logged in as subscriber
 	$acl->can('edit account'); // return true
 	$acl->can('post content'); // return false
 
+But wait, how does `Hybrid\Acl` know which roles does the current user belongs to? For this please refer to [`Hybrid\Auth` documentation](./auth.md).
+
 <a name="methods"></a>
 ## Methods
 

@@ -12,6 +12,7 @@
 	$runtime  = Hybrid\Memory::make('runtime');
 	$fluent   = Hybrid\Memory::make('fluent');
 	$eloquent = Hybrid\Memory::make('eloquent'); 
+	$cache    = Hybrid\Memory::make('cache');
 
 ### Default Configuration for Database
 

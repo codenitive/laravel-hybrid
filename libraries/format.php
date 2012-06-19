@@ -30,6 +30,7 @@ class Format
 	 * @param   mixed       general date to be converted
 	 * @param   string      data format the file was provided in
 	 * @return  Format
+	 * @throws  Exception
 	 */
 	public static function make($data = null, $from_type = null)
 	{
@@ -43,6 +44,7 @@ class Format
 	 * @param   mixed       general date to be converted
 	 * @param   string      data format the file was provided in
 	 * @return  void
+	 * @throws  Exception
 	 */
 	protected function __construct($data = null, $from_type = null)
 	{

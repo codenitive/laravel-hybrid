@@ -19,13 +19,13 @@ Laravel Hybrid would need to know the list of roles (name) associated to the cur
 
     'roles' => function ($user_id, $roles)
 	{
-		if ( ! class_exists('User_Role', true)) return null;
+		if ( ! class_exists('Role_User', true)) return null;
 
-	 	$user_roles = \User_Role::with('role')->where('user_id', '=', $user_id)->get();
+	 	$user_roles = \Role_User::with('roles')->where('user_id', '=', $user_id)->get();
 	 
 	 	foreach ($user_roles as $role)
 	 	{
-	 	 	array_push($roles, $role->role->name);
+	 	 	array_push($roles, $role->roles->name);
 	 	}
 	 	 
 	 	return $roles;
@@ -75,14 +75,14 @@ Alternatively, we can ignore **[Configuration](#configuration)** by using Eloque
 
 	<?php
 
-	class User_Role extends Eloquent
+	class Role_User extends Eloquent
 	{
-		public function role()
+		public function roles()
 		{
 			return $this->belongs_to('Role');
 		}
 
-		public function user()
+		public function users()
 		{
 			return $this->belongs_to('User');
 		}

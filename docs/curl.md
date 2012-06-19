@@ -25,8 +25,9 @@
 
 ### make($uri, $data = array())
 
-Initiate this class as a new object.
+Create a new Curl instance.
 
+	@static
 	@param  String 	$uri 		The URI being requested (including HTTP method). 
 								If this parameter is not present, the URI class 
 								will be used to detect the URI.

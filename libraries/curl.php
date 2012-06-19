@@ -11,7 +11,7 @@
 class Curl
 {
 	/**
-	 * Initiate this class as a new object
+	 * Create a new Curl instance
 	 * 
 	 * @static
 	 * @access  public

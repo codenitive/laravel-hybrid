@@ -7,6 +7,7 @@
 
 <a name="introduction"></a>
 ## Introduction
+
 `Hybrid\Memory` handle runtime configuration either using 'in memory' Runtime or database using Fluent Query Builder or Eloquent ORM.
 
 	$runtime  = Hybrid\Memory::make('runtime');
@@ -71,12 +72,13 @@ Other than the default, you can also use following method.
 
 ### make($name, $config)
 
-Initiate a new Memory instance
+Initiate a new `Hybrid\Memory` instance
 
+	@static
 	@param   string  $name      instance name
 	@param   array   $config
-	@return  Memory
-	@throws  Exception
+	@return  Memory\Driver
+	@throws  Hybrid\Exception
 	
 	$memory = Hybrid\Memory::make('fluent');
 

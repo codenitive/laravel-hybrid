@@ -18,7 +18,7 @@ Response class extends `Laravel\Response` class to allow RESTful response using 
 		), 200);
 	});
 	
-	// In home/index.php
+	// In application/views/home/index.php
 	<h1>Hello <?php echo $foo; ?></h1>
 	
 Given the example, when user access as:

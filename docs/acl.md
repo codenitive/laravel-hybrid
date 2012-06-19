@@ -60,6 +60,7 @@ Given we are logged in as subscriber
 
 Creates a new instance of the Acl. 
 
+	@static
 	@param	String 					$name 		will default to 'default' if none is provided
 	@param  Hybrid\Memory\Driver	$memory		need to be an instanceof Hybrid\Memory\Driver
 	@return self
@@ -70,6 +71,7 @@ Creates a new instance of the Acl.
 
 Register an Acl instance with Closure.
 
+	@static
 	@param	mixed		$name
 	@param  Closure 	$callback
 	@return self

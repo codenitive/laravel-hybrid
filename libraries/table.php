@@ -137,16 +137,17 @@ class Table
 	 */
 	public function render()
 	{
-		$columns  = $this->grid->columns();
-		$rows     = $this->grid->rows();
-		$paginate = (true === $this->grid->paginate ? $this->grid->model->links() : '');
+		// localize grid
+		$grid     = $this->grid;
+		
+		$paginate = (true === $grid->paginate ? $grid->model->links() : '');
 
-		$view = View::make($this->grid->view)
-					->with('table_attr', $this->grid->table_attr)
-					->with('row_attr', $this->grid->rows->attr)
-					->with('row_empty', $this->grid->rows->empty)
-					->with('columns', $columns)
-					->with('rows', $rows);
+		$view = View::make($grid->view)
+					->with('table_attr', $grid->table_attr)
+					->with('row_attr', $grid->rows->attr)
+					->with('row_empty', $grid->rows->empty)
+					->with('columns', $grid->columns())
+					->with('rows', $grid->rows());
 
 		$view->with('pagination', $paginate);
 

@@ -248,9 +248,9 @@ class Acl
 			throw new AclException(__FUNCTION__.": Role {$role} already exist.");
 		}
 
-		! empty($this->memory) and $this->memory->put("acl_".$this->name.".roles", $this->roles);
-
 		array_push($this->roles, $role);
+
+		! empty($this->memory) and $this->memory->put("acl_".$this->name.".roles", $this->roles);
 
 		return $this;
 	}
@@ -316,12 +316,11 @@ class Acl
 		if ($this->has_action($action))
 		{
 			throw new AclException(__FUNCTION__.": Action {$action} already exist.");
-		}
-
-		! empty($this->memory) and $this->memory->put("acl_".$this->name.".actions", $this->actions);
-			
+		}	
 
 		array_push($this->actions, $action);
+
+		! empty($this->memory) and $this->memory->put("acl_".$this->name.".actions", $this->actions);
 
 		return $this;
 	}

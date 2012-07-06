@@ -28,15 +28,13 @@ return array(
 	*/
 	'roles' => function ($user_id, $roles)
 	{
-		if ( ! class_exists('Role_User', true)) return null;
+		if ( ! class_exists('User', true)) return null;
 		
-		// in situation config is not a closure, we will use a basic convention structure.
-		$user_roles = \Role_User::with('roles')->where('user_id', '=', $user_id)->get();
+		// This is with the assumption that Eloquent model already setup to use pivot table
+		// between User and Role Model.
+		$user = \User::with('roles')->find($user_id);
 		
-		foreach ($user_roles as $role)
-		{
-			array_push($roles, $role->roles->name);
-		}
+		foreach ($user->roles as $role) array_push($roles, $role->name);
 
 		return $roles;
 	},

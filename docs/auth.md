@@ -19,32 +19,18 @@ Laravel Hybrid would need to know the list of roles (name) associated to the cur
 
     'roles' => function ($user_id, $roles)
 	{
-		if ( ! class_exists('Role_User', true)) return null;
+		if ( ! class_exists('User', true)) return null;
+		
+		// This is with the assumption that Eloquent model already setup to use pivot table
+		// between User and Role Model.
+		$user = \User::with('roles')->find($user_id);
+		
+		foreach ($user->roles as $role) array_push($roles, $role->name);
 
-	 	$user_roles = \Role_User::with('roles')->where('user_id', '=', $user_id)->get();
-	 
-	 	foreach ($user_roles as $role)
-	 	{
-	 	 	array_push($roles, $role->roles->name);
-	 	}
-	 	 
-	 	return $roles;
+		return $roles;
 	 }
 
-<a name="event"></a>
-## Event
-
-By using Event, the default configuration can be overwritten easily without modifying the config file as mention above.
-
-	Event::listen('hybrid.auth.roles', function ($user_id, $roles)
-	{
-		return array('manager', 'admin');
-	});
-
-<a name="convention"></a>
-## Convention
-
-Alternatively, we can ignore **[Configuration](#configuration)** by using Eloquent Orm driver with this associations.
+To archieve this using Eloquent Orm driver, the following structure need to be defined.
 
 ### User Model
 
@@ -54,7 +40,7 @@ Alternatively, we can ignore **[Configuration](#configuration)** by using Eloque
 	{
 		public function roles()
 		{
-			return $this->has_many('User_Role');
+			return $this->has_many_and_belongs_to('Role', 'role_user');
 		}
 	
 	}
@@ -67,16 +53,18 @@ Alternatively, we can ignore **[Configuration](#configuration)** by using Eloque
 	{
 		public function users()
 		{
-			return $this->has_many('User_Role');
+			return $this->has_many_and_belongs_to('User', 'role_user');
 		}
 	}
 
-### User_Role Model 
+### Role_User Model (optional)
 
 	<?php
 
 	class Role_User extends Eloquent
 	{
+		public static $table = 'role_user';
+
 		public function roles()
 		{
 			return $this->belongs_to('Role');
@@ -88,3 +76,13 @@ Alternatively, we can ignore **[Configuration](#configuration)** by using Eloque
 		}
 	}
 
+
+<a name="event"></a>
+## Event
+
+By using Event, the default configuration can be overwritten easily without modifying the config file as mention above.
+
+	Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+	{
+		return array('manager', 'admin');
+	});

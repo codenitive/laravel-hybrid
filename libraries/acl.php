@@ -142,11 +142,11 @@ class Acl
 
 		$data = $this->memory->get("acl_".$this->name, array());
 
-		$data = array_merge($data, array(
+		$data = array_merge(array(
 			'acl'     => array(),
 			'actions' => array(),
 			'roles'   => array(),
-		));
+		), $data);
 
 		// Loop through all the roles in memory and add it to
 		// this ACL instance.
@@ -164,12 +164,10 @@ class Acl
 
 		// Loop through all the acl in memory and add it to 
 		// this ACL instance.
-		foreach ($data['acl'] as $role => $actions)
+		foreach ($data['acl'] as $id => $allow)
 		{
-			foreach ($actions as $action => $allow)
-			{
-				$this->allow($role, $action, $allow);
-			}
+			list($role, $action) = explode('/', $id);
+			$this->allow($role, $action, $allow);
 		}
 
 		/*
@@ -250,7 +248,7 @@ class Acl
 
 		array_push($this->roles, $role);
 
-		! empty($this->memory) and $this->memory->put("acl_".$this->name.".roles", $this->roles);
+		if (! empty($this->memory)) $this->memory->put("acl_".$this->name.".roles", $this->roles);
 
 		return $this;
 	}
@@ -320,7 +318,7 @@ class Acl
 
 		array_push($this->actions, $action);
 
-		! empty($this->memory) and $this->memory->put("acl_".$this->name.".actions", $this->actions);
+		if (! empty($this->memory)) $this->memory->put("acl_".$this->name.".actions", $this->actions);
 
 		return $this;
 	}
@@ -432,7 +430,7 @@ class Acl
 				{
 					$value = array_merge(
 						$this->memory->get("acl_".$this->name.".acl", array()), 
-						array("{$role}" => array("{$action}" => $allow))
+						array("{$role}/{$action}" => $allow)
 					);
 					
 					$this->memory->put("acl_".$this->name.".acl", $value);

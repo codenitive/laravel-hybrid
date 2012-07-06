@@ -143,7 +143,7 @@ class Table
 		$paginate = (true === $grid->paginate ? $grid->model->links() : '');
 
 		$view = View::make($grid->view)
-					->with('table_attr', $grid->table_attr)
+					->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
 					->with('row_empty', $grid->rows->empty)
 					->with('columns', $grid->columns())

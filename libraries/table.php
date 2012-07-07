@@ -130,6 +130,19 @@ class Table
 	}
 
 	/**
+	 * Extend Table designer 
+	 *
+	 * @access public
+	 * @param  Closure $callback
+	 * @return void
+	 */
+	public function extend(Closure $callback)
+	{
+		// run the table designer
+		call_user_func($callback, $this->grid);
+	}
+
+	/**
 	 * Render the table
 	 *
 	 * @access  public

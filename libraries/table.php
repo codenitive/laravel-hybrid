@@ -55,8 +55,8 @@ class Table
 	 */
 	protected function __construct(Closure $callback)
 	{
-		// Instantiate Table\Grid, this wrapper emulate 
-		// table designer script to create the table
+		// Instantiate Table\Grid, this wrapper emulate table designer script 
+		// to create the table
 		$this->grid = new Table\Grid;
 
 		// run the table designer

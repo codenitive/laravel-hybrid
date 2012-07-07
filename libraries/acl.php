@@ -442,7 +442,8 @@ class Acl
 	}
 
 	/**
-	 * Shorthand function to deny access for single or multiple $roles and $actions
+	 * Shorthand function to deny access for single or multiple 
+	 * $roles and $actions
 	 * 
 	 * @access  public
 	 * @param   mixed   $roles          A string or an array of roles

@@ -71,9 +71,9 @@ class Image
 	 * Used to set configuration options.
 	 *
 	 * Sending the config options through the static reference initalizes the
-	 * instance. If you need to send a driver config through the static reference,
-	 * make sure its the first one sent! If errors arise, create a new instance using
-	 * factory().
+	 * instance. If you need to send a driver config through the static 
+	 * reference, make sure its the first one sent! If errors arise, create a 
+	 * new instance using factory().
 	 *
 	 * @param   array   $config   An array of configuration settings.
 	 * @return  Image_Driver
@@ -121,7 +121,8 @@ class Image
 	}
 
 	/**
-	 * Resizes the image. If the width or height is null, it will resize retaining the original aspect ratio.
+	 * Resizes the image. If the width or height is null, it will resize 
+	 * retaining the original aspect ratio.
 	 *
 	 * @param   integer  $width   The new width of the image.
 	 * @param   integer  $height  The new height of the image.
@@ -135,7 +136,8 @@ class Image
 	}
 
 	/**
-	 * Resizes the image. If the width or height is null, it will resize retaining the original aspect ratio.
+	 * Resizes the image. If the width or height is null, it will resize 
+	 * retaining the original aspect ratio.
 	 *
 	 * @param   integer  $width   The new width of the image.
 	 * @param   integer  $height  The new height of the image.
@@ -253,7 +255,8 @@ class Image
 	}
 
 	/**
-	 * Returns  sizes for the currently loaded image, or the image given in the $filename.
+	 * Returns  sizes for the currently loaded image, or the image given in 
+	 * the $filename.
 	 *
 	 * @param   string  The location of the file to get sizes for.
 	 * @return  object  An object containing width and height variables.

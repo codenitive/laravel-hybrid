@@ -14,7 +14,8 @@ use \File, \Input, \View,
 class Response extends Laravel_Response 
 {
 	/**
-	 * Create a new RESTful response or View response depending on requested format.
+	 * Create a new RESTful response or View response depending on requested 
+	 * format.
 	 * 
 	 * @param  array        $data   
 	 * @param  integer      $status 
@@ -41,7 +42,8 @@ class Response extends Laravel_Response
 			}
 			else
 			{
-				// we should send an 500 server error for request that doesn't have a proper response format
+				// we should send an 500 server error for request that doesn't 
+				// have a proper response format
 				return static::error('500');
 			}
 		}

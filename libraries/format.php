@@ -48,7 +48,8 @@ class Format
 	 */
 	protected function __construct($data = null, $from_type = null)
 	{
-		// If the provided data is already formatted we should probably convert it to an array
+		// If the provided data is already formatted we should probably 
+		// convert it to an array
 		if ($from_type !== null)
 		{
 			if ( ! method_exists($this, 'from_' . $from_type))
@@ -65,7 +66,8 @@ class Format
 	/**
 	 * To array conversion
 	 *
-	 * Goes through the input and makes sure everything is either a scalar value or array
+	 * Goes through the input and makes sure everything is either a scalar 
+	 * value or array
 	 *
 	 * @access  public
 	 * @param   mixed       $data
@@ -104,7 +106,8 @@ class Format
 	{
 		if ($data == null) $data = $this->data;
 
-		// turn off compatibility mode as simple xml throws a wobbly if you don't.
+		// turn off compatibility mode as simple xml throws a wobbly if you 
+		// don't.
 		if (ini_get('zend.ze1_compatibility_mode') == 1)
 		{
 			ini_set('zend.ze1_compatibility_mode', 0);
@@ -213,8 +216,8 @@ class Format
 	{
 		if ($data == null) $data = $this->data;
 
-		// To allow exporting ArrayAccess objects like Orm\Model instances they need to be
-		// converted to an array first
+		// To allow exporting ArrayAccess objects like Orm\Model instances 
+		// they need to be converted to an array first
 		$data = (is_array($data) or is_object($data)) ? $this->to_array($data) : $data;
 		return $pretty ? static::pretty_json($data) : json_encode($data);
 	}
@@ -300,7 +303,8 @@ class Format
 			return trim($value, '"');
 		};
 
-		// TODO: This means any headers with , will be split, but this is less likley thay a value containing it
+		// TODO: This means any headers with , will be split, but this is less 
+		// likely thay a value containing it
 		$headings = array_map($map, explode(',', array_shift($rows)));
 
 		$join_row = null;
@@ -313,7 +317,8 @@ class Format
 				// They have a line start to join onto
 				if ($join_row !== null)
 				{
-					// Lets stick this row onto a new line after the existing row, and see what happens
+					// Lets stick this row onto a new line after the existing 
+					// row, and see what happens
 					$row = $join_row."\n".$row;
 
 					// Did that fix it?
@@ -335,7 +340,8 @@ class Format
 				{
 					$join_row = $row;
 
-					// Lets bust outta this join, and go to the next row (foreach)
+					// Lets bust outta this join, and go to the 
+					// next row (foreach)
 					continue 2;
 				}
 			}

@@ -100,7 +100,7 @@ class Table
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name]       = new static($callback, $name);
+			static::$names[$name]       = new static($callback);
 			static::$names[$name]->name = $name;
 		}
 
@@ -152,17 +152,14 @@ class Table
 	{
 		// localize grid
 		$grid     = $this->grid;
-		
 		$paginate = (true === $grid->paginate ? $grid->model->links() : '');
-
-		$view = View::make($grid->view)
+		$view     = View::make($grid->view)
 					->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
 					->with('row_empty', $grid->rows->empty)
 					->with('columns', $grid->columns())
-					->with('rows', $grid->rows());
-
-		$view->with('pagination', $paginate);
+					->with('rows', $grid->rows())
+					->with('pagination', $paginate);
 
 		return $view->render();
 	}

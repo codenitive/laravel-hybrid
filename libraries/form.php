@@ -6,7 +6,7 @@ use \Closure, View;
  * Form class
  *
  * @package    Hybrid
- * @category   Response
+ * @category   Form
  * @author     Laravel Hybrid Development Team
  */
 
@@ -48,12 +48,11 @@ class Form
 	 */
 	protected function __construct(Closure $callback)
 	{
-		// Instantiate Form\Fieldset, this wrapper emulate form fieldset to 
-		// create the form
-		$this->fieldset = new Form\Fieldset;
+		// Instantiate Form\Grid
+		$this->grid = new Form\Grid;
 
 		// run the form designer
-		call_user_func($callback, $this->fieldset);
+		call_user_func($callback, $this->grid);
 	}
 
 	/**
@@ -64,11 +63,11 @@ class Form
 	public $name = null;
 
 	/**
-	 * Form Fieldset instance
+	 * Form Grid instance
 	 *
-	 * @var  Form\Fieldset
+	 * @var  Form\Grid
 	 */
-	protected $fieldset = null;
+	protected $grid = null;
 
 	/**
 	 * Create a new form instance of a named form.
@@ -90,7 +89,7 @@ class Form
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name]       = new static($callback, $name);
+			static::$names[$name]       = new static($callback);
 			static::$names[$name]->name = $name;
 		}
 
@@ -98,14 +97,14 @@ class Form
 	}
 
 	/**
-	 * Return protected fieldset
+	 * Return protected grid
 	 * 
 	 * @param  string       $key
-	 * @return Form\Fieldset 
+	 * @return Form\Grid 
 	 */
 	public function __get($key)
 	{
-		if ($key === 'fieldset') return $this->fieldset;
+		if ($key === 'grid') return $this->grid;
 	}
 
 	/**
@@ -129,7 +128,7 @@ class Form
 	public function extend(Closure $callback)
 	{
 		// run the table designer
-		call_user_func($callback, $this->fieldset);
+		call_user_func($callback, $this->grid);
 	}
 
 	/**
@@ -138,5 +137,28 @@ class Form
 	 * @access  public
 	 * @return  string
 	 */
-	public function render() {}
+	public function render() 
+	{
+		// localize Grid instance.
+		$grid        = $this->grid;
+		$form_attr   = $grid->attr;
+
+		// Build Form attribute, action and method should be unset from attr 
+		// as it is build using Form::open()
+		$form_method = $form_attr['method'];
+		$form_action = $form_attr['action'];
+
+		unset($form_attr['method']);
+		unset($form_attr['action']);
+
+		$view = View::make($grid->view)
+					->with('row', $grid->row)
+					->with('form_action', $form_action)
+					->with('form_method', $form_method)
+					->with('error_message', $grid->error_message)
+					->with('form_attr', $form_attr)
+					->with('fieldsets', $grid->fieldsets());
+
+		return $view->render();
+	}
 }

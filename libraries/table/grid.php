@@ -38,7 +38,6 @@ class Grid
 	 */
 	protected $attr = array();
 
-
 	/**
 	 * All the columns
 	 *
@@ -169,14 +168,14 @@ class Grid
 	 *		// add a new column by using a field name and closure
 	 *		$table->column('fullname', function ($column)
 	 *		{
-	 *			$table->heading = 'User Name';
-	 *			$table->value   = function ($row) { 
+	 *			$column->heading = 'User Name';
+	 *			$column->value   = function ($row) { 
 	 * 				return $row->first_name.' '.$row->last_name; 
 	 * 			};
 	 *
-	 * 			$table->heading_attr(array('class' => 'header-class'));
+	 * 			$column->heading_attr(array('class' => 'header-class'));
 	 *
-	 * 			$table->cell_attr(function ($row) { 
+	 * 			$column->cell_attr(function ($row) { 
 	 *				return array('data-id' => $row->id);
 	 *			});
 	 *		});
@@ -301,6 +300,5 @@ class Grid
 		{
 			return isset($this->{$key});
 		}
-
 	}
 }

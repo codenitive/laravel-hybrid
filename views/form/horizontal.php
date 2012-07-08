@@ -7,7 +7,7 @@ foreach ($fieldsets as $fieldset) { ?>
 		<legend><?php echo $fieldset->name ?: '' ?></legend>
 
 <?php foreach ($fieldset->controls() as $control) { ?>
-		<div class="control-group<?php echo $errors->has($control->name) ? ' errors' : '' ?>">
+		<div class="control-group<?php echo $errors->has($control->name) ? ' error' : '' ?>">
 			<?php echo Form::label($control->name, $control->label, array('class' => 'control-label')); ?>
 			
 			<div class="controls">

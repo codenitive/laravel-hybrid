@@ -10,7 +10,7 @@ foreach ($fieldsets as $fieldset) { ?>
 
 		<?php foreach ($fieldset->controls() as $control) { ?>
 
-			<div class="control-group<?php echo $errors->has($control->name) ? ' errors' : '' ?>">
+			<div class="control-group<?php echo $errors->has($control->name) ? ' error' : '' ?>">
 				<?php echo Form::label($control->name, $control->label); ?>
 				<div class="controls">
 					<?php echo call_user_func($control->field, $row, $control); ?>

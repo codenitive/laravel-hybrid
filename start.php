@@ -35,12 +35,12 @@ Autoloader::map(array(
  */ 
 Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });
 
-Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+Event::listen('hybrid.auth.roles', function ($user, $roles)
 {
 	$callback = Config::get('hybrid::auth.roles');
 
 	if (is_callable($callback))
 	{
-		return call_user_func($callback, $user_id, $roles);
+		return call_user_func($callback, $user, $roles);
 	}
 });

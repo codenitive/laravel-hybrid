@@ -17,15 +17,17 @@
 
 Laravel Hybrid would need to know the list of roles (name) associated to the current user, in relevant to all role defined in `\Hybrid\Acl::add_role()`. This can be done by editing `hybrid/config/auth.php`.
 
-    'roles' => function ($user_id, $roles)
+    'roles' => function ($user, $roles)
 	{
 		if ( ! class_exists('User', true)) return null;
 		
-		// This is with the assumption that Eloquent model already setup to use pivot table
-		// between User and Role Model.
-		$user = \User::with('roles')->find($user_id);
+		// This is with the assumption that Eloquent model already setup to 
+		// use pivot table between User and Role Model.
 		
-		foreach ($user->roles as $role) array_push($roles, $role->name);
+		foreach ($user->roles()->get() as $role)
+		{
+			array_push($roles, $role->name);
+		}
 
 		return $roles;
 	 }
@@ -82,7 +84,7 @@ To archieve this using Eloquent Orm driver, the following structure need to be d
 
 By using Event, the default configuration can be overwritten easily without modifying the config file as mention above.
 
-	Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+	Event::listen('hybrid.auth.roles', function ($user, $roles)
 	{
 		return array('manager', 'admin');
 	});

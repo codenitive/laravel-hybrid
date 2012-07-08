@@ -12,6 +12,7 @@ use \Auth as Laravel_Auth, \Event;
 
 class Auth extends Laravel_Auth
 {
+	protected static $user_roles = null;
 	/**
 	 * Get the current user's roles of the application.
 	 *
@@ -27,11 +28,15 @@ class Auth extends Laravel_Auth
 		$roles   = array();
 		$user_id = 0;
 
-		// only search for roles when user is logged
-		if ( ! is_null($user)) $user_id = $user->id;
-		
-		$roles = Event::until('hybrid.auth.roles', array($user_id, $roles));
+		if (is_null(static::$user_roles))
+		{
 
-		return $roles;
+			// only search for roles when user is logged
+			if ( ! is_null($user)) $user_id = $user->id;
+			
+			static::$user_roles = Event::until('hybrid.auth.roles', array($user, $roles));
+		}
+
+		return static::$user_roles;
 	}
 }

@@ -142,7 +142,7 @@ class Fieldset
 						break;
 
 					case $type === 'checkbox' :
-						return Laravel_Form::checkbox($name, $row->{$name}, $row->checked);
+						return Laravel_Form::checkbox($name, $row->{$name}, $control->checked);
 						break;
 
 					case $type === 'radio' :

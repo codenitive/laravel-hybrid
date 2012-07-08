@@ -199,10 +199,12 @@ class Grid
 				$heading  = null;
 				$name     = null;
 				break;
+
 			case is_string($callback) :
 				$name     = $callback;
 				$callback = null;
 				break;
+				
 			default :
 				$name    = Str::lower($name);
 				$heading = Str::title($name);
@@ -243,6 +245,8 @@ class Grid
 		{
 			case is_null($key) :
 				return $this->attr;
+				break;
+
 			case is_array($key) :
 				$this->attr = array_merge($this->attr, $key);
 				break;

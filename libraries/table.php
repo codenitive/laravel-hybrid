@@ -12,7 +12,7 @@
  * @link       https://github.com/kbanman/laravel-squi
  */
 
-use \Closure, \HTML, \Str, \View;
+use \Closure, \View;
 
 class Table 
 {

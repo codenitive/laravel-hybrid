@@ -40,8 +40,14 @@ class Fieldset
 	 * @access  public
 	 * @return  void
 	 */
-	public function __construct($name, Closure $callback) 
+	public function __construct($name, Closure $callback = null) 
 	{
+		if ($name instanceof Closure)
+		{
+			$callback = $name;
+			$name     = null;
+		}
+		
 		if ( ! empty($name)) $this->legend($name);
 
 		call_user_func($callback, $this);

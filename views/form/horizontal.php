@@ -1,6 +1,4 @@
-<?php 
-
-echo Form::open($form_action, $form_method, array_merge($form_attr, array('class' => 'form-horizontal')));
+<?php echo Form::open($form_action, $form_method, array_merge($form_attr, array('class' => 'form-horizontal')));
 
 foreach ($fieldsets as $fieldset) { ?>
 
@@ -8,17 +6,18 @@ foreach ($fieldsets as $fieldset) { ?>
 		
 		<legend><?php echo $fieldset->name ?: '' ?></legend>
 
-		<?php foreach ($fieldset->controls() as $control) { ?>
+<?php foreach ($fieldset->controls() as $control) { ?>
+		<div class="control-group<?php echo $errors->has($control->name) ? ' errors' : '' ?>">
+			<?php echo Form::label($control->name, $control->label, array('class' => 'control-label')); ?>
+			
+			<div class="controls">
+				<?php echo call_user_func($control->field, $row, $control); ?>
+				<?php echo $errors->first($control->name, $error_message); ?>
 
-			<div class="control-group<?php echo $errors->has($control->name) ? ' errors' : '' ?>">
-				<?php echo Form::label($control->name, $control->label); ?>
-				<div class="controls">
-					<?php echo call_user_func($control->field, $row, $control); ?>
-					<?php echo $errors->first($control->name, $error_message); ?>
-				</div>
 			</div>
+		</div>
 
-		<?php } ?>
+<?php } ?>
 	
 	</fieldset>
 <?php } ?>

@@ -135,7 +135,13 @@ class Grid
 		}
 	}
 
-	public function fieldset($name, Closure $callback)
+	/**
+	 * Create a new Fieldset instance
+	 *
+	 * @access  public
+	 * @return  Form\Fieldset
+	 */
+	public function fieldset($name, Closure $callback = null)
 	{
 		return $this->fieldsets[] = new Fieldset($name, $callback);
 	}

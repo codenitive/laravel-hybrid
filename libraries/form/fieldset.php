@@ -138,7 +138,7 @@ class Fieldset
 				switch (true)
 				{
 					case $type === 'select' :
-						return Laravel_Form::select($name, $control->sources,  $row->{$name});
+						return Laravel_Form::select($name, $control->options,  $row->{$name});
 						break;
 
 					case $type === 'checkbox' :
@@ -167,7 +167,8 @@ class Fieldset
 				'id'      => $name,
 				'name'    => $name,
 				'label'   => $label,
-				'sources' => array(),
+				'options' => array(),
+				'checked' => false,
 				'field'   => $field,
 			));
 		}

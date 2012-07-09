@@ -28,15 +28,15 @@ class Auth extends Laravel_Auth
 		$roles   = array();
 		$user_id = 0;
 
-		if (is_null(static::$user_roles))
-		{
+		// only search for roles when user is logged
+		if ( ! is_null($user)) $user_id = $user->id;
 
-			// only search for roles when user is logged
-			if ( ! is_null($user)) $user_id = $user->id;
+		if (is_null(static::$user_roles[$user_id]))
+		{
 			
-			static::$user_roles = Event::until('hybrid.auth.roles', array($user, $roles));
+			static::$user_roles[$user_id] = Event::until('hybrid.auth.roles', array($user, $roles));
 		}
 
-		return static::$user_roles;
+		return static::$user_roles[$user_id];
 	}
 }

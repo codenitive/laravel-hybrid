@@ -2,9 +2,9 @@
 
 foreach ($fieldsets as $fieldset) { ?>
 
-	<fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>>
+	<?php if( ! is_null( $fieldset->name ) ) : ?><fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>><?php endif; ?>
 		
-		<legend><?php echo $fieldset->name ?: '' ?></legend>
+			<?php if( ! is_null( $fieldset->name ) ) : ?><legend><?php echo $fieldset->name ?: '' ?></legend><?php endif; ?>
 
 <?php foreach ($fieldset->controls() as $control) { ?>
 		<div class="control-group<?php echo $errors->has($control->name) ? ' error' : '' ?>">

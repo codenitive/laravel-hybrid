@@ -4,9 +4,9 @@ echo Form::open($form_action, $form_method, array_merge($form_attr, array('class
 
 foreach ($fieldsets as $fieldset) { ?>
 
-	<fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>>
+	<?php if( ! is_null( $fieldset->name ) ) : ?><fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>><?php endif; ?>
 		
-		<legend><?php echo $fieldset->name ?: '' ?></legend>
+		<?php if( ! is_null( $fieldset->name ) ) : ?><legend><?php echo $fieldset->name ?: '' ?></legend><?php endif; ?>
 
 		<?php foreach ($fieldset->controls() as $control) { ?>
 
@@ -20,7 +20,7 @@ foreach ($fieldsets as $fieldset) { ?>
 
 		<?php } ?>
 	
-	</fieldset>
+	<?php if( ! is_null( $fieldset->name ) ) : ?></fieldset><?php endif; ?>
 <?php } ?>
 
 <div class="form-actions">

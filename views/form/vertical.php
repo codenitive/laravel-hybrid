@@ -6,7 +6,7 @@ foreach ($fieldsets as $fieldset) { ?>
 
 	<fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>>
 		
-		<legend><?php echo $fieldset->name ?: '' ?></legend>
+		<?php if( $fieldset->name ) : ?><legend><?php echo $fieldset->name ?: '' ?></legend><?php endif; ?>
 
 		<?php foreach ($fieldset->controls() as $control) { ?>
 

@@ -96,7 +96,7 @@ class Table
 	 * @param    Closure	$callback
 	 * @return   Table
 	 */
-	public static function of($name, Closure $callback)
+	public static function of($name, Closure $callback = null)
 	{
 		if ( ! isset(static::$names[$name]))
 		{

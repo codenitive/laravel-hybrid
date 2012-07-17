@@ -8,7 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, Laravel\Form as Laravel_Form, Laravel\Fluent, \Str, 
+use \Closure, \Config, Laravel\Form as Laravel_Form, Laravel\Fluent, \Str, 
+	Hybrid\HTML,
 	Hybrid\Exception;
 
 class Fieldset 
@@ -19,6 +20,13 @@ class Fieldset
 	 * @var string
 	 */
 	protected $name = null;
+
+	/**
+	 * Configurations
+	 *
+	 * @var  array
+	 */
+	protected $config = array();
 
 	/**
 	 * Fieldset HTML attributes
@@ -49,6 +57,9 @@ class Fieldset
 		}
 		
 		if ( ! empty($name)) $this->legend($name);
+
+		// cached configuration option
+		$this->config = Config::get('hybrid::form.fieldset');
 
 		call_user_func($callback, $this);
 	}
@@ -108,6 +119,7 @@ class Fieldset
 	{
 		$control = null;
 		$label   = $name;
+		$config  = $this->config;
 
 		switch (true)
 		{
@@ -135,6 +147,7 @@ class Fieldset
 			$control = new Fluent(array(
 				'id'      => $name,
 				'name'    => $name,
+				'value'   => null,
 				'label'   => $label,
 				'attr'    => array(),
 				'options' => array(),
@@ -146,15 +159,32 @@ class Fieldset
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $control);
 
-		$field = function ($row, $control) use ($type) {
+		$field = function ($row, $control) use ($type, $config) {
+			// prep control type information
+			$type    = ($type === 'input:password' ? 'password' : $type);
 			$methods = explode(':', $type);
+			
+			// set the name of the control
 			$name    = $control->name;
+			
+			// set the value of control, if it's callable run it first
 			$value   = isset($row->{$name}) ? $row->{$name} : null;
+
+			// if the value is set from the closure, we should use it instead of 
+			// value retrieved from attached data
+			if ( ! is_null($control->value)) $value = $control->value;
+
+			// should also check if it's callable, when this happen run it.
+			if (is_callable($value) or $value instanceof Closure) $value = $value($row, $control);
 
 			switch (true)
 			{
 				case $type === 'select' :
-					return Laravel_Form::select($name, $control->options, $value);
+					// set the value of options, if it's callable run it first
+					$options = $control->options;
+					if (is_callable($options) or $options instanceof Closure) $options = $options($row, $control);
+
+					return Laravel_Form::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
 					break;
 
 				case $type === 'checkbox' :
@@ -166,16 +196,21 @@ class Fieldset
 					break;
 
 				case $type === 'textarea' :
-					return Laravel_Form::textarea($name, $value);
+					return Laravel_Form::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
+					break;
+
+				case $type === 'password' :
+					return Laravel_Form::password($name, HTML::pre_attributes($control->attr, $config['password']));
 					break;
 
 				case (isset($methods[0]) and $methods[0] === 'input') :
 					$methods[1] = $methods[1] ?: 'text';
-					return Laravel_Form::input($methods[1], $name, $value);
+
+					return Laravel_Form::input($methods[1], $name, $value, HTML::pre_attributes($control->attr, $config['input']));
 					break;
 
 				default :
-					return Laravel_Form::input('text', $name, $value);
+					return Laravel_Form::input('text', $name, $value, HTML::pre_attributes($control->attr, $config['input']));
 			}
 		};
 

@@ -30,5 +30,29 @@ class HTML extends Laravel_HTML
 		}
 		
 		return $content;
-	}	
+	}
+
+	/**
+	 * Build a list of HTML attributes from one or two array.
+	 *
+	 * @param  array   $attributes
+	 * @return array
+	 */
+	public static function pre_attributes($attributes, $defaults = null)
+	{
+		// Special consideration to class, where we need to merge both string from
+		// $attributes and $defaults and take union of both.
+		$class = isset($defaults['class']) ? $defaults['class'] : ' ';
+		$class = isset($attributes['class']) ? $attributes['class'] : '';
+		$class = trim($class);
+
+		$classes = explode(' ', $class);
+		$class   = implode(' ', array_unique($classes));
+
+		$attributes = array_merge($defaults, $attributes);
+
+		if ($class !== '') $attributes['class'] = $class;
+
+		return $attributes;
+	}
 }

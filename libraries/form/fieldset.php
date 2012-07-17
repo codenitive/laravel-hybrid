@@ -132,49 +132,54 @@ class Fieldset
 		if (is_string($label))
 		{
 			$name    = Str::lower($name);
-			$field   = function ($row, $control) use ($type, $name) {
-				$methods = explode(':', $type);
-
-				switch (true)
-				{
-					case $type === 'select' :
-						return Laravel_Form::select($name, $control->options,  $row->{$name});
-						break;
-
-					case $type === 'checkbox' :
-						return Laravel_Form::checkbox($name, $row->{$name}, $control->checked);
-						break;
-
-					case $type === 'radio' :
-						return Laravel_Form::radio($name, $row->{$name}, $row->checked);
-						break;
-
-					case $type === 'textarea' :
-						return Laravel_Form::textarea($name, $row->{$name});
-						break;
-
-					case (isset($methods[0]) and $methods[0] === 'input') :
-						$methods[1] = $methods[1] ?: 'text';
-						return Laravel_Form::input($methods[1], $name, $row->{$name});
-						break;
-
-					default :
-						return Laravel_Form::input('text', $name, $row->{$name});
-				}
-			};
-
 			$control = new Fluent(array(
 				'id'      => $name,
 				'name'    => $name,
 				'label'   => $label,
+				'attr'    => array(),
 				'options' => array(),
 				'checked' => false,
-				'field'   => $field,
+				'field'   => null,
 			));
 		}
 
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $control);
+
+		$field = function ($row, $control) use ($type) {
+			$methods = explode(':', $type);
+			$name    = $control->name;
+			$value   = isset($row->{$name}) ? $row->{$name} : null;
+
+			switch (true)
+			{
+				case $type === 'select' :
+					return Laravel_Form::select($name, $control->options, $value);
+					break;
+
+				case $type === 'checkbox' :
+					return Laravel_Form::checkbox($name, $value, $control->checked);
+					break;
+
+				case $type === 'radio' :
+					return Laravel_Form::radio($name, $value, $row->checked);
+					break;
+
+				case $type === 'textarea' :
+					return Laravel_Form::textarea($name, $value);
+					break;
+
+				case (isset($methods[0]) and $methods[0] === 'input') :
+					$methods[1] = $methods[1] ?: 'text';
+					return Laravel_Form::input($methods[1], $name, $value);
+					break;
+
+				default :
+					return Laravel_Form::input('text', $name, $value);
+			}
+		};
+
+		if (is_null($control->field)) $control->field = $field;
 
 		return $this->controls[] = $control;
 	}

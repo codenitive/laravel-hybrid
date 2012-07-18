@@ -189,13 +189,13 @@ class Grid
 	public function column($name, $callback = null)
 	{
 		$column = null;
-		$heading  = $name;
+		$label  = $name;
 
 		switch (true)
 		{
-			case ! is_string($heading) :
-				$callback = $heading;
-				$heading  = null;
+			case ! is_string($label) :
+				$callback = $label;
+				$label    = null;
 				$name     = null;
 				break;
 
@@ -205,22 +205,22 @@ class Grid
 				break;
 				
 			default :
-				$name    = Str::lower($name);
-				$heading = Str::title($name);
+				$name  = Str::lower($name);
+				$label = Str::title($name);
 				break;
 		}
 
-		// populate the column when heading is a string
-		if (is_string($heading))
+		// populate the column when label is a string
+		if (is_string($label))
 		{
 			$name   = Str::lower($name);
 			$value  = function ($row) use ($name) { return $row->{$name}; };
 			$column = new Fluent(array(
-				'id'           => $name,
-				'heading'      => $heading,
-				'value'        => $value,
-				'heading_attr' => array(),
-				'cell_attr'    => function ($row) { return array(); },
+				'id'         => $name,
+				'label'      => $label,
+				'value'      => $value,
+				'label_attr' => array(),
+				'cell_attr'  => function ($row) { return array(); },
 			));
 		}
 

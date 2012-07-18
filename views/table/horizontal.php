@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 <?php foreach ($columns as $col): ?>
-			<th<?php echo HTML::attributes($col->heading_attr ?: array()); ?>><?php echo $col->heading; ?></th>
+			<th<?php echo HTML::attributes($col->label_attr ?: array()); ?>><?php echo $col->label; ?></th>
 <?php endforeach; ?>
 		</tr>
 	</thead>

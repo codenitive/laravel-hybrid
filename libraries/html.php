@@ -42,9 +42,9 @@ class HTML extends Laravel_HTML
 	{
 		// Special consideration to class, where we need to merge both string from
 		// $attributes and $defaults and take union of both.
-		$class = isset($defaults['class']) ? $defaults['class'] : ' ';
-		$class = isset($attributes['class']) ? $attributes['class'] : '';
-		$class = trim($class);
+		$class1 = isset($defaults['class']) ? $defaults['class'] : '';
+		$class2 = isset($attributes['class']) ? $attributes['class'] : '';
+		$class  = trim($class1 .' '.$class2);
 
 		$classes = explode(' ', $class);
 		$class   = implode(' ', array_unique($classes));

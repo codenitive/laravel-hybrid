@@ -167,8 +167,8 @@ class Fieldset
 			// set the name of the control
 			$name    = $control->name;
 			
-			// set the value of control, if it's callable run it first
-			$value   = isset($row->{$name}) ? $row->{$name} : null;
+			// set the value from old input, follow by row value.
+			$value   = Input::old($name, isset($row->{$name}) ? $row->{$name} : null);
 
 			// if the value is set from the closure, we should use it instead of 
 			// value retrieved from attached data

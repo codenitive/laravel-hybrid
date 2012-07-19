@@ -8,7 +8,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, \Config, Laravel\Form as Laravel_Form, Laravel\Fluent, \Str, 
+use \Closure, \Config, \Input, Laravel\Form as Laravel_Form, Laravel\Fluent, \Str, 
 	Hybrid\HTML,
 	Hybrid\Exception;
 

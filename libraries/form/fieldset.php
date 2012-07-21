@@ -175,14 +175,14 @@ class Fieldset
 			if ( ! is_null($control->value)) $value = $control->value;
 
 			// should also check if it's callable, when this happen run it.
-			if (is_callable($value) or $value instanceof Closure) $value = $value($row, $control);
+			if ($value instanceof Closure) $value = $value($row, $control);
 
 			switch (true)
 			{
 				case $type === 'select' :
 					// set the value of options, if it's callable run it first
 					$options = $control->options;
-					if (is_callable($options) or $options instanceof Closure) $options = $options($row, $control);
+					if ($options instanceof Closure) $options = $options($row, $control);
 
 					return Laravel_Form::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
 					break;

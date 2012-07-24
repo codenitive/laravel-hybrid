@@ -18,6 +18,13 @@ use \Closure, Laravel\Fluent, \Str,
 class Grid 
 {
 	/**
+	 * Set the no record message
+	 *
+	 * @var string
+	 */
+	public static $empty = 'message.no-record';
+
+	/**
 	 * List of rows in array, is used when model is null
 	 *
 	 * @var array
@@ -51,13 +58,6 @@ class Grid
 	 * @var bool
 	 */
 	protected $paginate = false;
-
-	/**
-	 * Set the no record message
-	 *
-	 * @var string
-	 */
-	protected $empty = 'message.no-record';
 
 	/**
 	 * Selected view path for table layout

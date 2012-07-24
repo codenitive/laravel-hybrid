@@ -77,7 +77,7 @@ class Grid
 		$this->rows = new Fluent(array(
 			'data'  => array(),
 			'attr'  => function ($row) { return array(); },
-			'empty' => __($this->empty, null, 'No records'),
+			'empty' => __(static::$empty, null, 'No records'),
 		));
 	}
 

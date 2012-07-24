@@ -11,7 +11,7 @@ foreach ($fieldsets as $fieldset) { ?>
 		<?php foreach ($fieldset->controls() as $control) { ?>
 
 			<div class="control-group<?php echo $errors->has($control->name) ? ' error' : '' ?>">
-				<?php echo Form::label($control->name, $control->label); ?>
+				<?php echo Form::label($control->name, $control->label, array('class' => 'control-label')); ?>
 				<div class="controls">
 					<?php echo call_user_func($control->field, $row, $control); ?>
 					<?php echo $errors->first($control->name, $error_message); ?>

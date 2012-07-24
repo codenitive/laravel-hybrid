@@ -31,6 +31,23 @@ class Memory
 	protected static $instances = array();
 
 	/**
+	 * Run Memory start configuration once before doing anything else.
+	 *
+	 * @static
+	 * @access protected
+	 * @return void
+	 */
+	protected static function start()
+	{
+		if (false === static::$initiated)
+		{
+			Event::listen('laravel.done', function($response) { Memory::shutdown(); });
+
+			static::$initiated = true;
+		}
+	}
+
+	/**
 	 * Initiate a new Memory instance
 	 * 
 	 * @static
@@ -42,12 +59,7 @@ class Memory
 	 */
 	public static function make($name = null, $config = array())
 	{
-		if (false === static::$initiated)
-		{
-			Event::listen('laravel.done', function($response) { Memory::shutdown(); });
-
-			static::$initiated = true;
-		}
+		static::start();
 
 		if (is_null($name)) $name = 'runtime.default';
 

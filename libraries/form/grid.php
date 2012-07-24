@@ -38,7 +38,7 @@ class Grid
 	 *
 	 * @var string
 	 */
-	public $error_message = '<p class="help-block">:message</p>';
+	public $error_message = '<p class="help-block error">:message</p>';
 
 	/**
 	 * Selected view path for form layout

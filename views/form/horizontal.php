@@ -12,8 +12,9 @@ foreach ($fieldsets as $fieldset) { ?>
 			
 			<div class="controls">
 				<?php echo call_user_func($control->field, $row, $control); ?>
+				<?php if( $control->help_inline ) : ?><p class="help-inline"><?php echo $control->help_inline; ?></p><?php endif; ?>
+				<?php if( $control->help ) : ?><p class="help-block"><?php echo $control->help; ?></p><?php endif; ?>
 				<?php echo $errors->first($control->name, $error_message); ?>
-
 			</div>
 		</div>
 

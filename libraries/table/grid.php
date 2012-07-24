@@ -261,10 +261,12 @@ class Grid
 	 */
 	public function __call($method, array $arguments = array())
 	{
-		if (in_array($method, array('columns', 'view')))
+		if ( ! in_array($method, array('columns', 'view')))
 		{
-			return $this->$method;
+			throw new Exception(__CLASS__.": unable to use __call for {$method}");
 		}
+
+		return $this->$method;
 	}
 
 	/**
@@ -272,10 +274,12 @@ class Grid
 	 */
 	public function __get($key)
 	{
-		if (in_array($key, array('attr', 'columns', 'model', 'paginate', 'view', 'rows')))
+		if ( ! in_array($key, array('attr', 'columns', 'model', 'paginate', 'view', 'rows')))
 		{
-			return $this->{$key};
+			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
+		
+		return $this->{$key};
 	}
 
 	/**
@@ -285,7 +289,7 @@ class Grid
 	{
 		if ( ! in_array($key, array('attr')))
 		{
-			throw new Exception(__METHOD__.": unable to set {$key}");
+			throw new Exception(__CLASS__.": unable to use __set for {$key}");
 		}
 
 		$this->attr($values, null);
@@ -296,9 +300,11 @@ class Grid
 	 */
 	public function __isset($key)
 	{
-		if (in_array($key, array('attr', 'columns', 'model', 'paginate', 'view')))
+		if ( ! in_array($key, array('attr', 'columns', 'model', 'paginate', 'view')))
 		{
-			return isset($this->{$key});
+			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
 		}
+
+		return isset($this->{$key});
 	}
 }

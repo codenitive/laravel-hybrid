@@ -18,7 +18,7 @@ class Hybrid_Memory_Task
 		{
 			$table->increments('id');
 
-			$table->string('name', '255');
+			$table->string('name', 64);
 			$table->blob('value');
 
 			$table->unique('name');

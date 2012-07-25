@@ -156,7 +156,7 @@ class Table
 		$view     = View::make($grid->view)
 					->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
-					->with('row_empty', $grid->rows->empty)
+					->with('empty_message', $grid->empty_message)
 					->with('columns', $grid->columns())
 					->with('rows', $grid->rows())
 					->with('pagination', $paginate);

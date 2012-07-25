@@ -22,7 +22,7 @@ class Grid
 	 *
 	 * @var string
 	 */
-	public static $empty = 'message.no-record';
+	public $empty_message = 'message.no-record';
 
 	/**
 	 * List of rows in array, is used when model is null
@@ -74,10 +74,11 @@ class Grid
 	 */
 	public function __construct() 
 	{
+		$this->empty_message = __($this->empty_message, null, 'No records');
+
 		$this->rows = new Fluent(array(
-			'data'  => array(),
-			'attr'  => function ($row) { return array(); },
-			'empty' => __(static::$empty, null, 'No records'),
+			'data'          => array(),
+			'attr'          => function ($row) { return array(); },
 		));
 	}
 

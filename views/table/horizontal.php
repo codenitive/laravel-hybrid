@@ -15,7 +15,7 @@
 		</tr>
 <?php endforeach; if ( ! count($rows) and $row_empty): ?>
 		<tr class="norecords">
-			<td colspan="<?php echo count($columns); ?>"><?php echo $row_empty; ?></td>
+			<td colspan="<?php echo count($columns); ?>"><?php echo $empty_message; ?></td>
 		</tr>
 <?php endif; ?>
 	</tbody>

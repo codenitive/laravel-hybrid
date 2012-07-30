@@ -446,12 +446,11 @@ class Acl
 	/**
 	 * Assign a key combination of $roles + $actions to have access
 	 * 
-	 * @access  public
+	 * @access  protected
 	 * @param   integer $roles          A key representation of roles
 	 * @param   integer $actions        A key representation of action name
 	 * @param   bool    $allow
-	 * @return  self
-	 * @throws  AclException
+	 * @return  void
 	 */
 	protected function acl($role, $action, $allow = true)
 	{

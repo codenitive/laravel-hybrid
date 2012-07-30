@@ -177,7 +177,7 @@ class Acl
 			if (strpos($id, ':') !== false)
 			{
 				list($role, $action) = explode(':', $id);
-				$this->acl($this->roles[$role], $this->actions[$action], $allow);
+				$this->acl($role, $action, $allow);
 			}
 		}
 
@@ -362,10 +362,18 @@ class Acl
 		$action     = Str::slug($action, '-');
 		$action_key = array_search($action, $this->actions);
 
+		// array_search() will return false when no key is found based on given haystack,
+		// therefore we should just ignore and return false
+		if ($action_key === false) return false;
+
 		foreach ((array) $roles as $role) 
 		{
 			$role     = Str::slug($role, '-');
 			$role_key = array_search($role, $this->roles);
+
+			// array_search() will return false when no key is found based on given haystack,
+			// therefore we should just ignore and continue to the next role.
+			if ($role_key === false) continue;
 
 			if (isset($this->acl[$role_key.':'.$action_key])) return $this->acl[$role_key.':'.$action_key];
 		}
@@ -447,15 +455,15 @@ class Acl
 	 * Assign a key combination of $roles + $actions to have access
 	 * 
 	 * @access  protected
-	 * @param   integer $roles          A key representation of roles
-	 * @param   integer $actions        A key representation of action name
+	 * @param   mixed   $roles          A key or string representation of roles
+	 * @param   mixed   $actions        A key or string representation of action name
 	 * @param   bool    $allow
 	 * @return  void
 	 */
 	protected function acl($role, $action, $allow = true)
 	{
-		$role_key       = array_search($role, $this->roles);
-		$action_key     = array_search($action, $this->actions);
+		$role_key   = is_numeric($role) ? $role : array_search($role, $this->roles);
+		$action_key = is_numeric($action) ? $action : array_search($action, $this->actions);
 
 		$id             = $role_key.':'.$action_key;
 		$this->acl[$id] = $allow;

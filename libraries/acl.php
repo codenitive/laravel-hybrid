@@ -86,6 +86,8 @@ class Acl
 	{
 		$this->name = $name;
 
+		$this->add_role('guest');
+
 		$this->attach($memory);
 	}
 
@@ -99,7 +101,7 @@ class Acl
 	 * @access  protected
 	 * @var     array
 	 */
-	protected $roles = array('guest');
+	protected $roles = array();
 	 
 	/**
 	 * List of actions
@@ -170,6 +172,12 @@ class Acl
 			{
 				list($role, $action) = explode('/', $id);
 				$this->allow($role, $action, $allow);
+			}
+
+			if (strpos($id, ':') !== false)
+			{
+				list($role, $action) = explode(':', $id);
+				$this->acl($this->roles[$role], $this->actions[$action], $allow);
 			}
 		}
 
@@ -351,13 +359,15 @@ class Acl
 		}
 		else $roles = Auth::roles();
 
-		$action = Str::slug($action, '-');
+		$action     = Str::slug($action, '-');
+		$action_key = array_search($action, $this->actions);
 
 		foreach ((array) $roles as $role) 
 		{
-			$role = Str::slug($role, '-');
+			$role     = Str::slug($role, '-');
+			$role_key = array_search($role, $this->roles);
 
-			if (isset($this->acl[$role.'/'.$action])) return $this->acl[$role.'/'.$action];
+			if (isset($this->acl[$role_key.':'.$action_key])) return $this->acl[$role_key.':'.$action_key];
 		}
 
 		return false;
@@ -426,22 +436,40 @@ class Acl
 					throw new AclException(__FUNCTION__.": Action {$action} does not exist.");
 				}
 
-				$id             = $role.'/'.$action;
-				$this->acl[$id] = $allow;
-
-				if ( ! empty($this->memory))
-				{
-					$value = array_merge(
-						$this->memory->get("acl_".$this->name.".acl", array()), 
-						array("{$role}/{$action}" => $allow)
-					);
-					
-					$this->memory->put("acl_".$this->name.".acl", $value);
-				}
+				$this->acl($role, $action, $allow);
 			}
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Assign a key combination of $roles + $actions to have access
+	 * 
+	 * @access  public
+	 * @param   integer $roles          A key representation of roles
+	 * @param   integer $actions        A key representation of action name
+	 * @param   bool    $allow
+	 * @return  self
+	 * @throws  AclException
+	 */
+	protected function acl($role, $action, $allow = true)
+	{
+		$role_key       = array_search($role, $this->roles);
+		$action_key     = array_search($action, $this->actions);
+
+		$id             = $role_key.':'.$action_key;
+		$this->acl[$id] = $allow;
+
+		if ( ! empty($this->memory))
+		{
+			$value = array_merge(
+				$this->memory->get("acl_".$this->name.".acl", array()), 
+				array("{$role_key}:{$action_key}" => $allow)
+			);
+			
+			$this->memory->put("acl_".$this->name.".acl", $value);
+		}
 	}
 
 	/**

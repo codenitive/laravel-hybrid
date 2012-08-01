@@ -19,7 +19,7 @@ Laravel Hybrid would need to know the list of roles (name) associated to the cur
 
     'roles' => function ($user, $roles)
 	{
-		if ( ! class_exists('User', true)) return null;
+		if ( ! is_null($user)) return;
 		
 		// This is with the assumption that Eloquent model already setup to 
 		// use pivot table between User and Role Model.

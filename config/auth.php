@@ -13,7 +13,7 @@ return array(
 	|
 	|   'roles' => function ($user, $roles)
 	|   {
-	|       if ( ! class_exists('Role_User', true)) return null;
+	|       if ( ! is_null($user)) return;
 	|
 	|       // in situation config is not a closure, we will use a basic
 	|       // convention structure.
@@ -30,7 +30,7 @@ return array(
 	*/
 	'roles' => function ($user, $roles)
 	{
-		if ( ! class_exists('User', true)) return null;
+		if ( ! is_null($user)) return;
 		
 		// This is with the assumption that Eloquent model already setup to 
 		// use pivot table between User and Role Model.

@@ -19,6 +19,11 @@ Installation with Laravel Artisan
 * Auth class support roles (for ACL class integration).
 * Chart collection class using [Google Visualization Library](http://code.google.com/apis/chart/).
 
+# Hybrid Documentation
+
+Hybrid Bundle come with an offline documentation, to view this please download and enable `bundocs` bundle, 
+see [Bundocs Bundle](http://bundles.laravel.com/bundle/bundocs) for more detail.
+
 ## Contributors
 
 * [Mior Muhammad Zaki](http://git.io/crynobone) 

@@ -12,7 +12,7 @@
  * @link       https://github.com/kbanman/laravel-squi
  */
 
-use \Closure, \View;
+use \Closure, \View, Laravel\Input;
 
 class Table 
 {
@@ -150,17 +150,25 @@ class Table
 	 */
 	public function render()
 	{
-		// localize grid
+		// localize Table\Grid object
 		$grid     = $this->grid;
-		$paginate = (true === $grid->paginate ? $grid->model->links() : '');
-		$view     = View::make($grid->view)
+		
+		// Add paginate value for current listing while appending query string
+		$input    = Input::query();
+
+		// we shouldn't append ?page
+		if (isset($input['page'])) unset($input['page']);
+
+		$paginate = (true === $grid->paginate ? $grid->model->appends($input)->links() : '');
+
+		// Build the view and render it.
+		return View::make($grid->view)
 					->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
 					->with('empty_message', $grid->empty_message)
 					->with('columns', $grid->columns())
 					->with('rows', $grid->rows())
-					->with('pagination', $paginate);
-
-		return $view->render();
+					->with('pagination', $paginate)
+					->render();
 	}
 }

@@ -13,7 +13,7 @@
 			<td <?php echo HTML::attributes(call_user_func($col->cell_attr, $row)); ?>><?php echo call_user_func($col->value, $row); ?></td>
 <?php endforeach; ?>
 		</tr>
-<?php endforeach; if ( ! count($rows) and $row_empty): ?>
+<?php endforeach; if ( ! count($rows) and $empty_message): ?>
 		<tr class="norecords">
 			<td colspan="<?php echo count($columns); ?>"><?php echo $empty_message; ?></td>
 		</tr>

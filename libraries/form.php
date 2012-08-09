@@ -152,6 +152,7 @@ class Form
 		unset($form_attr['action']);
 
 		$view = View::make($grid->view)
+					->with('token', $grid->token)
 					->with('row', $grid->row)
 					->with('form_action', $form_action)
 					->with('form_method', $form_method)

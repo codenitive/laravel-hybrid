@@ -1,4 +1,8 @@
-<?php echo Form::open($form_action, $form_method, array_merge($form_attr, array('class' => 'form-horizontal')));
+<?php 
+
+echo Form::open($form_action, $form_method, array_merge($form_attr, array('class' => 'form-horizontal')));
+
+if ($token) echo Form::token();
 
 foreach ($fieldsets as $fieldset) { ?>
 

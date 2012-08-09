@@ -13,6 +13,11 @@ use \Closure, Laravel\Fluent;
 class Grid 
 {
 	/**
+	 * Enable CSRF token
+	 */
+	public $token = false;
+
+	/**
 	 * List of row in array
 	 *
 	 * @var array
@@ -162,10 +167,12 @@ class Grid
 	 */
 	public function __get($key)
 	{
-		if (in_array($key, array('attr', 'row', 'view')))
+		if ( ! in_array($key, array('attr', 'row', 'view')))
 		{
-			return $this->{$key};
+			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
+		
+		return $this->{$key};
 	}
 
 	/**
@@ -186,9 +193,11 @@ class Grid
 	 */
 	public function __isset($key)
 	{
-		if (in_array($key, array('attr', 'row', 'view')))
+		if ( ! in_array($key, array('attr', 'row', 'view')))
 		{
-			return isset($this->{$key});
+			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
 		}
+
+		return isset($this->{$key});
 	}
 }

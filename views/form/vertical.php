@@ -2,6 +2,8 @@
 
 echo Form::open($form_action, $form_method, array_merge($form_attr, array('class' => 'form-vertical')));
 
+if ($token) echo Form::token();
+
 foreach ($fieldsets as $fieldset) { ?>
 
 	<fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>>

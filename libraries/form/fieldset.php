@@ -168,7 +168,9 @@ class Fieldset
 			$name    = $control->name;
 			
 			// set the value from old input, follow by row value.
-			$value   = Input::old($name, isset($row->{$name}) ? $row->{$name} : null);
+			$value   = Input::old($name);
+
+			if (! is_null($row->{$name}) and is_null($value)) $value = $row->{$name};
 
 			// if the value is set from the closure, we should use it instead of 
 			// value retrieved from attached data

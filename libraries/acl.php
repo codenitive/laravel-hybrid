@@ -203,6 +203,7 @@ class Acl
 	public function has_role($role)
 	{
 		$role = strval($role);
+		$role = trim(Str::slug($role, '-'));
 
 		if ( ! empty($role) and in_array($role, $this->roles)) return true;
 
@@ -274,6 +275,7 @@ class Acl
 	public function has_action($action)
 	{
 		$action = strval($action);
+		$action = trim(Str::slug($action, '-'));
 
 		if ( ! empty($action) and in_array($action, $this->actions)) return true;
 

@@ -44,7 +44,7 @@ class HTML extends Laravel_HTML
 		// $attributes and $defaults and take union of both.
 		$class1 = isset($defaults['class']) ? $defaults['class'] : '';
 		$class2 = isset($attributes['class']) ? $attributes['class'] : '';
-		$class  = trim($class1 .' '.$class2);
+		$class  = trim($class1.' '.$class2);
 
 		$classes = explode(' ', $class);
 		$class   = implode(' ', array_unique($classes));

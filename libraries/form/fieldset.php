@@ -187,7 +187,7 @@ class Fieldset
 					
 					if ($options instanceof Closure) $options = $options($row, $control);
 
-					return Laravel_Form::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
+					return Laravel_Form::select($name, $options, $control->selected, HTML::pre_attributes($control->attr, $config['select']));
 					break;
 
 				case $type === 'checkbox' :

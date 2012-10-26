@@ -183,7 +183,7 @@ class Fieldset
 
 			switch (true)
 			{
-				case $type === 'select' :
+				case $type === 'input:select' :
 					// set the value of options, if it's callable run it first
 					$options = $control->options;
 					
@@ -192,19 +192,19 @@ class Fieldset
 					return Laravel_Form::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
 					break;
 
-				case $type === 'checkbox' :
-					return Laravel_Form::checkbox($name, $value, $control->checked);
+				case $type === 'input:checkbox' :
+					return Laravel_Form::checkbox($name, null, $control->checked);
 					break;
 
-				case $type === 'radio' :
+				case $type === 'input:radio' :
 					return Laravel_Form::radio($name, $value, $row->checked);
 					break;
 
-				case $type === 'textarea' :
+				case $type === 'input:textarea' :
 					return Laravel_Form::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
 					break;
 
-				case $type === 'password' :
+				case $type === 'input:password' :
 					return Laravel_Form::password($name, HTML::pre_attributes($control->attr, $config['password']));
 					break;
 

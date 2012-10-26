@@ -104,6 +104,8 @@ class Fieldset
 	 *		$fieldset->control('input:text', 'fullname', function ($control)
 	 *		{
 	 *			$control->label = 'User Name';
+	 *
+	 * 			// this would output a read-only output instead of form.
 	 *			$control->field = function ($row) { 
 	 * 				return $row->first_name.' '.$row->last_name; 
 	 * 			};

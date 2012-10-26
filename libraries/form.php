@@ -98,7 +98,8 @@ class Form
 
 	/**
 	 * Return protected grid
-	 * 
+	 *
+	 * @access public
 	 * @param  string       $key
 	 * @return Form\Grid 
 	 */
@@ -122,7 +123,7 @@ class Form
 	 * Extend Form designer 
 	 *
 	 * @access public
-	 * @param  Closure $callback
+	 * @param  Closure  $callback
 	 * @return void
 	 */
 	public function extend(Closure $callback)
@@ -151,15 +152,14 @@ class Form
 		unset($form_attr['method']);
 		unset($form_attr['action']);
 
-		$view = View::make($grid->view)
+		return View::make($grid->view)
 					->with('token', $grid->token)
 					->with('row', $grid->row)
 					->with('form_action', $form_action)
 					->with('form_method', $form_method)
 					->with('error_message', $grid->error_message)
 					->with('form_attr', $form_attr)
-					->with('fieldsets', $grid->fieldsets());
-
-		return $view->render();
+					->with('fieldsets', $grid->fieldsets())
+					->render();
 	}
 }

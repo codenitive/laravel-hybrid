@@ -109,7 +109,8 @@ class Table
 
 	/**
 	 * Return protected grid
-	 * 
+	 *
+	 * @access public
 	 * @param  string       $key
 	 * @return Table\Grid 
 	 */

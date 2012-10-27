@@ -3,6 +3,8 @@ Hybrid Bundle for Laravel
 
 A set of class that extends the functionality of Laravel without affecting the standard workflow when the application doesn't actually utilize Hybrid feature.
 
+[![Build Status](https://secure.travis-ci.org/codenitive/laravel-hybrid.png)](http://travis-ci.org/codenitive/laravel-hybrid)
+
 ## Installation
 
 Installation with Laravel Artisan

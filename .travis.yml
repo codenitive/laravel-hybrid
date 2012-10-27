@@ -1,0 +1,14 @@
+language: php
+
+php:
+  - "5.4"
+  - "5.3"
+
+before_install:
+  - cd ~/builds
+  - git clone git://github.com/laravel/laravel.git
+  - mv ./codenitive/laravel-hybrid ./laravel/bundles/hybrid
+  - echo "<?php return array('hybrid' => array('auto' => true));" > ./laravel/application/bundles.php
+  - cd ./laravel
+
+script: "php artisan test hybrid"

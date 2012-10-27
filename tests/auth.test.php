@@ -9,6 +9,8 @@ class TestAuth extends PHPUnit_Framework_TestCase
 	{
 		Bundle::start('hybrid');
 
+		Event::clear('hybrid.auth.roles');
+
 		// mock roles
 		Event::listen('hybrid.auth.roles', function ($user_id, $roles)
 		{

@@ -90,9 +90,9 @@ class Memory
 		
 		if ( ! isset(static::$instances[$name]))
 		{
-			if (isset(static::$registrar[$driver]))
+			if (isset(static::$registrar[$storage]))
 			{
-				$resolver = static::$registrar[$driver];
+				$resolver = static::$registrar[$storage];
 
 				return static::$instances[$name] = $resolver($driver, $config);
 			}

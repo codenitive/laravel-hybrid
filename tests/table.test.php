@@ -15,7 +15,7 @@ class TestTable extends PHPUnit_Framework_TestCase {
 		Hybrid\Table::of('mock', function ($table) use ($mock_data)
 		{
 			$table->rows($mock_data);
-			$table->attr = array('class' => 'foo');
+			$table->attr(array('class' => 'foo'));
 
 			$table->column('id');
 			$table->column('name');
@@ -76,16 +76,16 @@ class TestTable extends PHPUnit_Framework_TestCase {
 	</thead>
 	<tbody>
 		<tr>
-			<td >1</td>
-			<td >Laravel</td>
+			<td>1</td>
+			<td>Laravel</td>
 		</tr>
 		<tr>
-			<td >2</td>
-			<td >Illuminate</td>
+			<td>2</td>
+			<td>Illuminate</td>
 		</tr>
 		<tr>
-			<td >3</td>
-			<td >Symfony</td>
+			<td>3</td>
+			<td>Symfony</td>
 		</tr>
 	</tbody>
 </table>
@@ -107,16 +107,16 @@ class TestTable extends PHPUnit_Framework_TestCase {
 	</thead>
 	<tbody>
 		<tr>
-			<td >1</td>
-			<td ><strong>Laravel</strong></td>
+			<td>1</td>
+			<td><strong>Laravel</strong></td>
 		</tr>
 		<tr>
-			<td >2</td>
-			<td ><strong>Illuminate</strong></td>
+			<td>2</td>
+			<td><strong>Illuminate</strong></td>
 		</tr>
 		<tr>
-			<td >3</td>
-			<td ><strong>Symfony</strong></td>
+			<td>3</td>
+			<td><strong>Symfony</strong></td>
 		</tr>
 	</tbody>
 </table>

@@ -44,7 +44,7 @@ class TestTable extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$table = Hybrid\Table::make(function () 
+		$table = Hybrid\Table::make(function ($table) 
 		{
 			$table->attr = array('class' => 'foo');
 		});

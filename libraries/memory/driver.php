@@ -76,13 +76,14 @@ abstract class Driver
 	 * @access  public
 	 * @param   string  $key        A string of key to add the value.
 	 * @param   mixed   $value      The value.
-	 * @return  void
+	 * @return  mixed
 	 */
 	public function put($key, $value = '')
 	{
-		array_set($this->data, $key, value($value));
+		$value = value($value);
+		array_set($this->data, $key, $value);
 
-		return $this;
+		return $value;
 	}
 
 	/**

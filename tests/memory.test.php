@@ -15,21 +15,23 @@ class TestMemory extends PHPUnit_Framework_TestCase
 		$mock = Hybrid\Memory::make('runtime.mock');
 
 		$mock->put('foo.bar', 'hello world');
+		
 		$mock->put('username', 'laravel');
 
 		$mock = Hybrid\Memory::make('cache.mock');
 
 		$mock->put('foo.bar', 'hello world');
+		
 		$mock->put('foobar', function ()
 		{
 			return 'hello world foobar';
 		});
+		
 		$mock->get('hello.world', function () use ($mock)
 		{
-			$mock->put('hello.world', $return = 'HELLO WORLD');
-
-			return $return;
+			return $mock->put('hello.world', 'HELLO WORLD');
 		});
+
 		$mock->put('username', 'laravel');
 
 		Hybrid\Memory::extend('stub', function($driver, $config) 

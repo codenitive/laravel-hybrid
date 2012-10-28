@@ -20,6 +20,16 @@ class TestMemory extends PHPUnit_Framework_TestCase
 		$mock = Hybrid\Memory::make('cache.mock');
 
 		$mock->put('foo.bar', 'hello world');
+		$mock->put('foobar', function ()
+		{
+			return 'hello world foobar';
+		});
+		$mock->get('hello.world', function () use ($mock)
+		{
+			$mock->put('hello.world', $return = 'HELLO WORLD');
+
+			return $return;
+		});
 		$mock->put('username', 'laravel');
 
 		Hybrid\Memory::extend('stub', function($driver, $config) 
@@ -77,6 +87,19 @@ class TestMemory extends PHPUnit_Framework_TestCase
 		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
 		$this->assertEquals('hello world', $mock->get('foo.bar'));
 		$this->assertEquals('laravel', $mock->get('username'));
+	}
+
+	/**
+	 * Test that Hybrid\Memory return valid values
+	 *
+	 * @test
+	 */
+	public function testCacheMockWithClosure()
+	{
+		$mock = Hybrid\Memory::make('cache.mock');
+		
+		$this->assertEquals('hello world foobar', $mock->get('foobar'));
+		$this->assertEquals('HELLO WORLD', $mock->get('hello.world'));
 	}
 
 	public function testStubMemory()

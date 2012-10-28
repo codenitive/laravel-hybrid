@@ -67,7 +67,7 @@ abstract class Driver
 	 */
 	public function get($key = null, $default = null)
 	{
-		return array_get($this->data, $key, $default);
+		return array_get($this->data, $key, value($default));
 	}
 
 	/**
@@ -80,7 +80,7 @@ abstract class Driver
 	 */
 	public function put($key, $value = '')
 	{
-		array_set($this->data, $key, $value);
+		array_set($this->data, $key, value($value));
 
 		return $this;
 	}

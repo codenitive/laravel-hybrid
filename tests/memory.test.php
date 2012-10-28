@@ -1,5 +1,7 @@
 <?php
 
+Bundle::start('hybrid');
+
 class TestMemory extends PHPUnit_Framework_TestCase 
 {
 	/**
@@ -9,7 +11,6 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		Bundle::start('hybrid');
 
 		$mock = Hybrid\Memory::make('runtime.mock');
 
@@ -20,6 +21,11 @@ class TestMemory extends PHPUnit_Framework_TestCase
 
 		$mock->put('foo.bar', 'hello world');
 		$mock->put('username', 'laravel');
+
+		Hybrid\Memory::extend('stub', function($driver, $config) 
+		{
+			return new MemoryStub($driver, $config);
+		});
 	}
 
 	/**
@@ -64,7 +70,7 @@ class TestMemory extends PHPUnit_Framework_TestCase
 	 *
 	 * @test
 	 */
-	public function testCacheCacheMock()
+	public function testCacheMock()
 	{
 		$mock = Hybrid\Memory::make('cache.mock');
 		
@@ -72,4 +78,36 @@ class TestMemory extends PHPUnit_Framework_TestCase
 		$this->assertEquals('hello world', $mock->get('foo.bar'));
 		$this->assertEquals('laravel', $mock->get('username'));
 	}
+
+	public function testStubMemory()
+	{
+		$this->assertInstanceOf('MemoryStub', Hybrid\Memory::make('stub.mock'));
+	}
+}
+
+class MemoryStub extends Hybrid\Memory\Driver
+{
+	/**
+	 * Storage name
+	 * 
+	 * @access  protected
+	 * @var     string  
+	 */
+	protected $storage = 'stub';
+
+	/**
+	 * No initialize method for runtime
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function initiate() {}
+
+	/**
+	 * No shutdown method for runtime
+	 *
+	 * @access  public
+	 * @return  void
+	 */
+	public function shutdown() {}
 }

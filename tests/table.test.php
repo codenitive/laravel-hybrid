@@ -7,9 +7,9 @@ class TestTable extends PHPUnit_Framework_TestCase {
 		Bundle::start('hybrid');
 
 		$mock_data = array(
-			new Fluent(array('id' => 1, 'name' => 'Laravel')),
-			new Fluent(array('id' => 2, 'name' => 'Illuminate')),
-			new Fluent(array('id' => 3, 'name' => 'Symfony')),
+			new Laravel\Fluent(array('id' => 1, 'name' => 'Laravel')),
+			new Laravel\Fluent(array('id' => 2, 'name' => 'Illuminate')),
+			new Laravel\Fluent(array('id' => 3, 'name' => 'Symfony')),
 		);
 
 		Hybrid\Table::of('mock', function ($table) use ($mock_data)

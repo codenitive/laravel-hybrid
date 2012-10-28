@@ -8,7 +8,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Config, \Event;
+use \Closure, \Config, \Event;
 
 class Memory
 {

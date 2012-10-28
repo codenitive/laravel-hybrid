@@ -77,8 +77,8 @@ class Grid
 		$this->empty_message = __($this->empty_message, null, 'No records');
 
 		$this->rows = new Fluent(array(
-			'data'          => array(),
-			'attr'          => function ($row) { return array(); },
+			'data' => array(),
+			'attr' => function ($row) { return array(); },
 		));
 	}
 
@@ -169,12 +169,12 @@ class Grid
 	 *		// add a new column by using a field name and closure
 	 *		$table->column('fullname', function ($column)
 	 *		{
-	 *			$column->heading = 'User Name';
-	 *			$column->value   = function ($row) { 
+	 *			$column->label = 'User Name';
+	 *			$column->value = function ($row) { 
 	 * 				return $row->first_name.' '.$row->last_name; 
 	 * 			};
 	 *
-	 * 			$column->heading_attr(array('class' => 'header-class'));
+	 * 			$column->label_attr(array('class' => 'header-class'));
 	 *
 	 * 			$column->cell_attr(function ($row) { 
 	 *				return array('data-id' => $row->id);

@@ -141,6 +141,8 @@ class Memory
 		{
 			$class->shutdown();
 		}
+
+		static::$instances = array();
 	}
 	
 }

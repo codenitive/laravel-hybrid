@@ -495,4 +495,17 @@ class Acl
 		return $this->allow($roles, $actions, false);
 	}
 
+	/**
+	 * Shutdown Hybrid\Acl
+	 *
+	 * @static
+	 * @access public
+	 * @return void
+	 */
+	public static function shutdown()
+	{
+		static::$initiated = false;
+		static::$instances = array();
+	}
+
 }

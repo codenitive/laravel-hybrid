@@ -8,9 +8,9 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, Laravel\Fluent;
+use \Closure, Laravel\Fluent, Hybrid\Exception;
 
-class Grid 
+class Grid
 {
 	/**
 	 * Enable CSRF token
@@ -58,7 +58,7 @@ class Grid
 	 * @access  public
 	 * @return  void
 	 */
-	public function __construct() 
+	public function __construct()
 	{
 		$this->row = array();
 	}
@@ -103,7 +103,7 @@ class Grid
 	 * 		$table->rows(DB::table('users')->get());
 	 * </code>
 	 *
-	 * @access  public		
+	 * @access  public
 	 * @param   array       $rows
 	 * @return  void
 	 */
@@ -171,7 +171,7 @@ class Grid
 		{
 			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
-		
+
 		return $this->{$key};
 	}
 

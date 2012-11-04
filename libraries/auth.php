@@ -12,7 +12,13 @@ use \Auth as Laravel_Auth, \Event;
 
 class Auth extends Laravel_Auth
 {
+	/**
+	 * Cached user to roles relationship
+	 * 
+	 * @var array
+	 */
 	protected static $user_roles = null;
+	
 	/**
 	 * Get the current user's roles of the application.
 	 *
@@ -33,10 +39,24 @@ class Auth extends Laravel_Auth
 
 		if (is_null(static::$user_roles[$user_id]))
 		{
-			
 			static::$user_roles[$user_id] = Event::until('hybrid.auth.roles', array($user, $roles));
 		}
 
 		return static::$user_roles[$user_id];
+	}
+
+	/**
+	 * Determine if current user has the given role
+	 *
+	 * @static
+	 * @access public
+	 * @param  string   $role
+	 * @return boolean
+	 */
+	public static function is($role)
+	{
+		$roles = static::roles();
+
+		return in_array($role, $roles);
 	}
 }

@@ -1,6 +1,7 @@
 <?php namespace Hybrid;
 
-use Laravel\HTML as H;
+use \Config,
+	Laravel\HTML as H;
 
 class HTML extends H {
 

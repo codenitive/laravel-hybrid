@@ -8,9 +8,9 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Auth as Laravel_Auth, \Event;
+use \Auth as A, \Event;
 
-class Auth extends Laravel_Auth {
+class Auth extends A {
 	
 	/**
 	 * Cached user to roles relationship

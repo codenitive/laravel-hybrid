@@ -9,9 +9,9 @@
  */
 
 use \File, \Input, \View,
-	Laravel\Response as Laravel_Response;
+	Laravel\Response as R;
 
-class Response extends Laravel_Response {
+class Response extends R {
 
 	/**
 	 * Create a new RESTful response or View response depending on requested 

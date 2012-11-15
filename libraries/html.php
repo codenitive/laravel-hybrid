@@ -1,8 +1,15 @@
 <?php namespace Hybrid;
 
-use Laravel\HTML as Laravel_HTML;
+use Laravel\HTML as H;
 
-class HTML extends Laravel_HTML {
+class HTML extends H {
+
+	/**
+	 * Cache application encoding locally to save expensive calls to config::get().
+	 *
+	 * @var string
+	 */
+	public static $encoding = null;
 	
 	/**
 	 * Generate a HTML element
@@ -94,5 +101,15 @@ class HTML extends Laravel_HTML {
 		if ($class !== '') $attributes['class'] = $class;
 
 		return $attributes;
+	}
+
+	/**
+	 * Get the appliction.encoding without needing to request it from Config::get() each time.
+	 *
+	 * @return string
+	 */
+	protected static function encoding()
+	{
+		return static::$encoding ?: static::$encoding = Config::get('application.encoding');
 	}
 }

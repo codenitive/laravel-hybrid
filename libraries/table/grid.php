@@ -53,6 +53,13 @@ class Grid
 	protected $columns = array();
 
 	/**
+	 * Key map for column overwriting
+	 *
+	 * @var array
+	 */
+	protected $key_map = array();
+
+	/**
 	 * Enable to attach pagination during rendering
 	 *
 	 * @var bool
@@ -69,8 +76,8 @@ class Grid
 	/**
 	 * Create a new Grid instance
 	 *
-	 * @access  public
-	 * @return  void
+	 * @access public
+	 * @return void
 	 */
 	public function __construct() 
 	{
@@ -93,10 +100,10 @@ class Grid
 	 *		$table->with(User::paginate(30), true);
 	 * </code>
 	 *
-	 * @access  public		
-	 * @param   Eloquent    $model
-	 * @param   bool        $paginate
-	 * @return  void
+	 * @access public	
+	 * @param  Eloquent $model
+	 * @param  bool     $paginate
+	 * @return void
 	 */
 	public function with($model, $paginate = false)
 	{
@@ -119,9 +126,9 @@ class Grid
 	 *		$table->layout('path.to.view');
 	 * </code>
 	 *
-	 * @access  public
-	 * @param   string      $name
-	 * @return  void
+	 * @access public
+	 * @param  string   $name
+	 * @return void
 	 */
 	public function layout($name)
 	{
@@ -145,9 +152,9 @@ class Grid
 	 * 		$table->rows(DB::table('users')->get());
 	 * </code>
 	 *
-	 * @access  public		
-	 * @param   array       $rows
-	 * @return  void
+	 * @access public		
+	 * @param  array    $rows
+	 * @return void
 	 */
 	public function rows(array $rows = null)
 	{
@@ -182,10 +189,10 @@ class Grid
 	 *		});
 	 * </code>
 	 *
-	 * @access  public			
-	 * @param   mixed       $name
-	 * @param   mixed       $callback
-	 * @return  Fluent
+	 * @access public			
+	 * @param  mixed    $name
+	 * @param  mixed    $callback
+	 * @return Fluent
 	 */
 	public function column($name, $callback = null)
 	{
@@ -228,16 +235,41 @@ class Grid
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $column);
 
-		return $this->columns[] = $column;
+		$this->columns[]      = $column;
+		$this->key_map[$name] = count($this->columns) - 1;
+
+		return $column;
+	}
+
+	/**
+	 * Allow column overwriting
+	 *
+	 * @access public
+	 * @param  string   $name
+	 * @param  mixed    $callback
+	 * @return Fluent
+	 */
+	public function of($name, $callback = null)
+	{
+		if ( ! isset($this->key_map[$name]))
+		{
+			throw new InvalidArgumentsException("Column name [{$name}] is not available.");
+		}
+
+		$id = $this->key_map[$name];
+
+		if (is_callable($callback)) call_user_func($callback, $this->columns[$id]);
+
+		return $this->columns[$id];
 	}
 
 	/**
 	 * Add or append table HTML attributes
 	 *
-	 * @access  public
-	 * @param   mixed       $key
-	 * @param   mixed       $value
-	 * @return  void
+	 * @access public
+	 * @param  mixed    $key
+	 * @param  mixed    $value
+	 * @return void
 	 */
 	public function attr($key = null, $value = null)
 	{

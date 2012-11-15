@@ -43,6 +43,13 @@ class Fieldset
 	protected $controls = array();
 
 	/**
+	 * Key map for column overwriting
+	 *
+	 * @var array
+	 */
+	protected $key_map = array();
+
+	/**
 	 * Create a new Fieldset instance
 	 *
 	 * @access  public
@@ -222,7 +229,32 @@ class Fieldset
 
 		if (is_null($control->field)) $control->field = $field;
 
-		return $this->controls[] = $control;
+		$this->controls[]     = $control;
+		$this->key_map[$name] = count($this->controls) - 1;
+
+		return $control;
+	}
+
+	/**
+	 * Allow control overwriting
+	 *
+	 * @access public
+	 * @param  string   $name
+	 * @param  mixed    $callback
+	 * @return Fluent
+	 */
+	public function of($name, $callback = null)
+	{
+		if ( ! isset($this->key_map[$name]))
+		{
+			throw new InvalidArgumentsException("Control name [{$name}] is not available.");
+		}
+
+		$id = $this->key_map[$name];
+
+		if (is_callable($callback)) call_user_func($callback, $this->controls[$id]);
+
+		return $this->controls[$id];
 	}
 
 	/**

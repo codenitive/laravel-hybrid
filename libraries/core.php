@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Core
-{
+class Core {
+
 	/**
 	 * Start Hybrid
 	 *

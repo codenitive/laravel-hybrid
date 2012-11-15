@@ -10,8 +10,8 @@
 
 use \Str;
 
-class Acl
-{
+class Acl {
+	
 	/**
 	 * Acl initiated status
 	 *

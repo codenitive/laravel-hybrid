@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Line extends Driver 
-{
+class Line extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

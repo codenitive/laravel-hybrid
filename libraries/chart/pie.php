@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Pie extends Driver 
-{
+class Pie extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

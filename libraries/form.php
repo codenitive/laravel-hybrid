@@ -10,8 +10,8 @@ use \Closure, View;
  * @author     Laravel Hybrid Development Team
  */
 
-class Form
-{
+class Form {
+	
 	/**
 	 * All of the registered form names.
 	 *

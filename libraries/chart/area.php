@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Area extends Driver 
-{
+class Area extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

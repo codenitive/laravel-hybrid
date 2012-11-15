@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Runtime extends Driver
-{
+class Runtime extends Driver {
+
 	/**
 	 * Storage name
 	 * 

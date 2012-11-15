@@ -10,8 +10,8 @@
 
 use \Closure, Laravel\Fluent, Hybrid\Exception;
 
-class Grid
-{
+class Grid {
+
 	/**
 	 * Enable CSRF token
 	 */

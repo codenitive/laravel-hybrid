@@ -11,8 +11,8 @@
 
 use \Config, Hybrid\Exception;
 
-abstract class Driver 
-{
+abstract class Driver {
+	
 	/**
 	 * A shortcode to initiate this class as a new object
 	 * 

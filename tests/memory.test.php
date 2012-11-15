@@ -2,12 +2,10 @@
 
 Bundle::start('hybrid');
 
-class TestMemory extends PHPUnit_Framework_TestCase 
-{
+class MemoryTest extends PHPUnit_Framework_TestCase {
+
 	/**
-	 * Setup: Start Hybrid Bundle
-	 *
-	 * @return  void
+	 * Setup the test environment.
 	 */
 	public function setup()
 	{

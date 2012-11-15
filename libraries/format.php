@@ -14,8 +14,8 @@
 
 use \Input, \Str;
 
-class Format 
-{
+class Format {
+
 	/**
 	 * @var  array|mixed  input to convert
 	 */

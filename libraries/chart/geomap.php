@@ -11,8 +11,8 @@
 
 use \Config;
 
-class GeoMap extends Driver 
-{
+class GeoMap extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

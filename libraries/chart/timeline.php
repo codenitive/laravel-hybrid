@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Timeline extends Driver 
-{
+class Timeline extends Driver {
+
 	public function __construct() 
 	{
 		parent::__construct();

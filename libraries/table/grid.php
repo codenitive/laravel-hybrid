@@ -15,8 +15,8 @@
 use \Closure, Laravel\Fluent, \Str, 
 	Hybrid\Exception;
 
-class Grid 
-{
+class Grid {
+
 	/**
 	 * Set the no record message
 	 *

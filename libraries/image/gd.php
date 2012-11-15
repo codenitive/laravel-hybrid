@@ -17,8 +17,7 @@ use Hybrid\Exception,
 	Hybrid\OutOfBoundsException,
 	Hybrid\RuntimeException;
 
- class Gd extends Driver
-{
+class Gd extends Driver {
 
 	protected $image_data          = null;
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');

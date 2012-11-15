@@ -1,9 +1,9 @@
 <?php
 
-class TestAcl extends PHPUnit_Framework_TestCase
-{
+class AclTest extends PHPUnit_Framework_TestCase {
+
 	/**
-	 * Setup the test
+	 * Setup the test environment.
 	 */
 	public function setup()
 	{

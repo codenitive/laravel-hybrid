@@ -10,8 +10,8 @@
 
 use \Closure, \Config, \Event;
 
-class Memory
-{
+class Memory {
+
 	/**
 	 * The third-party driver registrar.
 	 *

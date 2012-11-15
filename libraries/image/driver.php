@@ -17,8 +17,7 @@ use \Config, Hybrid\Exception,
 	Hybrid\OutOfBoundsException,
 	Hybrid\RuntimeException;
 
-abstract class Driver
-{
+abstract class Driver {
 
 	protected $image_fullpath  = null;
 	protected $image_directory = null;

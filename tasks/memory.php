@@ -1,7 +1,7 @@
 <?php
 
-class Hybrid_Memory_Task
-{
+class Hybrid_Memory_Task {
+
 	/**
 	 * Create memory table
 	 * 

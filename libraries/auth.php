@@ -10,8 +10,8 @@
 
 use \Auth as Laravel_Auth, \Event;
 
-class Auth extends Laravel_Auth
-{
+class Auth extends Laravel_Auth {
+	
 	/**
 	 * Cached user to roles relationship
 	 * 

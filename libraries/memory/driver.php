@@ -9,8 +9,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-abstract class Driver
-{
+abstract class Driver {
+	
 	/**
 	 * Memory name
 	 *

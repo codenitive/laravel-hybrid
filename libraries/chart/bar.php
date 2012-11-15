@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Bar extends Driver 
-{
+class Bar extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

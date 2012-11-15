@@ -10,8 +10,8 @@
 
 use \DB;
 
-class Fluent extends Driver 
-{
+class Fluent extends Driver {
+	
 	/**
 	 * Storage name
 	 * 

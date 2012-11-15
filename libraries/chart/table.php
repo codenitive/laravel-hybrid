@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Table extends Driver 
-{
+class Table extends Driver {
+
 	public function __construct() 
 	{
 		parent::__construct();

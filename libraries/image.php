@@ -14,8 +14,8 @@
 
 use \Config;
 
-class Image
-{
+class Image {
+
 	protected static $instance = null;
 
 	/**

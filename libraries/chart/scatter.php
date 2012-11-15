@@ -11,8 +11,8 @@
 
 use \Config;
 
-class Scatter extends Driver 
-{
+class Scatter extends Driver {
+	
 	public function __construct() 
 	{
 		parent::__construct();

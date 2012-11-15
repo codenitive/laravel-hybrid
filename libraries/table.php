@@ -14,8 +14,8 @@
 
 use \Closure, \View, Laravel\Input;
 
-class Table 
-{
+class Table {
+	
 	/**
 	 * All of the registered table names.
 	 *

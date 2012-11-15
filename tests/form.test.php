@@ -1,7 +1,10 @@
 <?php
 
-class TestForm extends PHPUnit_Framework_TestCase {
+class FormTest extends PHPUnit_Framework_TestCase {
 
+	/**
+	 * Setup the test environment.
+	 */
 	public function setUp()
 	{
 		Bundle::start('hybrid');

@@ -17,8 +17,7 @@ use Hybrid\Exception,
 	Hybrid\OutOfBoundsException,
 	Hybrid\RuntimeException;
 
-class Imagemagick extends Driver
-{
+class Imagemagick extends Driver {
 
 	protected $image_temp          = null;
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');

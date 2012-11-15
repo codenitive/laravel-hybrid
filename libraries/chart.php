@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Chart 
-{
+class Chart {
+
 	/**
 	 * Cache Chart instance so we can reuse it on multiple request.
 	 * 

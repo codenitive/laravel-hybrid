@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Eloquent extends Driver 
-{
+class Eloquent extends Driver {
+
 	/**
 	 * Storage name
 	 * 

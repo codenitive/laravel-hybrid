@@ -1,9 +1,9 @@
 <?php
 
-class TestAuth extends PHPUnit_Framework_TestCase 
-{
+class AuthTest extends PHPUnit_Framework_TestCase {
+
 	/**
-	 * Setup the test
+	 * Setup the test environment.
 	 */
 	public function setup()
 	{

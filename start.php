@@ -6,6 +6,7 @@
 |--------------------------------------------------------------------------
 |
 | Map Hybrid Library using PSR-0 standard namespace. 
+|
 */
 
 Autoloader::namespaces(array(
@@ -18,6 +19,7 @@ Autoloader::namespaces(array(
 |--------------------------------------------------------------------------
 |
 | List of exceptions for Hybrid bundle.
+|
 */
 
 Autoloader::map(array(
@@ -34,6 +36,7 @@ Autoloader::map(array(
 |--------------------------------------------------------------------------
 |
 | Lets listen to when Hybrid bundle is started and `hybrid.auth.roles` event.
+|
 */ 
 
 Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });

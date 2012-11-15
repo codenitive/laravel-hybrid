@@ -2,8 +2,8 @@
 
 use Laravel\HTML as Laravel_HTML;
 
-class HTML extends Laravel_HTML 
-{
+class HTML extends Laravel_HTML {
+	
 	/**
 	 * Generate a HTML element
 	 *
@@ -30,6 +30,37 @@ class HTML extends Laravel_HTML
 		}
 		
 		return $content;
+	}
+
+	/**
+	 * Convert HTML characters to entities.
+	 *
+	 * The encoding specified in the application configuration file will be used.
+	 *
+	 * @param  string  $value
+	 * @return string
+	 */
+	public static function entities($value)
+	{
+		if ($value instanceof Expression)
+		{
+			return $value->get();
+		}
+		
+		return htmlentities($value, ENT_QUOTES, static::encoding(), false);
+	}
+
+	/**
+	 * Create a new HTML expression instance.
+	 *
+	 * Database expressions are used to inject HTML.
+	 * 
+	 * @param  string      $value
+	 * @return Expression
+	 */
+	public static function raw($value)
+	{
+		return new Expression($value);
 	}
 
 	/**

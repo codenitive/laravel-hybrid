@@ -1,11 +1,9 @@
 <?php
 
-class TestFormat extends PHPUnit_Framework_TestCase
-{
+class FormatTest extends PHPUnit_Framework_TestCase {
+	
 	/**
-	 * Setup: Start Hybrid Bundle
-	 *
-	 * @return  void
+	 * Setup the test environment.
 	 */
 	public function setup()
 	{

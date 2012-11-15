@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Curl
-{
+class Curl {
+	
 	/**
 	 * Create a new Curl instance
 	 * 

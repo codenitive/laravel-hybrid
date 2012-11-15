@@ -2,8 +2,7 @@
 
 use Laravel\Cache as Laravel_Cache;
 
-class Cache extends Driver
-{
+class Cache extends Driver {
 	/**
 	 * Storage name
 	 * 

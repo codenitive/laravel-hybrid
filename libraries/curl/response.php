@@ -8,8 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
-class Response
-{
+class Response {
+	
 	/**
 	 * Make new Curl\Response instance
 	 *

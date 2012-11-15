@@ -12,8 +12,8 @@ use \Closure, \Config, \Input, Laravel\Form as Laravel_Form, Laravel\Fluent, \St
 	Hybrid\HTML,
 	Hybrid\Exception;
 
-class Fieldset 
-{
+class Fieldset {
+
 	/**
 	 * Fieldset name
 	 *

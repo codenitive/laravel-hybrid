@@ -67,7 +67,11 @@ abstract class Driver {
 	 */
 	public function get($key = null, $default = null)
 	{
-		return array_get($this->data, $key, value($default));
+		$value = array_get($this->data, $key, null);
+
+		if ( ! is_null($value)) return $value;
+
+		return value($default);
 	}
 
 	/**

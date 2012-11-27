@@ -41,14 +41,17 @@ class Memory {
 	 * Run Memory start configuration once before doing anything else.
 	 *
 	 * @static
-	 * @access protected
+	 * @access public
 	 * @return void
 	 */
-	protected static function start()
+	public static function start()
 	{
 		if (false === static::$initiated)
 		{
-			Event::listen('laravel.done', function($response) { Memory::shutdown(); });
+			Event::listen('laravel.done', function($response) 
+			{ 
+				Memory::shutdown(); 
+			});
 
 			static::$initiated = true;
 		}

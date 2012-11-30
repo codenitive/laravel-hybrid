@@ -80,24 +80,24 @@ class FTP {
 	 *
 	 * @static
 	 * @access public
-	 * @param  array    $configuration
+	 * @param  array    $config
 	 * @return FTP
 	 */
-	public static function make($configuration = array())
+	public static function make($config = array())
 	{
-		return new static($configuration);
+		return new static($config);
 	}
 
 	/**
 	 * Initialize connection params
 	 *
 	 * @access public	
-	 * @param  array    $configuration
+	 * @param  array    $config
 	 * @return void
 	 */
-	public function __construct($configuration = array())
+	public function __construct($config = array())
 	{
-		$this->setup($configuration);
+		$this->setup($config);
 	}
 
 	/**
@@ -106,16 +106,16 @@ class FTP {
 	 * @access public
 	 * @return void
 	 */
-	public function setup($configuration = array())
+	public function setup($config = array())
 	{
-		$host = isset($configuration['host']) ? $configuration['host'] : null;
+		$host = isset($config['host']) ? $config['host'] : null;
 
 		if (preg_match('/^(ftp|sftp):\/\/([a-zA-Z0-9\.\-_]*):?(\d{1,4})$/', $host, $matches))
 		{
-			$configuration['host'] = $matches[2];
-			$configuration['ssl']  = ($matches[1] === 'sftp' ? true : false);
+			$config['host'] = $matches[2];
+			$config['ssl']  = ($matches[1] === 'sftp' ? true : false);
 
-			if (isset($matches[3])) $configuration['port'] = $matches[3];
+			if (isset($matches[3])) $config['port'] = $matches[3];
 		}
 	
 		foreach ($configuration as $key => $value)

@@ -76,6 +76,19 @@ class FTP {
 	protected $system_type;
 
 	/**
+	 * Make a new FTP instance
+	 *
+	 * @static
+	 * @access public
+	 * @param  array    $configuration
+	 * @return FTP
+	 */
+	public static function make($configuration = array())
+	{
+		return new static($configuration);
+	}
+
+	/**
 	 * Initialize connection params
 	 *
 	 * @access public	
@@ -309,7 +322,7 @@ class FTP {
 				);
 			}
 		}
-		elseif ( ! $this->stream = ftp_connect($this->host, $this->port, $this->timeout)))
+		elseif ( ! ($this->stream = ftp_connect($this->host, $this->port, $this->timeout)))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to connect to [{$this->host}]."
@@ -353,14 +366,8 @@ class FTP {
 	 */
 	public function close()
 	{
-		if (is_null($this->stream))
-		{
-			throw new RuntimeException(
-				__CLASS__.": Unable to close connection."
-			);
-		}
+		if ( ! is_null($this->stream)) ftp_close($this->stream);
 		
-		ftp_close($this->stream);
 		$this->stream = null;
 	}
 }

@@ -118,7 +118,7 @@ class FTP {
 			if (isset($matches[3])) $config['port'] = $matches[3];
 		}
 	
-		foreach ($configuration as $key => $value)
+		foreach ($config as $key => $value)
 		{
 			if ( ! property_exists($this, $key)) continue;
 

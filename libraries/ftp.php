@@ -97,23 +97,33 @@ class FTP {
 	 */
 	public function __construct($configuration = array())
 	{
+		$this->setup($configuration);
+	}
+
+	/**
+	 * Configure FTP.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function setup($configuration = array())
+	{
+		$host = isset($configuration['host']) ? $configuration['host'] : null;
+
+		if (preg_match('/^(ftp|sftp):\/\/([a-zA-Z0-9\.\-_]*):?(\d{1,4})$/', $host, $matches))
+		{
+			$configuration['host'] = $matches[2];
+			$configuration['ssl']  = ($matches[1] === 'sftp' ? true : false);
+
+			if (isset($matches[3])) $configuration['port'] = $matches[3];
+		}
+	
 		foreach ($configuration as $key => $value)
 		{
 			if ( ! property_exists($this, $key)) continue;
 
 			$this->{$key} = $value;
 		}
-	}
-
-	/**
-	 * Auto close the connection.
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function __destruct()
-	{
-		$this->close();
 	}
 
 	/**
@@ -125,7 +135,7 @@ class FTP {
 	 */
 	public function cd($directory)
 	{
-		if ( ! ftp_chdir($this->stream, $directory))
+		if ( ! @ftp_chdir($this->stream, $directory))
 		{
 			Log::error(__CLASS__.": Failed cd to [{$directory}].");
 			return false;
@@ -142,7 +152,7 @@ class FTP {
 	 */
 	public function pwd()
 	{
-		return ftp_pwd($this->stream);
+		return @ftp_pwd($this->stream);
 	}
 
 	/**
@@ -156,7 +166,7 @@ class FTP {
 	 */
 	public function get($remote_file, $local_file, $mode = FTP_ASCII)
 	{
-		if ( ! ftp_get($this->stream, $local_file, $remote_file, $mode))
+		if ( ! @ftp_get($this->stream, $local_file, $remote_file, $mode))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to download file [{$remote_file}]."
@@ -177,7 +187,7 @@ class FTP {
 	 */
 	public function put($local_file, $remote_file, $mode = FTP_ASCII)
 	{
-		if ( ! ftp_put($this->stream, $remote_file, $local_file, $mode))
+		if ( ! @ftp_put($this->stream, $remote_file, $local_file, $mode))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to upload file [{$local_file}]."
@@ -197,7 +207,7 @@ class FTP {
 	 */
 	public function rename($old_name, $new_name)
 	{
-		if ( ! ftp_rename($this->stream, $old_name, $new_name))
+		if ( ! @ftp_rename($this->stream, $old_name, $new_name))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to rename file [{$old_name}]."
@@ -216,7 +226,7 @@ class FTP {
 	 */
 	public function delete($remote_file)
 	{
-		if ( ! ftp_delete($this->stream, $remote_file))
+		if ( ! @ftp_delete($this->stream, $remote_file))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to delete file [{$remote_file}]." 
@@ -237,7 +247,7 @@ class FTP {
 	 */
 	public function chmod($remote_file, $permission = 0644)
 	{
-		if ( ! ftp_chmod($this->stream, $permission, $remote_file))
+		if ( ! @ftp_chmod($this->stream, $permission, $remote_file))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed chmod for [{$remote_file}]."
@@ -256,7 +266,7 @@ class FTP {
 	 */
 	public function ls($directory)
 	{
-		if ( ! ($list = ftp_nlist($this->stream, $directory)))
+		if ( ! ($list = @ftp_nlist($this->stream, $directory)))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to get directory list for [{$directory}]."
@@ -275,7 +285,7 @@ class FTP {
 	 */
 	public function mkdir($directory) 
 	{
-		if ( ! ftp_mkdir($this->stream, $directory))
+		if ( ! @ftp_mkdir($this->stream, $directory))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to create directory [{$directory}]."
@@ -294,7 +304,7 @@ class FTP {
 	 */
 	public function rmdir($directory)
 	{
-		if ( ! ftp_rmdir($this->stream, $directory))
+		if ( ! @ftp_rmdir($this->stream, $directory))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to remove directory [{$directory}]."
@@ -313,16 +323,18 @@ class FTP {
 	 */
 	public function connect()
 	{
+		if (is_null($this->host)) return ;
+
 		if ($this->ssl and function_exists('ftp_ssl_connect'))
 		{
-			if ( ! ($this->stream = ftp_ssl_connect($this->_host, $this->_port, $this->_timeout))) 
+			if ( ! ($this->stream = @ftp_ssl_connect($this->host, $this->port, $this->timeout))) 
 			{
 				throw new RuntimeException(
 					__CLASS__.": Failed to connect to [{$this->host}] (SSL Connection)."
 				);
 			}
 		}
-		elseif ( ! ($this->stream = ftp_connect($this->host, $this->port, $this->timeout)))
+		elseif ( ! ($this->stream = @ftp_connect($this->host, $this->port, $this->timeout)))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed to connect to [{$this->host}]."
@@ -341,7 +353,7 @@ class FTP {
 	 */
 	public function login()
 	{
-		if ( ! ($login = ftp_login($this->stream, $this->user, $this->password)))
+		if ( ! ($login = @ftp_login($this->stream, $this->user, $this->password)))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed FTP login to [{$this->host}]"
@@ -366,8 +378,19 @@ class FTP {
 	 */
 	public function close()
 	{
-		if ( ! is_null($this->stream)) ftp_close($this->stream);
+		if ($this->stream) ftp_close($this->stream);
 		
-		$this->stream = null;
+		$this->stream = false;
+	}
+
+	/**
+	 * Check FTP connection status.
+	 *
+	 * @access public
+	 * @return bool
+	 */
+	public function connected()
+	{
+		return ( ! is_null($this->stream));
 	}
 }

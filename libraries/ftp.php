@@ -137,8 +137,9 @@ class FTP {
 	{
 		if ( ! @ftp_chdir($this->stream, $directory))
 		{
-			Log::error(__CLASS__.": Failed cd to [{$directory}].");
-			return false;
+			throw new RuntimeException(
+				__CLASS__.": Failed cd to [{$directory}]."
+			);
 		}
 
 		return true;

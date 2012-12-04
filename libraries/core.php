@@ -43,7 +43,7 @@ class Core {
 				$scope = __DIR__.DS;
 		}
 
-		$file_path = str_replace('/', DS, $path);
+		$file_path = str_replace('/', DS, $file_path);
 
 		$file = $scope.$folder.DS.$file_path.EXT;
 

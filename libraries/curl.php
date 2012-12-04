@@ -74,13 +74,13 @@ class Curl {
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $uri
+	 * @param   string  $url
 	 * @param   array   $data
 	 * @return  static 
 	 */
 	public static function put($url, $data = array())
 	{
-		return new static($uri, $data, 'PUT');
+		return new static($url, $data, 'PUT');
 	}
 	
 	/**
@@ -88,13 +88,13 @@ class Curl {
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string  $uri
+	 * @param   string  $url
 	 * @param   array   $data
 	 * @return  static 
 	 */
 	public static function delete($url, $data = array())
 	{
-		return new static($uri, $data, 'DELETE');
+		return new static($url, $data, 'DELETE');
 	}
 	
 	/**

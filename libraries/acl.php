@@ -177,18 +177,28 @@ class Acl {
 			if (strpos($id, ':') !== false)
 			{
 				list($role, $action) = explode(':', $id);
-				$this->acl($role, $action, $allow);
+				$this->assign($role, $action, $allow);
 			}
 		}
 
-		/*
-		 * Re-sync memory with acl instance, make sure anything
-		 * that added before ->with($memory) got called is appended
-		 * to memory as well.
-		 */
-		$this->memory->put("acl_".$this->name.".actions", $this->actions);
-		$this->memory->put("acl_".$this->name.".roles", $this->roles);
-		$this->memory->put("acl_".$this->name.".acl", $this->acl);
+		$this->sync();
+	}
+
+	/**
+	 * Sync memory with acl instance, make sure anything that added before 
+	 * ->with($memory) got called is appended to memory as well.
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function sync()
+	{
+		if ( ! is_null($this->memory))
+		{
+			$this->memory->put("acl_".$this->name.".actions", $this->actions);
+			$this->memory->put("acl_".$this->name.".roles", $this->roles);
+			$this->memory->put("acl_".$this->name.".acl", $this->acl);
+		}
 
 		return $this;
 	}
@@ -248,14 +258,14 @@ class Acl {
 	{
 		if (is_null($role)) 
 		{
-			throw new AclException(__FUNCTION__.": Can't add NULL role.");
+			throw new AclException("Can't add NULL role.");
 		}
 
 		$role = trim(Str::slug($role, '-'));
 
 		if ($this->has_role($role))
 		{
-			throw new AclException(__FUNCTION__.": Role {$role} already exist.");
+			throw new AclException("Role {$role} already exist.");
 		}
 
 		array_push($this->roles, $role);
@@ -319,14 +329,14 @@ class Acl {
 	{
 		if (is_null($action)) 
 		{
-			throw new AclException(__FUNCTION__.": Can't add NULL actions.");
+			throw new AclException("Can't add NULL actions.");
 		}
 
 		$action = trim(Str::slug($action, '-'));
 		
 		if ($this->has_action($action))
 		{
-			throw new AclException(__FUNCTION__.": Action {$action} already exist.");
+			throw new AclException("Action {$action} already exist.");
 		}	
 
 		array_push($this->actions, $action);
@@ -351,7 +361,7 @@ class Acl {
 
 		if ( ! in_array(Str::slug($action, '-'), $this->actions)) 
 		{
-			throw new AclException(__FUNCTION__.": Unable to verify unknown action {$action}.");
+			throw new AclException("Unable to verify unknown action {$action}.");
 		}
 
 		if (is_null(Auth::user()))
@@ -434,7 +444,7 @@ class Acl {
 
 			if ( ! $this->has_role($role)) 
 			{
-				throw new AclException(__FUNCTION__.": Role {$role} does not exist.");
+				throw new AclException("Role {$role} does not exist.");
 			}
 
 			foreach ($actions as $action) 
@@ -443,10 +453,10 @@ class Acl {
 
 				if ( ! $this->has_action($action)) 
 				{
-					throw new AclException(__FUNCTION__.": Action {$action} does not exist.");
+					throw new AclException("Action {$action} does not exist.");
 				}
 
-				$this->acl($role, $action, $allow);
+				$this->assign($role, $action, $allow);
 			}
 		}
 
@@ -462,7 +472,7 @@ class Acl {
 	 * @param   bool    $allow
 	 * @return  void
 	 */
-	protected function acl($role, $action, $allow = true)
+	protected function assign($role, $action, $allow = true)
 	{
 		$role_key   = is_numeric($role) ? $role : array_search($role, $this->roles);
 		$action_key = is_numeric($action) ? $action : array_search($action, $this->actions);
@@ -504,6 +514,11 @@ class Acl {
 	 */
 	public static function shutdown()
 	{
+		// Re-sync before shutting down.
+		foreach(static::$instances as $acl) $acl->sync();
+
+		Memory::shutdown();
+
 		static::$initiated = false;
 		static::$instances = array();
 	}

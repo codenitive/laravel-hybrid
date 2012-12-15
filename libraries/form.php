@@ -154,6 +154,7 @@ class Form {
 
 		return View::make($grid->view)
 					->with('token', $grid->token)
+					->with('hiddens', $grid->hiddens)
 					->with('row', $grid->row)
 					->with('form_action', $form_action)
 					->with('form_method', $form_method)

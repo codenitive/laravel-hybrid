@@ -4,6 +4,8 @@ echo Form::open($form_action, $form_method, array_merge($form_attr, array('class
 
 if ($token) echo Form::token();
 
+foreach ($hiddens as $hidden) echo $hidden;
+
 foreach ($fieldsets as $fieldset) { ?>
 
 	<fieldset<?php echo HTML::attributes($fieldset->attr ?: array()); ?>>

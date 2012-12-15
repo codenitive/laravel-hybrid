@@ -8,14 +8,26 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, Laravel\Fluent, Hybrid\Exception;
+use \Closure, 
+	Laravel\Fluent, 
+	Laravel\Form as F,
+	Hybrid\Exception;
 
 class Grid {
 
 	/**
 	 * Enable CSRF token
+	 *
+	 * @var boolean
 	 */
 	public $token = false;
+
+	/**
+	 * Hidden fields
+	 *
+	 * @var array
+	 */
+	protected $hiddens = array();
 
 	/**
 	 * List of row in array
@@ -152,11 +164,25 @@ class Grid {
 	}
 
 	/**
+	 * Add hidden field.
+	 *
+	 * @access public
+	 * @param  string   $name
+	 * @param  mixed    $value
+	 * @param  array    $attributes
+	 * @return void
+	 */
+	public function hidden($name, $value, $attributes = array())
+	{
+		$this->hiddens[$name] = F::hidden($name, $value, $attributes);
+	}
+
+	/**
 	 * Magic Method for calling the methods.
 	 */
 	public function __call($method, array $arguments = array())
 	{
-		if (in_array($method, array('fieldsets', 'view')))
+		if (in_array($method, array('fieldsets', 'view', 'hiddens')))
 		{
 			return $this->$method;
 		}
@@ -167,7 +193,7 @@ class Grid {
 	 */
 	public function __get($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view')))
+		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
@@ -193,7 +219,7 @@ class Grid {
 	 */
 	public function __isset($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view')))
+		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
 		}

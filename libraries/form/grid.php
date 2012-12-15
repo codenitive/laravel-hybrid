@@ -173,6 +173,8 @@ class Grid {
 	 */
 	public function hidden($name, $callback = null)
 	{
+		$value = null;
+		
 		if (isset($this->row) and isset($this->row->{$name})) 
 		{
 			$value = $this->row->{$name};

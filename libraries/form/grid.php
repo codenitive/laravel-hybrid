@@ -168,13 +168,25 @@ class Grid {
 	 *
 	 * @access public
 	 * @param  string   $name
-	 * @param  mixed    $value
-	 * @param  array    $attributes
+	 * @param  Closure  $callback
 	 * @return void
 	 */
-	public function hidden($name, $value, $attributes = array())
+	public function hidden($name, $callback = null)
 	{
-		$this->hiddens[$name] = F::hidden($name, $value, $attributes);
+		if (isset($this->row) and isset($this->row->{$name})) 
+		{
+			$value = $this->row->{$name};
+		}
+
+		$field = new Fluent(array(
+			'name'  => $name,
+			'value' => $value ?: '',
+			'attr'  => array(),
+		));
+
+		if ($callback instanceof Closure) call_user_func($callback, $field);
+
+		$this->hiddens[$name] = F::hidden($name, $field->value, $field->attr);
 	}
 
 	/**
@@ -182,6 +194,8 @@ class Grid {
 	 */
 	public function __call($method, array $arguments = array())
 	{
+		unset($arguments);
+
 		if (in_array($method, array('fieldsets', 'view', 'hiddens')))
 		{
 			return $this->$method;
@@ -204,14 +218,14 @@ class Grid {
 	/**
 	 * Magic Method for handling the dynamic setting of data.
 	 */
-	public function __set($key, array $values)
+	public function __set($key, array $arguments)
 	{
 		if ( ! in_array($key, array('attr')))
 		{
 			throw new Exception(__METHOD__.": unable to set {$key}");
 		}
 
-		$this->attr($values, null);
+		$this->attr($arguments, null);
 	}
 
 	/**

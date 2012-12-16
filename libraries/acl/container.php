@@ -116,17 +116,8 @@ class Container {
 		// this ACL instance.
 		foreach ($data['acl'] as $id => $allow)
 		{
-			if (strpos($id, '/') !== false)
-			{
-				list($role, $action) = explode('/', $id);
-				$this->allow($role, $action, $allow);
-			}
-
-			if (strpos($id, ':') !== false)
-			{
-				list($role, $action) = explode(':', $id);
-				$this->assign($role, $action, $allow);
-			}
+			list($role, $action) = explode(':', $id);
+			$this->assign($role, $action, $allow);
 		}
 
 		$this->sync();

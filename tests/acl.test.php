@@ -1,14 +1,14 @@
 <?php
 
+Bundle::start('hybrid');
+
 class AclTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
-	public function setup()
+	public function setUp()
 	{
-		Bundle::start('hybrid');
-
 		Hybrid\Acl::register('mock-one', function ($acl)
 		{
 			$acl->add_actions(array('view blog', 'view forum', 'view news'));
@@ -24,7 +24,7 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$this->assertInstanceOf('Hybrid\Acl', Hybrid\Acl::make('mock-one'));
+		$this->assertInstanceOf('Hybrid\Acl\Container', Hybrid\Acl::make('mock-one'));
 	}
 
 	/**
@@ -35,7 +35,9 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	public function testCanMockOne()
 	{
 		$acl    = Hybrid\Acl::make('mock-one');
+		$this->assertInstanceOf('Hybrid\Acl\Container', $acl);
 		
+
 		$output = $acl->can('view blog');
 		$this->assertTrue($output);
 		

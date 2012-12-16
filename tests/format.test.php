@@ -1,14 +1,8 @@
 <?php
 
+Bundle::start('hybrid');
+
 class FormatTest extends PHPUnit_Framework_TestCase {
-	
-	/**
-	 * Setup the test environment.
-	 */
-	public function setup()
-	{
-		Bundle::start('hybrid');
-	}
 
 	/**
 	 * Add data provider

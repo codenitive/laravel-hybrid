@@ -1,14 +1,8 @@
 <?php
 
-class CurlTest extends PHPUnit_Framework_TestCase {
+Bundle::start('hybrid');
 
-	/**
-	 * Setup the test environment.
-	 */
-	public function setup()
-	{
-		Bundle::start('hybrid');
-	}
+class CurlTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test that Hybrid\Curl::make() return an instanceof Hybrid\Curl.

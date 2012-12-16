@@ -1,14 +1,8 @@
 <?php
 
-class FtpTest extends PHPUnit_Framework_TestCase {
+Bundle::start('hybrid');
 
-	/**
-	 * Setup the test environment.
-	 */
-	public function setUp()
-	{
-		Bundle::start('hybrid');
-	}
+class FtpTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test instance of Hybrid\FTP

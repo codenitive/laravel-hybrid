@@ -7,9 +7,8 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Setup the test environment.
 	 */
-	public function setup()
+	public function setUp()
 	{
-
 		$mock = Hybrid\Memory::make('runtime.mock');
 
 		$mock->put('foo.bar', 'hello world');

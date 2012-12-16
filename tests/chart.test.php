@@ -1,15 +1,9 @@
 <?php
 
+Bundle::start('hybrid');
+
 class ChartTest extends PHPUnit_Framework_TestCase {
-
-	/**
-	 * Setup the test environment.
-	 */
-	public function setup()
-	{
-		Bundle::start('hybrid');
-	}
-
+	
 	/**
 	 * Test Hybrid\Chart::make() return an instanceof Hybrid\Chart.
 	 *

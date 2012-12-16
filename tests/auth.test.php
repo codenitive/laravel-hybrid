@@ -1,14 +1,14 @@
 <?php
 
+Bundle::start('hybrid');
+
 class AuthTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
-	public function setup()
+	public function setUp()
 	{
-		Bundle::start('hybrid');
-
 		Event::clear('hybrid.auth.roles');
 
 		// mock roles

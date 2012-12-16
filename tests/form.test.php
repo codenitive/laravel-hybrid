@@ -1,5 +1,7 @@
 <?php
 
+Bundle::start('hybrid');
+
 class FormTest extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -7,8 +9,6 @@ class FormTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		Bundle::start('hybrid');
-
 		$mock_data = new Laravel\Fluent(array(
 			'id' => 1, 
 			'name' => 'Laravel'

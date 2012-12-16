@@ -137,9 +137,11 @@ class Container {
 	{
 		if ( ! is_null($this->memory))
 		{
-			$this->memory->put("acl_".$this->name.".actions", $this->actions->get());
-			$this->memory->put("acl_".$this->name.".roles", $this->roles->get());
-			$this->memory->put("acl_".$this->name.".acl", $this->acl);
+			$name = $this->name;
+
+			$this->memory->put("acl_{$name}.actions", $this->actions->get());
+			$this->memory->put("acl_{$name}.roles", $this->roles->get());
+			$this->memory->put("acl_{$name}.acl", $this->acl);
 		}
 
 		return $this;
@@ -324,6 +326,12 @@ class Container {
 			if ($operation === 'has') return $result;
 		}
 
+		if ( ! is_null($this->memory))
+		{
+			$name = $this->name;
+			$this->memory->put("acl_{$name}.{$type}", $this->{$type});
+		}
+		
 		return $this;
 	}
 }

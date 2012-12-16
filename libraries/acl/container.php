@@ -9,6 +9,9 @@
  */
 
 use \Str,
+	Hybrid\AclException,
+	Hybrid\InvalidArgumentException,
+	Hybrid\RuntimeException,
 	Hybrid\Auth as Auth,
 	Hybrid\Memory\Driver as MemoryDriver;
 
@@ -82,21 +85,20 @@ class Container {
 	{
 		if ( ! is_null($this->memory))
 		{
-			throw new Exception("Unable to assign multiple Hybrid\Memory instance.");
+			throw new RuntimeException(
+				"Unable to assign multiple Hybrid\Memory instance."
+			);
 		}
 
 		// since we already check instanceof, only check for NULL
 		if (is_null($memory)) return;
 
 		$this->memory = $memory;
-
-		$data = $this->memory->get("acl_".$this->name, array());
-
-		$data = array_merge(array(
+		$data         = array_merge(array(
 			'acl'     => array(),
 			'actions' => array(),
 			'roles'   => array(),
-		), $data);
+		), $this->memory->get("acl_".$this->name, array()));
 
 		// Loop through all the roles in memory and add it to
 		// this ACL instance.
@@ -169,14 +171,7 @@ class Container {
 	{
 		foreach ((array) $roles as $role)
 		{
-			try
-			{
-				$this->add_role($role);
-			}
-			catch (Exception $e)
-			{
-				continue;
-			}
+			$this->add_role($role);
 		}
 
 		return $this;
@@ -194,19 +189,20 @@ class Container {
 	{
 		if (is_null($role)) 
 		{
-			throw new Exception("Can't add NULL role.");
+			throw new InvalidArgumentException("Can't add NULL role.");
 		}
 
 		$role = trim(Str::slug($role, '-'));
 
-		if ($this->has_role($role))
+		if ( ! $this->has_role($role))
 		{
-			throw new Exception("Role {$role} already exist.");
+			array_push($this->roles, $role);
+
+			if ( ! empty($this->memory)) 
+			{
+				$this->memory->put("acl_".$this->name.".roles", $this->roles);
+			}
 		}
-
-		array_push($this->roles, $role);
-
-		if (! empty($this->memory)) $this->memory->put("acl_".$this->name.".roles", $this->roles);
 
 		return $this;
 	}
@@ -223,9 +219,7 @@ class Container {
 		$action = strval($action);
 		$action = trim(Str::slug($action, '-'));
 
-		if ( ! empty($action) and in_array($action, $this->actions)) return true;
-
-		return false;
+		return ( ! empty($action) and in_array($action, $this->actions));
 	}
 
 	/**
@@ -240,14 +234,7 @@ class Container {
 	{
 		foreach ((array) $actions as $action)
 		{
-			try
-			{
-				$this->add_action($action);
-			}
-			catch (Exception $e)
-			{
-				continue;
-			}
+			$this->add_action($action);
 		}
 
 		return $this;
@@ -265,26 +252,27 @@ class Container {
 	{
 		if (is_null($action)) 
 		{
-			throw new Exception("Can't add NULL actions.");
+			throw new InvalidArgumentException("Can't add NULL actions.");
 		}
 
 		$action = trim(Str::slug($action, '-'));
 		
-		if ($this->has_action($action))
+		if ( ! $this->has_action($action))
 		{
-			throw new Exception("Action {$action} already exist.");
-		}	
+			array_push($this->actions, $action);
 
-		array_push($this->actions, $action);
-
-		if (! empty($this->memory)) $this->memory->put("acl_".$this->name.".actions", $this->actions);
+			if ( ! empty($this->memory))
+			{
+				$this->memory->put("acl_".$this->name.".actions", $this->actions);
+			}
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Verify whether current user has sufficient roles to access the actions based 
-	 * on available type of access.
+	 * Verify whether current user has sufficient roles to access the 
+	 * actions based on available type of access.
 	 *
 	 * @access  public
 	 * @param   mixed   $action     A string of action name
@@ -297,7 +285,9 @@ class Container {
 
 		if ( ! in_array(Str::slug($action, '-'), $this->actions)) 
 		{
-			throw new Exception("Unable to verify unknown action {$action}.");
+			throw new InvalidArgumentException(
+				"Unable to verify unknown action {$action}."
+			);
 		}
 
 		if (is_null(Auth::user()))
@@ -310,8 +300,8 @@ class Container {
 		$action     = Str::slug($action, '-');
 		$action_key = array_search($action, $this->actions);
 
-		// array_search() will return false when no key is found based on given haystack,
-		// therefore we should just ignore and return false
+		// array_search() will return false when no key is found based on 
+		// given haystack, therefore we should just ignore and return false
 		if ($action_key === false) return false;
 
 		foreach ((array) $roles as $role) 
@@ -319,11 +309,15 @@ class Container {
 			$role     = Str::slug($role, '-');
 			$role_key = array_search($role, $this->roles);
 
-			// array_search() will return false when no key is found based on given haystack,
-			// therefore we should just ignore and continue to the next role.
+			// array_search() will return false when no key is found based 
+			// on given haystack, therefore we should just ignore and 
+			// continue to the next role.
 			if ($role_key === false) continue;
 
-			if (isset($this->acl[$role_key.':'.$action_key])) return $this->acl[$role_key.':'.$action_key];
+			if (isset($this->acl[$role_key.':'.$action_key]))
+			{
+				return $this->acl[$role_key.':'.$action_key];
+			}
 		}
 
 		return false;
@@ -380,7 +374,7 @@ class Container {
 
 			if ( ! $this->has_role($role)) 
 			{
-				throw new Exception("Role {$role} does not exist.");
+				throw new AclException("Role {$role} does not exist.");
 			}
 
 			foreach ($actions as $action) 
@@ -389,7 +383,7 @@ class Container {
 
 				if ( ! $this->has_action($action)) 
 				{
-					throw new Exception("Action {$action} does not exist.");
+					throw new AclException("Action {$action} does not exist.");
 				}
 
 				$this->assign($role, $action, $allow);

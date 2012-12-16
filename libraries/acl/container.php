@@ -37,17 +37,17 @@ class Container {
 	 * List of roles
 	 * 
 	 * @access  protected
-	 * @var     array
+	 * @var     Hybrid\Acl\Fluent
 	 */
-	protected $roles = array();
+	protected $roles = null;
 	 
 	/**
 	 * List of actions
 	 * 
 	 * @access  protected
-	 * @var     array
+	 * @var     Hybrid\Acl\Fluent
 	 */
-	protected $actions = array();
+	protected $actions = null;
 	 
 	/**
 	 * List of ACL map between roles, action
@@ -66,10 +66,11 @@ class Container {
 	 */
 	public function __construct($name, MemoryDriver $memory = null) 
 	{
-		$this->name = $name;
+		$this->name    = $name;
+		$this->roles   = new Fluent('roles');
+		$this->actions = new Fluent('actions');
 
-		$this->add_role('guest');
-
+		$this->roles->add('guest');
 		$this->attach($memory);
 	}
 
@@ -104,14 +105,14 @@ class Container {
 		// this ACL instance.
 		foreach ($data['roles'] as $role)
 		{
-			if ( ! $this->has_role($role)) $this->add_role($role);
+			$this->roles->add($role);
 		}
 
 		// Loop through all the actions in memory and add it to 
 		// this ACL instance.
 		foreach ($data['actions'] as $action)
 		{
-			if ( ! $this->has_action($action)) $this->add_action($action);
+			$this->actions->add($action);
 		}
 
 		// Loop through all the acl in memory and add it to 
@@ -136,135 +137,9 @@ class Container {
 	{
 		if ( ! is_null($this->memory))
 		{
-			$this->memory->put("acl_".$this->name.".actions", $this->actions);
-			$this->memory->put("acl_".$this->name.".roles", $this->roles);
+			$this->memory->put("acl_".$this->name.".actions", $this->actions->get());
+			$this->memory->put("acl_".$this->name.".roles", $this->roles->get());
 			$this->memory->put("acl_".$this->name.".acl", $this->acl);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Check if given role is available
-	 *
-	 * @access  public
-	 * @param   string  $role
-	 * @return  bool
-	 */
-	public function has_role($role)
-	{
-		$role = strval($role);
-		$role = trim(Str::slug($role, '-'));
-
-		return ( ! empty($role) and in_array($role, $this->roles));
-	}
-
-	/**
-	 * Add multiple user' roles to the this instance
-	 * 
-	 * @access  public
-	 * @param   mixed   $roles      A string or an array of roles
-	 * @return  self
-	 * @throws  Exception
-	 */
-	public function add_roles($roles = null)
-	{
-		foreach ((array) $roles as $role)
-		{
-			$this->add_role($role);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Add single user' role to the this instance
-	 * 
-	 * @access  public
-	 * @param   mixed   $role       A string or an array of roles
-	 * @return  self
-	 * @throws  Exception
-	 */
-	public function add_role($role)
-	{
-		if (is_null($role)) 
-		{
-			throw new InvalidArgumentException("Can't add NULL role.");
-		}
-
-		$role = trim(Str::slug($role, '-'));
-
-		if ( ! $this->has_role($role))
-		{
-			array_push($this->roles, $role);
-
-			if ( ! empty($this->memory)) 
-			{
-				$this->memory->put("acl_".$this->name.".roles", $this->roles);
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Check if given action is available
-	 *
-	 * @access  public
-	 * @param   string  $action
-	 * @return  bool
-	 */
-	public function has_action($action)
-	{
-		$action = strval($action);
-		$action = trim(Str::slug($action, '-'));
-
-		return ( ! empty($action) and in_array($action, $this->actions));
-	}
-
-	/**
-	 * Add multiple actions to this instance
-	 * 
-	 * @access  public
-	 * @param   mixed   $actions    A string of action name
-	 * @return  self
-	 * @throws  Exception
-	 */
-	public function add_actions($actions = null) 
-	{
-		foreach ((array) $actions as $action)
-		{
-			$this->add_action($action);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Add single action to this instance
-	 * 
-	 * @access  public
-	 * @param   mixed   $action     A string of action name
-	 * @return  self
-	 * @throws  Exception
-	 */
-	public function add_action($action) 
-	{
-		if (is_null($action)) 
-		{
-			throw new InvalidArgumentException("Can't add NULL actions.");
-		}
-
-		$action = trim(Str::slug($action, '-'));
-		
-		if ( ! $this->has_action($action))
-		{
-			array_push($this->actions, $action);
-
-			if ( ! empty($this->memory))
-			{
-				$this->memory->put("acl_".$this->name.".actions", $this->actions);
-			}
 		}
 
 		return $this;
@@ -281,9 +156,10 @@ class Container {
 	 */
 	public function can($action) 
 	{
-		$roles = array();
+		$roles   = array();
+		$actions = $this->actions->get();
 
-		if ( ! in_array(Str::slug($action, '-'), $this->actions)) 
+		if ( ! in_array(Str::slug($action, '-'), $actions)) 
 		{
 			throw new InvalidArgumentException(
 				"Unable to verify unknown action {$action}."
@@ -293,12 +169,12 @@ class Container {
 		if (is_null(Auth::user()))
 		{
 			// only add guest if it's available
-			if (in_array('guest', $this->roles)) array_push($roles, 'guest');
+			if ($this->roles->has('guest')) array_push($roles, 'guest');
 		}
 		else $roles = Auth::roles();
 
 		$action     = Str::slug($action, '-');
-		$action_key = array_search($action, $this->actions);
+		$action_key = array_search($action, $actions);
 
 		// array_search() will return false when no key is found based on 
 		// given haystack, therefore we should just ignore and return false
@@ -307,7 +183,7 @@ class Container {
 		foreach ((array) $roles as $role) 
 		{
 			$role     = Str::slug($role, '-');
-			$role_key = array_search($role, $this->roles);
+			$role_key = array_search($role, $this->roles->get());
 
 			// array_search() will return false when no key is found based 
 			// on given haystack, therefore we should just ignore and 
@@ -340,10 +216,10 @@ class Container {
 			switch (true)
 			{
 				case $roles === '*' :
-					$roles = $this->roles;
+					$roles = $this->roles->get();
 					break;
 				case $roles[0] === '!' :
-					$roles = array_diff($this->roles, array(substr($roles, 1)));
+					$roles = array_diff($this->roles->get(), array(substr($roles, 1)));
 					break;
 				default :
 					$roles = array($roles);
@@ -357,10 +233,10 @@ class Container {
 			switch (true)
 			{
 				case $actions === '*' :
-					$actions = $this->actions;
+					$actions = $this->actions->get();
 					break;
 				case $actions[0] === '!' :
-					$actions = array_diff($this->actions, array(substr($actions, 1)));
+					$actions = array_diff($this->actions->get(), array(substr($actions, 1)));
 					break;
 				default :
 					$actions = array($actions);
@@ -372,7 +248,7 @@ class Container {
 		{
 			$role = Str::slug($role, '-');
 
-			if ( ! $this->has_role($role)) 
+			if ( ! $this->roles->has($role)) 
 			{
 				throw new AclException("Role {$role} does not exist.");
 			}
@@ -381,7 +257,7 @@ class Container {
 			{
 				$action = Str::slug($action, '-');
 
-				if ( ! $this->has_action($action)) 
+				if ( ! $this->actions->has($action)) 
 				{
 					throw new AclException("Action {$action} does not exist.");
 				}
@@ -404,21 +280,11 @@ class Container {
 	 */
 	protected function assign($role, $action, $allow = true)
 	{
-		$role_key   = is_numeric($role) ? $role : array_search($role, $this->roles);
-		$action_key = is_numeric($action) ? $action : array_search($action, $this->actions);
+		$role_key   = is_numeric($role) ? $role : array_search($role, $this->roles->get());
+		$action_key = is_numeric($action) ? $action : array_search($action, $this->actions->get());
 		$key        = $role_key.':'.$action_key;
 
 		$this->acl[$key] = $allow;
-
-		if ( ! empty($this->memory))
-		{
-			$value = array_merge(
-				$this->memory->get("acl_".$this->name.".acl", array()), 
-				array("{$role_key}:{$action_key}" => $allow)
-			);
-			
-			$this->memory->put("acl_".$this->name.".acl", $value);
-		}
 	}
 
 	/**
@@ -433,5 +299,31 @@ class Container {
 	public function deny($roles, $actions) 
 	{
 		return $this->allow($roles, $actions, false);
+	}
+
+	/**
+	 * Magic method to mimic roles and actions manipulation
+	 */
+	public function __call($method, $parameters)
+	{
+		$operation = null;
+		$type      = null;
+
+		if (preg_match('/^(add|has|remove)_(role|action)(s?)$/', $method, $matches))
+		{
+			$operation = $matches[1];
+			$type      = $matches[2].'s';
+
+			if (isset($matches[3]) and $matches[3] === 's' and $operation === 'add')
+			{
+				$operation = 'multiple_add';
+			}
+
+			$result = call_user_func_array(array($this->{$type}, $operation), $parameters);
+
+			if ($operation === 'has') return $result;
+		}
+
+		return $this;
 	}
 }

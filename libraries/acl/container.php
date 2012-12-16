@@ -316,7 +316,7 @@ class Container {
 
 			if (isset($matches[3]) and $matches[3] === 's' and $operation === 'add')
 			{
-				$operation = 'multiple_add';
+				$operation = 'fill';
 			}
 
 			$result = call_user_func_array(array($this->{$type}, $operation), $parameters);

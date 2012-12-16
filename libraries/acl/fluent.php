@@ -64,7 +64,7 @@ class Fluent {
 	 * @param  array   $keys
 	 * @return void
 	 */
-	public function multiple_add(array $keys)
+	public function fill(array $keys)
 	{
 		foreach ($keys as $key)
 		{

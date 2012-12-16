@@ -10,7 +10,7 @@
 */
 
 Autoloader::namespaces(array(
-	'Hybrid' => Bundle::path('hybrid').'libraries',
+	'Hybrid' => Bundle::path('hybrid').'libraries'.DS,
 ));
 
 /*

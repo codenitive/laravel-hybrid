@@ -154,9 +154,7 @@ class Container {
 		$role = strval($role);
 		$role = trim(Str::slug($role, '-'));
 
-		if ( ! empty($role) and in_array($role, $this->roles)) return true;
-
-		return false;
+		return ( ! empty($role) and in_array($role, $this->roles));
 	}
 
 	/**

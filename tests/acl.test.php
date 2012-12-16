@@ -28,15 +28,26 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test Hybrid\Acl::has_role() given 'mock-one'
+	 *
+	 * @test
+	 */
+	public function testHasRoleUsingMockOne()
+	{
+		$acl = Hybrid\Acl::make('mock-one');
+		$this->assertTrue($acl->has_role('Guest'));
+		$this->assertFalse($acl->has_role('Adminy'));
+	}
+
+	/**
 	 * Test Hybrid\Acl::can() given 'mock-one'
 	 *
 	 * @test
 	 */
-	public function testCanMockOne()
+	public function testCanUsingMockOne()
 	{
 		$acl    = Hybrid\Acl::make('mock-one');
 		$this->assertInstanceOf('Hybrid\Acl\Container', $acl);
-		
 
 		$output = $acl->can('view blog');
 		$this->assertTrue($output);

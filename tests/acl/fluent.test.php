@@ -39,11 +39,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test add a single key.
+	 * Test Hybrid\Acl\Fluent::add() method.
 	 *
 	 * @test
 	 */
-	public function testAddKey()
+	public function testAddMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -59,11 +59,24 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test add multiple key.
+	 * Test Hybrid\Acl\Fluent::add() method null throw an exception.
+	 *
+	 * @test
+	 * @expectedException Hybrid\InvalidArgumentException
+	 */
+	public function testAddMethodNullThrownException()
+	{
+		$stub = new Hybrid\Acl\Fluent('foo');
+
+		$stub->add(null);
+	}
+
+	/**
+	 * Test Hybrid\Acl\Fluent::fill() method.
 	 *
 	 * @test
 	 */
-	public function testAddMulipleKey()
+	public function testFillMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -78,22 +91,35 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test add a single key.
+	 * Test Hybrid\Acl\Fluent::add() method null throw an exception.
+	 *
+	 * @test
+	 * @expectedException Hybrid\InvalidArgumentException
+	 */
+	public function testFillMethodNullThrownException()
+	{
+		$stub = new Hybrid\Acl\Fluent('foo');
+
+		$stub->fill(array(null));
+	}
+
+	/**
+	 * Test Hybrid\Acl\Fluent::has() method.
 	 *
 	 * @test
 	 */
-	public function testHasKey()
+	public function testHasMethod()
 	{
 		$this->assertTrue($this->stub->has('hello-world'));
 		$this->assertFalse($this->stub->has('goodbye-world'));
 	}
 
 	/**
-	 * Test rename key.
+	 * Test Hybrid\Acl\Fluent::rename() method.
 	 *
 	 * @test
 	 */
-	public function testRenameKey()
+	public function testRenameMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -110,11 +136,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test search key.
+	 * Test Hybrid\Acl\Fluent::search() method.
 	 *
 	 * @test
 	 */
-	public function testSearchKey()
+	public function testSearchMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -126,11 +152,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test exist key.
+	 * Test Hybrid\Acl\Fluent::exist() method.
 	 *
 	 * @test
 	 */
-	public function testExistKey()
+	public function testExistMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -142,11 +168,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test remove key.
+	 * Test Hybrid\Acl\Fluent::remove() method.
 	 *
 	 * @test
 	 */
-	public function testRemoveKey()
+	public function testRemoveMethod()
 	{
 		$stub = new Hybrid\Acl\Fluent('foo');
 
@@ -170,5 +196,18 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($stub->exist(1));
 		$this->assertFalse($stub->exist(2));
 		$this->assertEquals(array(1 => 'foobar'), $stub->get());
+	}
+
+	/**
+	 * Test Hybrid\Acl\Fluent::remove() method null throw an exception.
+	 *
+	 * @test
+	 * @expectedException Hybrid\InvalidArgumentException
+	 */
+	public function testRemoveMethodNullThrownException()
+	{
+		$stub = new Hybrid\Acl\Fluent('foo');
+
+		$stub->remove(null);
 	}
 }

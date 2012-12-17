@@ -66,10 +66,7 @@ class Fluent {
 	 */
 	public function fill(array $keys)
 	{
-		foreach ($keys as $key)
-		{
-			$this->add($key);
-		}
+		foreach ($keys as $key) $this->add($key);
 
 		return true;
 	}

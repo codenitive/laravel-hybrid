@@ -140,4 +140,24 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($stub->exist(1));
 		$this->assertFalse($stub->exist(3));
 	}
+
+	/**
+	 * Test remove key.
+	 *
+	 * @test
+	 */
+	public function testRemoveKey()
+	{
+		$stub = new Hybrid\Acl\Fluent('foo');
+
+		$stub->fill(array('foo', 'foobar'));
+
+		$this->assertEquals(array('foo', 'foobar'), $stub->get());
+
+		$stub->remove('foo');
+
+		$this->assertFalse($stub->exist(0));
+		$this->assertTrue($stub->exist(1));
+		$this->assertEquals(array(1 => 'foobar'), $stub->get());
+	}
 }

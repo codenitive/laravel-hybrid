@@ -129,9 +129,9 @@ class Fluent {
 
 		$key = trim(Str::slug($key, '-'));
 
-		if ( ! is_null($id = $this->id($key))) 
+		if ( ! is_null($id = $this->search($key))) 
 		{
-			unset($this->collection[$id]);
+			unset($this->collections[$id]);
 			return true;
 		}
 

@@ -1,5 +1,7 @@
 <?php
 
+Bundle::start('hybrid');
+
 class AclContainerTest extends PHPUnit_Framework_TestCase {
 
 	/**
@@ -59,13 +61,16 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSyncMemoryAfterConstruct()
 	{
-		$runtime = Hybrid\Memory::make('runtime.foo');
+		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime->put('acl_foo', static::providerMemory());
 
-		$this->stub->add_role('foo');
-		$this->stub->add_action('foobar');
-		$this->stub->allow('foo', 'foobar');
+		$stub    = new Hybrid\Acl\Container('foo', $runtime);
 
-		$refl    = new \ReflectionObject($this->stub);
+		$stub->add_role('foo');
+		$stub->add_action('foobar');
+		$stub->allow('foo', 'foobar');
+
+		$refl    = new \ReflectionObject($stub);
 		$memory  = $refl->getProperty('memory');
 		$roles   = $refl->getProperty('roles');
 		$actions = $refl->getProperty('actions');
@@ -77,23 +82,23 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$acl->setAccessible(true);
 
 		$this->assertEquals(array('guest', 'admin', 'foo'), 
-			$roles->getValue($this->stub)->get());
+			$roles->getValue($stub)->get());
 		$this->assertEquals(array('guest', 'admin', 'foo'), 
-			$memory->getValue($this->stub)->get('acl_foo.roles'));
+			$memory->getValue($stub)->get('acl_foo.roles'));
 		$this->assertEquals(array('guest', 'admin', 'foo'), 
 			$runtime->get('acl_foo.roles'));
 
 		$this->assertEquals(array('manage-user', 'manage', 'foobar'), 
-			$actions->getValue($this->stub)->get());
+			$actions->getValue($stub)->get());
 		$this->assertEquals(array('manage-user', 'manage', 'foobar'), 
-			$memory->getValue($this->stub)->get('acl_foo.actions'));
+			$memory->getValue($stub)->get('acl_foo.actions'));
 		$this->assertEquals(array('manage-user', 'manage', 'foobar'), 
 			$runtime->get('acl_foo.actions'));
 
 		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => true, '1:1' => true, '2:2' => true), 
-			$acl->getValue($this->stub));
+			$acl->getValue($stub));
 		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => true, '1:1' => true, '2:2' => true), 
-			$memory->getValue($this->stub)->get('acl_foo.acl'));
+			$memory->getValue($stub)->get('acl_foo.acl'));
 		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => true, '1:1' => true, '2:2' => true), 
 			$runtime->get('acl_foo.acl'));
 	}
@@ -105,7 +110,26 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAllowMethod()
 	{
-		$this->markTestIncomplete('incompleted');
+		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime->put('acl_foo', static::providerMemory());
+
+		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+
+		$stub->allow('guest', 'manage-user');
+
+		$refl   = new \ReflectionObject($this->stub);
+		$memory = $refl->getProperty('memory');
+		$acl    = $refl->getProperty('acl');
+
+		$memory->setAccessible(true);
+		$acl->setAccessible(true);
+
+		$this->assertEquals(array('0:0' => true, '0:1' => false, '1:0' => true, '1:1' => true), 
+			$acl->getValue($stub));
+		$this->assertEquals(array('0:0' => true, '0:1' => false, '1:0' => true, '1:1' => true), 
+			$memory->getValue($stub)->get('acl_foo.acl'));
+		$this->assertEquals(array('0:0' => true, '0:1' => false, '1:0' => true, '1:1' => true), 
+			$runtime->get('acl_foo.acl'));
 	}
 
 	/**
@@ -115,7 +139,26 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testDenyMethod()
 	{
-		$this->markTestIncomplete('incompleted');
+		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime->put('acl_foo', static::providerMemory());
+
+		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+
+		$stub->deny('admin', 'manage-user');
+
+		$refl   = new \ReflectionObject($this->stub);
+		$memory = $refl->getProperty('memory');
+		$acl    = $refl->getProperty('acl');
+
+		$memory->setAccessible(true);
+		$acl->setAccessible(true);
+
+		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => false, '1:1' => true), 
+			$acl->getValue($stub));
+		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => false, '1:1' => true), 
+			$memory->getValue($stub)->get('acl_foo.acl'));
+		$this->assertEquals(array('0:0' => false, '0:1' => false, '1:0' => false, '1:1' => true), 
+			$runtime->get('acl_foo.acl'));
 	}
 
 	/**
@@ -135,11 +178,8 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMemoryIsProperlySync()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
-		$runtime->put('acl_foo', static::providerMemory()); 
-
-		$acl     = new Hybrid\Acl\Container('foo', $runtime);
-		$refl    = new \ReflectionObject($acl);
+		$stub    = $this->stub;
+		$refl    = new \ReflectionObject($stub);
 		$memory  = $refl->getProperty('memory');
 		$roles   = $refl->getProperty('roles');
 		$actions = $refl->getProperty('actions');
@@ -148,25 +188,25 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$roles->setAccessible(true);
 		$actions->setAccessible(true);
 
-		$this->assertInstanceOf('Hybrid\Memory\Runtime', $memory->getValue($acl));
+		$this->assertInstanceOf('Hybrid\Memory\Runtime', $memory->getValue($stub));
 
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $roles->getValue($acl));
+		$this->assertInstanceOf('Hybrid\Acl\Fluent', $roles->getValue($stub));
 
-		$this->assertTrue($acl->roles()->has('guest'));
-		$this->assertTrue($acl->roles()->has('admin'));
-		$this->assertTrue($acl->has_role('guest'));
-		$this->assertTrue($acl->has_role('admin'));
-		$this->assertEquals(array('guest', 'admin'), $roles->getValue($acl)->get());
-		$this->assertEquals(array('guest', 'admin'), $acl->roles()->get());
+		$this->assertTrue($stub->roles()->has('guest'));
+		$this->assertTrue($stub->roles()->has('admin'));
+		$this->assertTrue($stub->has_role('guest'));
+		$this->assertTrue($stub->has_role('admin'));
+		$this->assertEquals(array('guest', 'admin'), $roles->getValue($stub)->get());
+		$this->assertEquals(array('guest', 'admin'), $stub->roles()->get());
 
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $actions->getValue($acl));
+		$this->assertInstanceOf('Hybrid\Acl\Fluent', $actions->getValue($stub));
 
-		$this->assertTrue($acl->actions()->has('manage-user'));
-		$this->assertTrue($acl->actions()->has('manage'));
-		$this->assertTrue($acl->has_action('manage-user'));
-		$this->assertTrue($acl->has_action('manage'));
-		$this->assertEquals(array('manage-user', 'manage'), $actions->getValue($acl)->get());
-		$this->assertEquals(array('manage-user', 'manage'), $acl->actions()->get());
+		$this->assertTrue($stub->actions()->has('manage-user'));
+		$this->assertTrue($stub->actions()->has('manage'));
+		$this->assertTrue($stub->has_action('manage-user'));
+		$this->assertTrue($stub->has_action('manage'));
+		$this->assertEquals(array('manage-user', 'manage'), $actions->getValue($stub)->get());
+		$this->assertEquals(array('manage-user', 'manage'), $stub->actions()->get());
 	}
 
 	/**
@@ -179,28 +219,28 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$runtime = new Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory()); 
 
-		$acl     = new Hybrid\Acl\Container('foo', $runtime);
-		$refl    = new \ReflectionObject($acl);
+		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+		$refl    = new \ReflectionObject($stub);
 		$actions = $refl->getProperty('actions');
 		$roles   = $refl->getProperty('roles');
 
 		$actions->setAccessible(true);
 		$roles->setAccessible(true);
 
-		$acl->roles()->add('admin');
-		$acl->roles()->fill(array('admin'));
-		$acl->add_role('admin');
-		$acl->add_roles(array('admin'));
+		$stub->roles()->add('admin');
+		$stub->roles()->fill(array('admin'));
+		$stub->add_role('admin');
+		$stub->add_roles(array('admin'));
 
-		$acl->actions()->add('manage');
-		$acl->actions()->fill(array('manage'));
-		$acl->add_action('manage');
-		$acl->add_actions(array('manage'));
+		$stub->actions()->add('manage');
+		$stub->actions()->fill(array('manage'));
+		$stub->add_action('manage');
+		$stub->add_actions(array('manage'));
 
-		$this->assertEquals(array('guest', 'admin'), $roles->getValue($acl)->get());
-		$this->assertEquals(array('guest', 'admin'), $acl->roles()->get());
+		$this->assertEquals(array('guest', 'admin'), $roles->getValue($stub)->get());
+		$this->assertEquals(array('guest', 'admin'), $stub->roles()->get());
 
-		$this->assertEquals(array('manage-user', 'manage'), $actions->getValue($acl)->get());
-		$this->assertEquals(array('manage-user', 'manage'), $acl->actions()->get());
+		$this->assertEquals(array('manage-user', 'manage'), $actions->getValue($stub)->get());
+		$this->assertEquals(array('manage-user', 'manage'), $stub->actions()->get());
 	}
 }

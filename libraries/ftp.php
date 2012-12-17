@@ -354,7 +354,7 @@ class FTP {
 	 */
 	public function login()
 	{
-		if ( ! ($login = @ftp_login($this->stream, $this->user, $this->password)))
+		if ( ! (@ftp_login($this->stream, $this->user, $this->password)))
 		{
 			throw new RuntimeException(
 				__CLASS__.": Failed FTP login to [{$this->host}]"

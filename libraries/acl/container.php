@@ -308,6 +308,10 @@ class Container {
 	 */
 	public function __call($method, $parameters)
 	{
+		$passthru  = array('roles', 'actions');
+
+		if (in_array($method, $passthru)) return $this->{$method};
+		
 		$operation = null;
 		$type      = null;
 

@@ -75,7 +75,7 @@ class Acl {
 	}
 
 	/**
-	 * Manipulate and synchronize roles and actions.
+	 * Manipulate and synchronize roles.
 	 *
 	 * @static
 	 * @access public

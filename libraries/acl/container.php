@@ -123,7 +123,7 @@ class Container {
 			$this->assign($role, $action, $allow);
 		}
 
-		$this->sync();
+		return $this->sync();
 	}
 
 	/**
@@ -135,6 +135,14 @@ class Container {
 	 */
 	public function sync()
 	{
+		// Loop through all the acl in memory and add it to this ACL 
+		// instance.
+		foreach ($this->acl as $id => $allow)
+		{
+			list($role, $action) = explode(':', $id);
+			$this->assign($role, $action, $allow);
+		}
+
 		if ( ! is_null($this->memory))
 		{
 			$name = $this->name;
@@ -265,6 +273,7 @@ class Container {
 				}
 
 				$this->assign($role, $action, $allow);
+				$this->sync();
 			}
 		}
 
@@ -280,13 +289,23 @@ class Container {
 	 * @param   bool    $allow
 	 * @return  void
 	 */
-	protected function assign($role, $action, $allow = true)
+	protected function assign($role = null, $action = null, $allow = true)
 	{
-		$role_key   = is_numeric($role) ? $role : array_search($role, $this->roles->get());
-		$action_key = is_numeric($action) ? $action : array_search($action, $this->actions->get());
-		$key        = $role_key.':'.$action_key;
+		if ( ! (is_numeric($role) and $this->roles->exist($role)))
+		{
+			$role = $this->roles->search($role);
+		}
 
-		$this->acl[$key] = $allow;
+		if ( ! (is_numeric($action) and $this->actions->exist($action)))
+		{
+			$action = $this->actions->search($action);
+		}
+
+		if ( ! is_null($role) and ! is_null($action))
+		{
+			$key             = $role.':'.$action;
+			$this->acl[$key] = $allow;
+		}
 	}
 
 	/**
@@ -309,13 +328,15 @@ class Container {
 	public function __call($method, $parameters)
 	{
 		$passthru  = array('roles', 'actions');
-
-		if (in_array($method, $passthru)) return $this->{$method};
-		
+		$matcher   = '/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/';
 		$operation = null;
 		$type      = null;
 
-		if (preg_match('/^(add|has|remove)_(role|action)(s?)$/', $method, $matches))
+		if (in_array($method, $passthru))
+		{
+			return $this->{$method};
+		}
+		elseif (preg_match($matcher, $method, $matches))
 		{
 			$operation = $matches[1];
 			$type      = $matches[2].'s';
@@ -324,18 +345,12 @@ class Container {
 			{
 				$operation = 'fill';
 			}
-
+			
 			$result = call_user_func_array(array($this->{$type}, $operation), $parameters);
 
 			if ($operation === 'has') return $result;
 		}
 
-		if ( ! is_null($this->memory))
-		{
-			$name = $this->name;
-			$this->memory->put("acl_{$name}.{$type}", $this->{$type});
-		}
-		
-		return $this;
+		return $this->sync();
 	}
 }

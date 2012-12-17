@@ -62,7 +62,7 @@ class Fluent {
 	 *
 	 * @access public
 	 * @param  array   $keys
-	 * @return void
+	 * @return bool
 	 */
 	public function fill(array $keys)
 	{
@@ -70,6 +70,8 @@ class Fluent {
 		{
 			$this->add($key);
 		}
+
+		return true;
 	}
 
 	/**
@@ -77,7 +79,7 @@ class Fluent {
 	 *
 	 * @access public
 	 * @param  string   $key
-	 * @return void
+	 * @return bool
 	 */
 	public function add($key)
 	{
@@ -88,10 +90,30 @@ class Fluent {
 
 		$key = trim(Str::slug($key, '-'));
 
-		if ( ! $this->has($key))
-		{
-			array_push($this->collections, $key);
-		}
+		if ($this->has($key)) return false;
+
+		array_push($this->collections, $key);
+		
+		return true;
+	}
+
+	/**
+	 * Rename a key from collection
+	 *
+	 * @access public
+	 * @param  string   $from
+	 * @param  string   $to
+	 * @return bool
+	 */
+	public function rename($from, $to)
+	{
+		$key = array_search($from, $this->collections);
+
+		if (false === $key) return false;
+
+		$this->collections[$key] = $to;
+
+		return true;
 	}
 
 	/**
@@ -99,7 +121,7 @@ class Fluent {
 	 *
 	 * @access public
 	 * @param  string   $key
-	 * @return void
+	 * @return bool
 	 */
 	public function remove($key)
 	{
@@ -110,12 +132,41 @@ class Fluent {
 
 		$key = trim(Str::slug($key, '-'));
 
-		if ($this->has($key))
+		if ( ! is_null($id = $this->id($key))) 
 		{
-			$array_key = array_search($this->collections, $key);
-
-			unset($this->collection[$array_key]);
+			unset($this->collection[$id]);
+			return true;
 		}
+
+		return false;
+	}
+
+	/**
+	 * Get the ID from a key
+	 *
+	 * @access public
+	 * @param  string   $key
+	 * @return int
+	 */
+	public function search($key)
+	{
+		$id = array_search($key, $this->collections);
+		
+		if (false === $id) return null;
+
+		return $id;
+	}
+
+	/**
+	 * Check if an id is set in the collection.
+	 *
+	 * @access public
+	 * @param  int      $id
+	 * @return bool
+	 */
+	public function exist($id)
+	{
+		return isset($this->collections[$id]);
 	}
 
 	/**

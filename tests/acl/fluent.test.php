@@ -159,5 +159,16 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($stub->exist(0));
 		$this->assertTrue($stub->exist(1));
 		$this->assertEquals(array(1 => 'foobar'), $stub->get());
+
+		$stub->fill(array('foo'));
+
+		$this->assertEquals(array(1 => 'foobar', 2 => 'foo'), $stub->get());
+
+		$stub->remove('foo');
+
+		$this->assertFalse($stub->exist(0));
+		$this->assertTrue($stub->exist(1));
+		$this->assertFalse($stub->exist(2));
+		$this->assertEquals(array(1 => 'foobar'), $stub->get());
 	}
 }

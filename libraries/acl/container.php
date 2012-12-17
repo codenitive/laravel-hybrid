@@ -323,20 +323,34 @@ class Container {
 	}
 
 	/**
+	 * Forward call to roles or actions.
+	 *
+	 * @access public
+	 * @param  string   $type           'roles' or 'actions'
+	 * @param  string   $operation
+	 * @param  array    $parameters
+	 * @return Acl\Fluent
+	 */
+	public function passthru($type, $operation, $parameters)
+	{
+		return call_user_func_array(array($this->{$type}, $operation), $parameters);
+	}
+
+	/**
 	 * Magic method to mimic roles and actions manipulation
 	 */
 	public function __call($method, $parameters)
 	{
 		$passthru  = array('roles', 'actions');
-		$matcher   = '/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/';
-		$operation = null;
-		$type      = null;
 
-		if (in_array($method, $passthru))
-		{
-			return $this->{$method};
-		}
-		elseif (preg_match($matcher, $method, $matches))
+		// Not sure whether these is a good approach, allowing a passthru 
+		// would allow more expressive structure but at the same time lack 
+		// the call to `$this->sync()`, this might cause issue when a request
+		// contain remove and add roles/actions.
+		if (in_array($method, $passthru)) return $this->{$method};
+		
+		// Preserve legacy CRUD structure for actions and roles.
+		if (preg_match('/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/', $method, $matches))
 		{
 			$operation = $matches[1];
 			$type      = $matches[2].'s';
@@ -346,7 +360,7 @@ class Container {
 				$operation = 'fill';
 			}
 			
-			$result = call_user_func_array(array($this->{$type}, $operation), $parameters);
+			$result = $this->passthru($type, $operation, $parameters);
 
 			if ($operation === 'has') return $result;
 		}

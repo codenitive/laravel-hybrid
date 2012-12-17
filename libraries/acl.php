@@ -75,6 +75,39 @@ class Acl {
 	}
 
 	/**
+	 * Manipulate and synchronize roles and actions.
+	 *
+	 * @static
+	 * @access public
+	 * @
+	 */
+	public static function __callStatic($method, $parameters)
+	{
+		$result = array();
+
+		if (preg_match('/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/', $method, $matches))
+		{
+			$operation = $matches[1];
+			$type      = $matches[2].'s';
+
+			if (isset($matches[3]) and $matches[3] === 's' and $operation === 'add')
+			{
+				$operation = 'fill';
+			}
+			
+
+			foreach (static::$instances as $acl)
+			{
+				$result[] = $acl->passthru($type, $operation, $parameters);
+
+				if ('has' !== $operation) $acl->sync();
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Shutdown Hybrid\Acl
 	 *
 	 * @static

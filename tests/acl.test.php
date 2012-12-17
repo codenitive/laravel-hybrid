@@ -58,5 +58,32 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$output = $acl->can('view news');
 		$this->assertFalse($output);
 	}
+
+	/**
+	 * Test Hybrid\Acl::can() given 'mock-one'
+	 *
+	 * @test
+	 */
+	public function testCanSyncRole()
+	{
+		$acl1 = Hybrid\Acl::make('mock-one');
+		$acl2 = Hybrid\Acl::make('mock-two');
+
+		Hybrid\Acl::add_role('admin');
+		Hybrid\Acl::add_role('manager');
+
+		$this->assertTrue($acl1->has_role('admin'));
+		$this->assertTrue($acl2->has_role('admin'));
+		$this->assertTrue($acl1->has_role('manager'));
+		$this->assertTrue($acl2->has_role('manager'));
+
+		Hybrid\Acl::remove_role('manager');
+
+		$this->assertTrue($acl1->has_role('admin'));
+		$this->assertTrue($acl2->has_role('admin'));
+		$this->assertFalse($acl1->has_role('manager'));
+		$this->assertFalse($acl2->has_role('manager'));
+
+	}
 	
 }

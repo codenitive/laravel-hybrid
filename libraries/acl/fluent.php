@@ -107,12 +107,9 @@ class Fluent {
 	 */
 	public function rename($from, $to)
 	{
-		$key = array_search($from, $this->collections);
-
-		if (false === $key) return false;
+		if (false === ($key = $this->search($from))) return false;
 
 		$this->collections[$key] = $to;
-
 		return true;
 	}
 

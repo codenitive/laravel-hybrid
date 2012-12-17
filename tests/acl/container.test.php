@@ -20,6 +20,11 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$runtime->put('acl_foo', static::providerMemory());
 
 		$this->stub = Hybrid\Acl::make('foo', $runtime);
+
+		Event::override('hybrid.auth.roles', function ($user_id, $roles)
+		{
+			return array('guest');
+		});
 	}
 
 	/**
@@ -39,8 +44,8 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	{
 		return array(
 			'acl'     => array('0:0' => false, '0:1' => false, '1:0' => true, '1:1' => true),
-			'actions' => array('manage-user', 'manage'),
-			'roles'   => array('guest', 'admin'),
+			'actions' => array('Manage User', 'Manage'),
+			'roles'   => array('Guest', 'Admin'),
 		);
 	}
 
@@ -51,7 +56,22 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testInstanceOfStub()
 	{
+		$refl    = new \ReflectionObject($this->stub);
+		$memory  = $refl->getProperty('memory');
+		$roles   = $refl->getProperty('roles');
+		$actions = $refl->getProperty('actions');
+		$acl     = $refl->getProperty('acl');
+
+		$memory->setAccessible(true);
+		$roles->setAccessible(true);
+		$actions->setAccessible(true);
+		$acl->setAccessible(true);
+
 		$this->assertInstanceOf('Hybrid\Acl\Container', $this->stub);
+		$this->assertInstanceOf('Hybrid\Memory\Runtime', $memory->getValue($this->stub));
+		$this->assertInstanceOf('Hybrid\Acl\Fluent', $roles->getValue($this->stub));
+		$this->assertInstanceOf('Hybrid\Acl\Fluent', $actions->getValue($this->stub));
+		$this->assertTrue(is_array($acl->getValue($this->stub)));
 	}
 
 	/**
@@ -168,7 +188,17 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCanMethod()
 	{
-		$this->markTestIncomplete('incompleted');
+		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime->put('acl_foo', static::providerMemory());
+
+		$stub = new Hybrid\Acl\Container('foo', $runtime);
+
+		$stub->add_actions(array('Manage Page', 'Manage Photo'));
+		$stub->allow('guest', 'Manage Page');
+
+		$this->assertFalse($stub->can('manage'));
+		$this->assertTrue($stub->can('manage-page'));
+		$this->assertFalse($stub->can('manage-photo'));
 	}
 
 	/**

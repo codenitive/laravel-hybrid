@@ -9,10 +9,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		Event::clear('hybrid.auth.roles');
-
-		// mock roles
-		Event::listen('hybrid.auth.roles', function ($user_id, $roles)
+		Event::override('hybrid.auth.roles', function ($user_id, $roles)
 		{
 			return array('admin', 'editor');
 		});

@@ -85,7 +85,7 @@ class Acl {
 	{
 		$result = array();
 
-		if (preg_match('/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/', $method, $matches))
+		if (preg_match('/^(add|fill|rename|has|get|remove)_(role)(s?)$/', $method, $matches))
 		{
 			$operation = $matches[1];
 			$type      = $matches[2].'s';

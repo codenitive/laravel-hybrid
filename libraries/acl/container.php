@@ -357,6 +357,8 @@ class Container {
 	 */
 	public function __call($method, $parameters)
 	{
+		if ($method === 'acl') return $this->acl;
+		
 		$passthru  = array('roles', 'actions');
 
 		// Not sure whether these is a good approach, allowing a passthru 
@@ -366,7 +368,9 @@ class Container {
 		if (in_array($method, $passthru)) return $this->{$method};
 		
 		// Preserve legacy CRUD structure for actions and roles.
-		if (preg_match('/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/', $method, $matches))
+		$matcher = '/^(add|fill|rename|has|get|remove)_(role|action)(s?)$/';
+
+		if (preg_match($matcher, $method, $matches))
 		{
 			$operation = $matches[1];
 			$type      = $matches[2].'s';

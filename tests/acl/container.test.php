@@ -199,6 +199,22 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($stub->can('manage'));
 		$this->assertTrue($stub->can('manage-page'));
 		$this->assertFalse($stub->can('manage-photo'));
+	}
+
+	/**
+	 * Test Hybrid\Acl\Container::check() method.
+	 *
+	 * @test
+	 */
+	public function testCheckMethod()
+	{
+		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime->put('acl_foo', static::providerMemory());
+
+		$stub = new Hybrid\Acl\Container('foo', $runtime);
+
+		$stub->add_actions(array('Manage Page', 'Manage Photo'));
+		$stub->allow('guest', 'Manage Page');
 
 		$this->assertFalse($stub->check('guest', 'manage'));
 		$this->assertTrue($stub->check('guest', 'manage-page'));

@@ -166,7 +166,30 @@ class Container {
 	 */
 	public function can($action) 
 	{
-		$roles   = array();
+		$roles = array();
+		
+		if (is_null(Auth::user()))
+		{
+			// only add guest if it's available
+			if ($this->roles->has('guest')) array_push($roles, 'guest');
+		}
+		else $roles = Auth::roles();
+
+		return $this->check($roles, $action);
+	}
+
+	/**
+	 * Verify whether given roles has sufficient roles to access the 
+	 * actions based on available type of access.
+	 *
+	 * @access  public
+	 * @param   mixed   $roles          A string or an array of roles
+	 * @param   mixed   $action     A string of action name
+	 * @return  bool
+	 * @throws  Exception
+	 */
+	public function check($roles, $action) 
+	{
 		$actions = $this->actions->get();
 
 		if ( ! in_array(Str::slug($action, '-'), $actions)) 
@@ -175,13 +198,6 @@ class Container {
 				"Unable to verify unknown action {$action}."
 			);
 		}
-
-		if (is_null(Auth::user()))
-		{
-			// only add guest if it's available
-			if ($this->roles->has('guest')) array_push($roles, 'guest');
-		}
-		else $roles = Auth::roles();
 
 		$action     = Str::slug($action, '-');
 		$action_key = array_search($action, $actions);

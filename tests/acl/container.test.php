@@ -199,6 +199,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($stub->can('manage'));
 		$this->assertTrue($stub->can('manage-page'));
 		$this->assertFalse($stub->can('manage-photo'));
+
+		$this->assertFalse($stub->check('guest', 'manage'));
+		$this->assertTrue($stub->check('guest', 'manage-page'));
+		$this->assertFalse($stub->check('guest', 'manage-photo'));
 	}
 
 	/**

@@ -125,4 +125,16 @@ class Acl {
 		static::$instances = array();
 	}
 
+	/**
+	 * Get all Hybrid\Acl instances.
+	 *
+	 * @static
+	 * @access public
+	 * @return array
+	 */
+	public static function all()
+	{
+		return static::$instances;
+	}
+
 }

@@ -17,6 +17,13 @@ use \Closure, \View, Laravel\Input;
 class Table {
 	
 	/**
+	 * Set the no record message
+	 *
+	 * @var string
+	 */
+	public static $empty_message = null;
+	
+	/**
 	 * All of the registered table names.
 	 *
 	 * @var array
@@ -58,6 +65,11 @@ class Table {
 		// Instantiate Table\Grid, this wrapper emulate table designer script 
 		// to create the table
 		$this->grid = new Table\Grid;
+
+		if ( ! is_null(static::$empty_message)) 
+		{
+			$this->grid->empty_message = static::$empty_message;
+		}
 
 		// run the table designer
 		call_user_func($callback, $this->grid);

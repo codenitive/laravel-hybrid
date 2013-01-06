@@ -30,7 +30,7 @@ foreach ($fieldsets as $fieldset) { ?>
 <?php } ?>
 
 <div class="form-actions">
-	<button type="submit" class="btn btn-primary">Submit</button>
+	<button type="submit" class="btn btn-primary"><?php echo __($submit_button, null, 'Submit'); ?></button>
 </div>
 
 <?php echo Form::close(); ?>

@@ -51,6 +51,13 @@ class Grid {
 	protected $attr = array();
 
 	/**
+	 * Set submit button message.
+	 *
+	 * @var string
+	 */
+	public $submit_button = 'label.submit';
+
+	/**
 	 * Set the no record message
 	 *
 	 * @var string

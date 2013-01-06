@@ -81,8 +81,6 @@ class Grid {
 	 */
 	public function __construct() 
 	{
-		$this->empty_message = __($this->empty_message, null, 'No records');
-
 		$this->rows = new Fluent(array(
 			'data' => array(),
 			'attr' => function ($row) { return array(); },

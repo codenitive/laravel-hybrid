@@ -13,6 +13,13 @@ use \Closure, View;
 class Form {
 	
 	/**
+	 * Set submit button message.
+	 *
+	 * @var string
+	 */
+	public static $submit_button = null;
+
+	/**
 	 * All of the registered form names.
 	 *
 	 * @var array
@@ -50,6 +57,11 @@ class Form {
 	{
 		// Instantiate Form\Grid
 		$this->grid = new Form\Grid;
+
+		if ( ! is_null(static::$submit_button)) 
+		{
+			$this->grid->submit_button = static::$submit_button;
+		}
 
 		// run the form designer
 		call_user_func($callback, $this->grid);
@@ -158,6 +170,7 @@ class Form {
 					->with('row', $grid->row)
 					->with('form_action', $form_action)
 					->with('form_method', $form_method)
+					->with('submit_button', $grid->submit_button)
 					->with('error_message', $grid->error_message)
 					->with('form_attr', $form_attr)
 					->with('fieldsets', $grid->fieldsets())

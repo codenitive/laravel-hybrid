@@ -1,6 +1,5 @@
 <?php namespace Hybrid;
 
-use \Log;
 
 /**
  * FTP Class based from Simple FTP Class
@@ -11,6 +10,9 @@ use \Log;
  * @license     GPL License <http://www.gnu.org/licenses/gpl.html>
  * 
  */
+
+use \Log;
+
 class FTP {
 	/**
 	 * FTP Host.

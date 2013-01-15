@@ -12,7 +12,7 @@
  * @link       https://github.com/kbanman/laravel-squi
  */
 
-use \Closure, \View, Laravel\Input;
+use \Closure, \Input, \Lang, \View;
 
 class Table {
 	
@@ -174,11 +174,18 @@ class Table {
 
 		$paginate = (true === $grid->paginate ? $grid->model->appends($input)->links() : '');
 
+		$empty_message = $grid->empty_message;
+
+		if ( ! ($empty_message instanceof Lang))
+		{
+			$empty_message = Lang::line($empty_message);
+		}
+
 		// Build the view and render it.
 		return View::make($grid->view)
 					->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
-					->with('empty_message', $grid->empty_message)
+					->with('empty_message', $empty_message)
 					->with('columns', $grid->columns())
 					->with('rows', $grid->rows())
 					->with('pagination', $paginate)

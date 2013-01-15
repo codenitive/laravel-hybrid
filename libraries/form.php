@@ -1,7 +1,5 @@
 <?php namespace Hybrid;
 
-use \Closure, View;
-
 /**
  * Form class
  *
@@ -9,6 +7,10 @@ use \Closure, View;
  * @category   Form
  * @author     Laravel Hybrid Development Team
  */
+
+
+use \Closure, \Lang, \View;
+
 
 class Form {
 	
@@ -164,13 +166,20 @@ class Form {
 		unset($form_attr['method']);
 		unset($form_attr['action']);
 
+		$submit_button = $grid->submit_button;
+
+		if ( ! ($submit_button instanceof Lang))
+		{
+			$submit_button = Lang::line($submit_button);
+		}
+
 		return View::make($grid->view)
 					->with('token', $grid->token)
 					->with('hiddens', $grid->hiddens)
 					->with('row', $grid->row)
 					->with('form_action', $form_action)
 					->with('form_method', $form_method)
-					->with('submit_button', $grid->submit_button)
+					->with('submit_button', $submit_button)
 					->with('error_message', $grid->error_message)
 					->with('form_attr', $form_attr)
 					->with('fieldsets', $grid->fieldsets())

@@ -15,7 +15,7 @@
 		</tr>
 <?php endforeach; if ( ! count($rows) and $empty_message): ?>
 		<tr class="norecords">
-			<td colspan="<?php echo count($columns); ?>"><?php echo Lang::line($empty_message)->get(null, 'No records'); ?></td>
+			<td colspan="<?php echo count($columns); ?>"><?php echo $empty_message->get(null, 'No records')); ?></td>
 		</tr>
 <?php endif; ?>
 	</tbody>

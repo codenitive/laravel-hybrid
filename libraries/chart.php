@@ -8,6 +8,8 @@
  * @author     Laravel Hybrid Development Team
  */
 
+use Hybrid\Chart\Presentable;
+
 class Chart {
 
 	/**
@@ -24,11 +26,12 @@ class Chart {
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string          $name
+	 * @param   string              $name
+	 * @param   Chart\Presentable   $data
 	 * @return  Chart\Driver 
 	 * @throws  Exception
 	 */
-	public static function make($name) 
+	public static function make($name, Presentable $data = null) 
 	{
 		if (is_null($name)) $name = 'default';
 
@@ -43,7 +46,7 @@ class Chart {
 				throw new Exception("Requested Hybrid\Chart Driver [{$driver}] does not exist.");
 			}
 
-			static::$instances[$name] = new $driver();
+			static::$instances[$name] = new $driver($data);
 		}
 
 		return static::$instances[$name];

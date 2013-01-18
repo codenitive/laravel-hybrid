@@ -14,30 +14,64 @@ use \Config, Hybrid\Exception;
 abstract class Driver {
 	
 	/**
-	 * A shortcode to initiate this class as a new object
-	 * 
-	 * @static
-	 * @access  public
-	 * @return  static 
-	 */
-	public static function make()
-	{
-		return new static();
-	}
-
-	protected $config  = array();
-	protected $hAxis   = 'string';
-	protected $columns = '';
-	protected $rows    = '';
+	* Chart name
+	*
+	* @var string
+	*/
+	protected $name = null;
 
 	/**
-	 * Clean-up private property on new object
-	 * 
-	 * @access  public
-	 */
-	public function __construct() 
+	* Chart instance UUID
+	*
+	* @var string
+	*/
+	protected $uuid = null;
+
+	/**
+	* Collection of attributes
+	*
+	* @var array
+	*/
+	public $attributes = array();
+
+	/**
+	* Collection instance
+	*
+	* @var Hybrid\Chart\Presentable
+	*/
+	private $presentable;
+
+	/**
+	 * Construct a new instance
+	 *
+	 * <code>
+	 * // just an example.
+	 * $chart = new Laravie\Chartie\Foo();
+	* </code>
+	*
+	* @access public
+	* @param array $attributes
+	* @return void
+	*/
+	public function __construct(Presentable $presentable = null, array $attributes = array())
 	{
-		$this->clear();
+		if ( ! is_null($presentable)) $this->attach($presentable);
+
+		if ( ! empty($attributes)) $this->put($attributes);
+
+		$this->uuid();
+	}
+
+	/**
+	 * Attach a presentable collection.
+	 *
+	 * @access public 
+	 * @param  Presentable $presentable
+	 * @return void
+	 */
+	public function attach(Presentable $presentable)
+	{
+		$this->presentable = $presentable;
 	}
 
 	/**

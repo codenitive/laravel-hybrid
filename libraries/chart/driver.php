@@ -9,7 +9,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Config, Hybrid\Exception;
+use \Config, \InvalidArgumentException;
 
 abstract class Driver {
 	
@@ -60,7 +60,17 @@ abstract class Driver {
 		if ( ! empty($attributes)) $this->put($attributes);
 
 		$this->uuid();
+		$this->initiate();
 	}
+
+	/**
+	 * Initiate the instance during construct.
+	 *
+	 * @abstract
+	 * @access public
+	 * @return void
+	 */
+	public abstract function initiate();
 
 	/**
 	 * Attach a presentable collection.
@@ -75,170 +85,59 @@ abstract class Driver {
 	}
 
 	/**
-	 * Run the clean-up
-	 * 
-	 * @access  public
-	 * @return  bool
-	 */
-	public function clear() 
-	{
-		$this->config = array();
-		$this->columns = '';
-		$this->rows    = '';
-
-		return $this;
-	}
-
-	/**
-	 * Set columns information
-	 * 
-	 * @access  public
-	 * @param   array   $data 
-	 */
-	public function columns($data = array()) 
-	{
-		$this->columns = '';
-		$count         = 0;
-
-		if (count($data) > 0) 
-		{
-			foreach ($data as $key => $value) 
-			{
-				if ($count === 0) $this->hAxis = $value;
-
-				if (is_numeric($key)) $key = 'string';
-				
-				$this->columns .= "data.addColumn('{$value}', '{$key}');\r\n";
-				$count++;
-			}
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set chart options / configuration
-	 * 
-	 * @access  public
-	 * @param   mixed   $name
-	 * @param   mixed   $value
-	 * @return  bool
-	 */
-	public function put($name, $value = '') 
-	{
-		if (is_array($name)) 
-		{
-			foreach ($name as $key => $value) 
-			{
-				$this->config[$key] = $value;
-			}
-		}
-		elseif (is_string($name) and ! empty($name)) 
-		{
-			$this->config[$name] = $value;
-		}
-		else
-		{
-			throw new Exception(__FUNCTION__.': require \$name to be set.');
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set chart options / configuration
-	 * 
-	 * @access  public
-	 * @param   mixed   $name
-	 * @param   mixed   $value
-	 * @return  void
-	 */
-	public function __set($name, $value)
-	{
-		$this->put($name, $value);
-	}
-
-	/**
-	 * Get chart options / configuration
-	 * 
-	 * @access  public
-	 * @param   mixed   $name
-	 * @return  mixed
-	 */
-	public function __get($name)
-	{
-		return $this->config[$name];
-	}
-
-	/**
-	 * Isset chart option / configuration
+	 * Set chart attributes / configuration
 	 *
-	 * @access  public
-	 * @param   mixed   $name
-	 * @return  bool
+	 * @access public
+	 * @param  string   $name
+	 * @param  mixed    $value
+	 * @return self
 	 */
-	public function __isset($name)
+	public function put($name, $value = null)
 	{
-		return isset($this->config[$name]);
-	}
-	
-	/**
-	 * Set rows information
-	 * 
-	 * @access  public
-	 * @param   array   $data 
-	 */
-	public function rows($data = array()) 
-	{
-		$this->rows = "";
-		$dataset    = '';
-
-		$x = 0;
-		$y = 0;
-
-		if (count($data) > 0) 
+		// Lets check if we're given a string for $name, in this case we
+		// should expect there a second parameter available.
+		if (is_string($name) and ! empty($name))
 		{
-			foreach ($data as $key => $value) 
-			{
-				if ($this->hAxis == 'date') $key = $this->parse_date($key);
-				else $key = sprintf("'%s'", $key);
-
-				$dataset .= "data.setValue({$x}, {$y}, ".$key.");\r\n";
-
-				foreach ($value as $k => $v) 
-				{
-					$y++;
-					$dataset .= "data.setValue({$x}, {$y}, {$v});\r\n";
-				}
-
-				$x++;
-				$y = 0;
-			}
+			$name = array("{$name}" => $value);
 		}
-		
-		$this->rows .= "data.addRows(".$x.");\r\n{$dataset}";
+
+		// At this point, $name should always be an array, we should throw
+		// an exception if it isn't.
+		if ( ! is_array($name))
+		{
+			throw new InvalidArgumentException('Require [$name] to be set.');
+		}
+
+		// Lets assign all the things.
+		foreach ($name as $key => $value)
+		{
+			$this->attributes[$key] = $value;
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Parse PHP Date Object into JavaScript new Date() format
-	 * 
-	 * @access  protected
-	 * @param   date    $date
-	 * @return  string 
+	 * Generate a UUID for the instance
+	 *
+	 * @access public
+	 * @return string
 	 */
-	protected function parse_date($date) 
+	public function uuid()
 	{
-		$key = strtotime($date);
-		return 'new Date('.date('Y', $key).', '.(date('m', $key) - 1).', '.date('d', $key).')';
+		if (is_null($this->uuid))
+		{
+			$this->uuid = $this->name.'_'.md5(mt_rand().time().microtime(true));
+		}
+
+		return $this->uuid;
 	}
 
 	/**
-	 * Render self
+	 * Alias to self::render()
 	 *
-	 * @abstract
-	 * @access  public
+	 * @access public
+	 * @see    render()
 	 */
 	public function __toString()
 	{
@@ -246,13 +145,60 @@ abstract class Driver {
 	}
 
 	/**
-	 * Render the chart
-	 * 
-	 * @abstract
-	 * @access  public
-	 * @param   int     $width
-	 * @param   int     $height
+	 *
 	 */
-	public abstract function render($width, $height);
-	
+	public function __set($name, $value)
+	{
+		$this->attributes[$name] = $value;
+	}
+
+	/**
+	 *
+	 */
+	public function __get($name)
+	{
+		return $this->attributes[$name];
+	}
+
+	/**
+	 *
+	 */
+	public function __isset($name)
+	{
+		return isset($this->attributes[$name]);
+	}
+
+	/**
+	 * Render the chart
+	 *
+	 * @access public
+	 * @param  mixed    $width
+	 * @param  mixed    $height
+	 * @return string
+	 */
+	public function render()
+	{
+		$attributes = json_encode($this->attributes);
+		$columns = $this->collection->getColumns();
+		$rows = $this->collection->getRows();
+		$id = $this->uuid();
+		$name = $this->name;
+
+		return <<<SCRIPT
+		<div id="{$id}"></div>
+		<script>
+		google.load("visualization", "1", {packages:["corechart", "table", "geomap", "annotatedtimeline"]});
+		google.setOnLoadCallback(draw{$id});
+		function draw{$id} () {
+		var data, chart;
+		data = new google.visualization.DataTable();
+		{$columns}
+		{$rows}
+
+		chart = new google.visualization.{$name}(document.getElementById('{$id}'));
+		chart.draw(data, {$attributes});
+		};
+		</script>
+		SCRIPT;
+	}
 }

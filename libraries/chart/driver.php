@@ -179,26 +179,27 @@ abstract class Driver {
 	public function render()
 	{
 		$attributes = json_encode($this->attributes);
-		$columns = $this->collection->getColumns();
-		$rows = $this->collection->getRows();
-		$id = $this->uuid();
-		$name = $this->name;
+		$columns    = $this->presentable->get_columns();
+		$rows       = $this->presentable->get_rows();
+		$id         = $this->uuid();
+		$name       = $this->name;
 
 		return <<<SCRIPT
-		<div id="{$id}"></div>
-		<script>
-		google.load("visualization", "1", {packages:["corechart", "table", "geomap", "annotatedtimeline"]});
-		google.setOnLoadCallback(draw{$id});
-		function draw{$id} () {
-		var data, chart;
-		data = new google.visualization.DataTable();
-		{$columns}
-		{$rows}
+<div id="{$id}"></div>
+<script>
+google.load("visualization", "1", {packages:["corechart", "table", "geomap", "annotatedtimeline"]});
+google.setOnLoadCallback(draw{$id});
+function draw{$id} () {
+var data, chart;
+data = new google.visualization.DataTable();
+{$columns}
+{$rows}
 
-		chart = new google.visualization.{$name}(document.getElementById('{$id}'));
-		chart.draw(data, {$attributes});
-		};
-		</script>
-		SCRIPT;
+chart = new google.visualization.{$name}(document.getElementById('{$id}'));
+chart.draw(data, {$attributes});
+};
+</script>
+SCRIPT;
+
 	}
 }

@@ -28,7 +28,7 @@ class ChartBarTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test object is an instance of Laravie\Chartie\Driver.
+	 * Test object is an instance of Hybrid\Chart\Driver.
 	 *
 	 * @test core
 	 */

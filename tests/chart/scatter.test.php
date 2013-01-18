@@ -2,7 +2,7 @@
 
 Bundle::start('hybrid');
 
-class ChartAreaTest extends PHPUnit_Framework_TestCase {
+class ChartScatterTest extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * Chart instance
@@ -16,7 +16,7 @@ class ChartAreaTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->chart = new Hybrid\Chart\Area;
+		$this->chart = new Hybrid\Chart\Scatter;
 	}
 
 	/**
@@ -35,7 +35,7 @@ class ChartAreaTest extends PHPUnit_Framework_TestCase {
 	public function testObjectInstanceOf()
 	{
 		$this->assertInstanceOf('Hybrid\Chart\Driver', $this->chart);
-		$this->assertInstanceOf('Hybrid\Chart\Area', $this->chart);
+		$this->assertInstanceOf('Hybrid\Chart\Scatter', $this->chart);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class ChartAreaTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGeneratedUUID()
 	{
-		$this->assertContains('AreaChart_', $this->chart->uuid());
+		$this->assertContains('ScatterChart_', $this->chart->uuid());
 	}
 
 	/**
@@ -59,6 +59,6 @@ class ChartAreaTest extends PHPUnit_Framework_TestCase {
 		$output = $this->chart->render();
 
 		$this->assertContains('<div id="'.$uuid.'">', $output);
-		$this->assertContains("new google.visualization.AreaChart(document.getElementById('{$uuid}')", $output);
+		$this->assertContains("new google.visualization.ScatterChart(document.getElementById('{$uuid}')", $output);
 	}
 }

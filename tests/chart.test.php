@@ -38,7 +38,7 @@ class ChartTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testLoadJavaScript()
 	{
-		$expected = '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+		$expected = '<script src="https://www.google.com/jsapi"></script>';
 		$output   = Hybrid\Chart::js();
 
 		$this->assertEquals($expected, $output);

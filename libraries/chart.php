@@ -65,6 +65,6 @@ class Chart {
 	 */
 	public static function js() 
 	{
-		return '<script type="text/javascript" src="https://www.google.com/jsapi"></script>';
+		return '<script src="https://www.google.com/jsapi"></script>';
 	}
 }

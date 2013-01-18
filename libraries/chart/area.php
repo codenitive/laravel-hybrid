@@ -9,6 +9,8 @@
  * @see        http://code.google.com/apis/visualization/documentation/gallery/areachart.html 
  */
 
+use \Config;
+
 class Area extends Driver {
 	
 	/**

@@ -50,7 +50,7 @@ abstract class Driver {
 	* </code>
 	*
 	* @access public
-	* @access Presentable   $presentable
+	* @param  Presentable   $presentable
 	* @param  array         $attributes
 	* @return void
 	*/
@@ -76,8 +76,8 @@ abstract class Driver {
 	/**
 	 * Attach a presentable collection.
 	 *
-	 * @access public 
-	 * @param  Presentable $presentable
+	 * @access public
+	 * @param  Presentable  $presentable
 	 * @return void
 	 */
 	public function attach(Presentable $presentable)

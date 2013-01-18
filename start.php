@@ -28,8 +28,8 @@ Autoloader::map(array(
 	'Hybrid\InvalidArgumentException' => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
 	'Hybrid\OutOfBoundsException'     => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
 	'Hybrid\RuntimeException'         => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
-	'Hybrid\FTP\RuntimeException'     => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT
-	'Hybrid\FTP\ServerException'      => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT
+	'Hybrid\FTP\RuntimeException'     => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT,
+	'Hybrid\FTP\ServerException'      => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT,
 ));
 
 /*

@@ -56,10 +56,14 @@ abstract class Driver {
 	*/
 	public function __construct(Presentable $presentable = null, array $attributes = array())
 	{
-		if ( ! is_null($presentable)) $this->attach($presentable);
+		if (is_null($presentable))
+		{
+			$presentable = new Presentable;
+		}
 
 		if ( ! empty($attributes)) $this->put($attributes);
 
+		$this->attach($presentable);
 		$this->uuid();
 		$this->initiate();
 	}

@@ -59,4 +59,22 @@ class ChartPresentableTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("data.addRows(3);\r\ndata.setValue(0, 0, 'Work');\r\ndata.setValue(0, 1, 11);\r\ndata.setValue(1, 0, 'Sleep');\r\ndata.setValue(1, 1, 8);\r\ndata.setValue(2, 0, 'Eat');\r\ndata.setValue(2, 1, 0.5);", 
 			$this->stub->get_rows());
 	}
+
+	/**
+	 * Test exporting to a chart.
+	 *
+	 * @test
+	 */
+	public function testExport()
+	{
+		$this->assertInstanceOf('Hybrid\Chart\Area', $this->stub->export('area'));
+		$this->assertInstanceOf('Hybrid\Chart\Bar', $this->stub->export('bar'));
+		$this->assertInstanceOf('Hybrid\Chart\GeoMap', $this->stub->export('geoMap'));
+		$this->assertInstanceOf('Hybrid\Chart\Pie', $this->stub->export('pie'));
+		$this->assertInstanceOf('Hybrid\Chart\Scatter', $this->stub->export('scatter'));
+		$this->assertInstanceOf('Hybrid\Chart\Table', $this->stub->export('table'));
+		$this->assertInstanceOf('Hybrid\Chart\Timeline', $this->stub->export('timeline'));
+
+
+	}
 }

@@ -39,7 +39,7 @@ abstract class Driver {
 	*
 	* @var Hybrid\Chart\Presentable
 	*/
-	private $presentable;
+	public $presentable;
 
 	/**
 	 * Construct a new instance

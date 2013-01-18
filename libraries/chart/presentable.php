@@ -1,5 +1,7 @@
 <?php namespace Hybrid\Chart;
 
+use Hybrid\Chart as Chart;
+
 class Presentable {
 	
 	/**
@@ -134,5 +136,17 @@ class Presentable {
 	{
 		$key = strtotime($date);
 		return 'new Date('.date('Y', $key).', '.(date('m', $key) - 1).', '.date('d', $key).')';
+	}
+
+	/**
+	 * Export to a chart.
+	 *
+	 * @access public 	
+	 * @param  string   $name
+	 * @return Driver
+	 */
+	public function export($name)
+	{
+		return Chart::make($name, $this);
 	}
 }

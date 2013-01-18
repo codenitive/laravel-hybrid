@@ -139,9 +139,7 @@ class FTP {
 	{
 		if ( ! @ftp_chdir($this->stream, $directory))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed cd to [{$directory}]."
-			);
+			throw new FTP\RuntimeException("Failed cd to [{$directory}].");
 		}
 
 		return true;
@@ -171,9 +169,7 @@ class FTP {
 	{
 		if ( ! @ftp_get($this->stream, $local_file, $remote_file, $mode))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to download file [{$remote_file}]."
-			);
+			throw new FTP\RuntimeException("Failed to download file [{$remote_file}].");
 		}
 
 		return true;
@@ -192,9 +188,7 @@ class FTP {
 	{
 		if ( ! @ftp_put($this->stream, $remote_file, $local_file, $mode))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to upload file [{$local_file}]."
-			);
+			throw new FTP\RuntimeException("Failed to upload file [{$local_file}].");
 		}
 
 		return true;
@@ -212,9 +206,7 @@ class FTP {
 	{
 		if ( ! @ftp_rename($this->stream, $old_name, $new_name))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to rename file [{$old_name}]."
-			);
+			throw new FTP\RuntimeException("Failed to rename file [{$old_name}].");
 		}
 
 		return true;
@@ -231,9 +223,7 @@ class FTP {
 	{
 		if ( ! @ftp_delete($this->stream, $remote_file))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to delete file [{$remote_file}]." 
-			);
+			throw new FTP\RuntimeException("Failed to delete file [{$remote_file}].");
 		}
 
 		return true;
@@ -252,9 +242,7 @@ class FTP {
 	{
 		if ( ! @ftp_chmod($this->stream, $permission, $remote_file))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed chmod for [{$remote_file}]."
-			);
+			throw new FTP\RuntimeException("Failed chmod for [{$remote_file}].");
 		}
 
 		return true;
@@ -271,9 +259,7 @@ class FTP {
 	{
 		if ( ! ($list = @ftp_nlist($this->stream, $directory)))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to get directory list for [{$directory}]."
-			);
+			throw new FTP\RuntimeException("Failed to get directory list for [{$directory}].");
 		}
 
 		return is_array($list) ? $list : array();
@@ -290,9 +276,7 @@ class FTP {
 	{
 		if ( ! @ftp_mkdir($this->stream, $directory))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to create directory [{$directory}]."
-			);
+			throw new FTP\RuntimeException("Failed to create directory [{$directory}].");
 		}
 
 		return true;
@@ -309,9 +293,7 @@ class FTP {
 	{
 		if ( ! @ftp_rmdir($this->stream, $directory))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to remove directory [{$directory}]."
-			);
+			throw new FTP\RuntimeException("Failed to remove directory [{$directory}].");
 		}
 
 		return true;
@@ -332,16 +314,14 @@ class FTP {
 		{
 			if ( ! ($this->stream = @ftp_ssl_connect($this->host, $this->port, $this->timeout))) 
 			{
-				throw new RuntimeException(
-					__CLASS__.": Failed to connect to [{$this->host}] (SSL Connection)."
+				throw new FTP\ServerException(
+					"Failed to connect to [{$this->host}] (SSL Connection)."
 				);
 			}
 		}
 		elseif ( ! ($this->stream = @ftp_connect($this->host, $this->port, $this->timeout)))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed to connect to [{$this->host}]."
-			);
+			throw new FTP\ServerException("Failed to connect to [{$this->host}].");
 		}
 
 		return $this->login();
@@ -358,9 +338,7 @@ class FTP {
 	{
 		if ( ! (@ftp_login($this->stream, $this->user, $this->password)))
 		{
-			throw new RuntimeException(
-				__CLASS__.": Failed FTP login to [{$this->host}]"
-			);
+			throw new FTP\ServerException("Failed FTP login to [{$this->host}].");
 		}
 
 		// Set passive mode.

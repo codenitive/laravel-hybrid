@@ -23,11 +23,13 @@ Autoloader::namespaces(array(
 */
 
 Autoloader::map(array(
-	'Hybrid\\AclException'             => Bundle::path('hybrid').'libraries/exceptions'.EXT,
-	'Hybrid\\Exception'                => Bundle::path('hybrid').'libraries/exceptions'.EXT,
-	'Hybrid\\InvalidArgumentException' => Bundle::path('hybrid').'libraries/exceptions'.EXT,
-	'Hybrid\\OutOfBoundsException'     => Bundle::path('hybrid').'libraries/exceptions'.EXT,
-	'Hybrid\\RuntimeException'         => Bundle::path('hybrid').'libraries/exceptions'.EXT,
+	'Hybrid\AclException'             => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
+	'Hybrid\Exception'                => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
+	'Hybrid\InvalidArgumentException' => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
+	'Hybrid\OutOfBoundsException'     => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
+	'Hybrid\RuntimeException'         => Bundle::path('hybrid').'libraries'.DS.'exceptions'.EXT,
+	'Hybrid\FTP\RuntimeException'     => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT
+	'Hybrid\FTP\ServerException'      => Bundle::path('hybrid').'libraries'.DS.'ftp'.DS.'exceptions'.EXT
 ));
 
 /*

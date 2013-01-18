@@ -1,5 +1,7 @@
 <?php
 
+Bundle::start('hybrid');
+
 class ChartPieTest extends PHPUnit_Framework_TestCase {
 
 	/**

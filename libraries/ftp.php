@@ -1,6 +1,5 @@
 <?php namespace Hybrid;
 
-
 /**
  * FTP Class based from Simple FTP Class
  * 
@@ -99,7 +98,7 @@ class FTP {
 	 */
 	public function __construct($config = array())
 	{
-		$this->setup($config);
+		if ( ! empty($config)) $this->setup($config);
 	}
 
 	/**

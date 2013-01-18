@@ -9,6 +9,8 @@
  * @see        http://code.google.com/apis/visualization/documentation/gallery/geomap.html 
  */
 
+use \Config;
+
 class GeoMap extends Driver {
 	
 	/**

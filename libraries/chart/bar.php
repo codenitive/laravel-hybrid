@@ -9,6 +9,8 @@
  * @see        http://code.google.com/apis/visualization/documentation/gallery/barchart.html 
  */
 
+use \Config;
+
 class Bar extends Driver {
 	
 	/**

@@ -50,7 +50,8 @@ abstract class Driver {
 	* </code>
 	*
 	* @access public
-	* @param array $attributes
+	* @access Presentable   $presentable
+	* @param  array         $attributes
 	* @return void
 	*/
 	public function __construct(Presentable $presentable = null, array $attributes = array())

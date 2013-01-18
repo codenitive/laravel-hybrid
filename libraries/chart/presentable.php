@@ -39,7 +39,7 @@ class Presentable {
 	 * Setter for columns
 	 *
 	 * @access public
-	 * @param array $data
+	 * @param  array    $data
 	 * @return self
 	 */
 	public function set_columns($data = array())
@@ -67,7 +67,7 @@ class Presentable {
 	 * Setter for rows
 	 *
 	 * @access public
-	 * @param array $data
+	 * @param  array    $data
 	 * @return self
 	 */
 	public function set_rows($data = array())
@@ -127,7 +127,7 @@ class Presentable {
 	 * Parse PHP Date Object into JavaScript new Date() format
 	 *
 	 * @access protected
-	 * @param date $date
+	 * @param  DateTime $date
 	 * @return string
 	 */
 	protected function parse_date(DateTime $date)

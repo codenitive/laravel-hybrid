@@ -48,7 +48,7 @@ class Memory {
 	{
 		if (false === static::$initiated)
 		{
-			Event::listen('laravel.done', function($response) 
+			Event::listen('laravel.done', function() 
 			{ 
 				Memory::shutdown(); 
 			});
@@ -83,9 +83,15 @@ class Memory {
 	{
 		static::start();
 
-		if (is_null($name)) $name = 'runtime.default';
-
-		if (false === strpos($name, '.')) $name = $name.'.default';
+		switch (true)
+		{
+			case (is_null($name)) :
+				$name = 'runtime.default';
+				break;
+			case (false === strpos($name, '.')) : 
+				$name = $name.'.default';
+				break;
+		}
 
 		list($storage, $driver) = explode('.', $name, 2);
 
@@ -140,10 +146,7 @@ class Memory {
 	 */
 	public static function shutdown()
 	{
-		foreach (static::$instances as $name => $class)
-		{
-			$class->shutdown();
-		}
+		foreach (static::$instances as $class) $class->shutdown();
 
 		static::$instances = array();
 	}

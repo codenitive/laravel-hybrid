@@ -12,7 +12,10 @@
  * @link       https://github.com/kbanman/laravel-squi
  */
 
-use \Closure, Laravel\Fluent, \Str, 
+use \Closure, 
+	Laravel\Fluent, 
+	\Lang,
+	\Str, 
 	Hybrid\Exception;
 
 class Grid {
@@ -188,47 +191,43 @@ class Grid {
 	 * </code>
 	 *
 	 * @access public			
-	 * @param  mixed    $name
+	 * @param  mixed    $label
 	 * @param  mixed    $callback
 	 * @return Fluent
 	 */
 	public function column($name, $callback = null)
 	{
-		$column = null;
-		$label  = $name;
+		$value = '';
 
 		switch (true)
 		{
-			case ! is_string($label) :
-				$callback = $label;
-				$label    = null;
-				$name     = null;
+			case ($name instanceof Closure) :
+				$callback = $name;
+				$name     = '';	
+				$label    = '';
 				break;
-
-			case is_string($callback) :
-				$name     = $callback;
-				$callback = null;
+			case (($callback instanceof Lang) or is_string($callback)) :
+				$label    = $callback;
+				$callback = null; 
 				break;
-				
 			default :
 				$name  = Str::lower($name);
 				$label = Str::title($name);
 				break;
 		}
 
-		// populate the column when label is a string
-		if (is_string($label))
+		if ( ! empty($name))
 		{
-			$name   = Str::lower($name);
-			$value  = function ($row) use ($name) { return $row->{$name}; };
-			$column = new Fluent(array(
-				'id'         => $name,
-				'label'      => $label,
-				'value'      => $value,
-				'label_attr' => array(),
-				'cell_attr'  => function ($row) { return array(); },
-			));
+			$value = function ($row) use ($name) { return $row->{$name}; };
 		}
+		
+		$column = new Fluent(array(
+			'id'         => $name,
+			'label'      => $label,
+			'value'      => $value,
+			'label_attr' => array(),
+			'cell_attr'  => function ($row) { return array(); },
+		));
 
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $column);
@@ -296,6 +295,8 @@ class Grid {
 		{
 			throw new Exception(__CLASS__.": unable to use __call for {$method}");
 		}
+
+		unset($arguments);
 
 		return $this->$method;
 	}

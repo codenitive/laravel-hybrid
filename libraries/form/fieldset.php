@@ -8,7 +8,13 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use \Closure, \Config, \Input, Laravel\Form as Laravel_Form, Laravel\Fluent, \Str, 
+use \Closure, 
+	\Config, 
+	\Input, 
+	Laravel\Form as Laravel_Form, 
+	Laravel\Fluent, 
+	\Lang,
+	\Str, 
 	Hybrid\HTML,
 	Hybrid\Exception;
 
@@ -137,12 +143,10 @@ class Fieldset {
 				$label    = null;
 				$name     = null;
 				break;
-
-			case is_string($callback) :
+			case (($callback instanceof Lang) or is_string($callback)) :
 				$name     = $callback;
 				$callback = null;
 				break;
-				
 			default :
 				$name  = Str::lower($name);
 				$label = Str::title($name);

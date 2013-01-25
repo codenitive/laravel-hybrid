@@ -11,7 +11,7 @@
 use \Closure, 
 	\Config, 
 	\Input, 
-	Laravel\Form as Laravel_Form, 
+	Laravel\Form as F, 
 	Laravel\Fluent, 
 	\Lang,
 	\Str, 
@@ -201,33 +201,33 @@ class Fieldset {
 					
 					if ($options instanceof Closure) $options = $options($row, $control);
 
-					return Laravel_Form::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
+					return F::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
 					break;
 
 				case (in_array($type, array('checkbox', 'input:checkbox'))) :
-					return Laravel_Form::checkbox($name, null, $control->checked);
+					return F::checkbox($name, null, $control->checked);
 					break;
 
 				case (in_array($type, array('radio', 'input:radio'))) :
-					return Laravel_Form::radio($name, $value, $row->checked);
+					return F::radio($name, $value, $row->checked);
 					break;
 
 				case (in_array($type, array('textarea', 'input:textarea'))):
-					return Laravel_Form::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
+					return F::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
 					break;
 
 				case (in_array($type, array('password', 'input:password'))) :
-					return Laravel_Form::password($name, HTML::pre_attributes($control->attr, $config['password']));
+					return F::password($name, HTML::pre_attributes($control->attr, $config['password']));
 					break;
 
 				case (isset($methods[0]) and $methods[0] === 'input') :
 					$methods[1] = $methods[1] ?: 'text';
 
-					return Laravel_Form::input($methods[1], $name, $value, HTML::pre_attributes($control->attr, $config['input']));
+					return F::input($methods[1], $name, $value, HTML::pre_attributes($control->attr, $config['input']));
 					break;
 
 				default :
-					return Laravel_Form::input('text', $name, $value, HTML::pre_attributes($control->attr, $config['input']));
+					return F::input('text', $name, $value, HTML::pre_attributes($control->attr, $config['input']));
 			}
 		};
 

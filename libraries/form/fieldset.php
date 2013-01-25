@@ -132,7 +132,8 @@ class Fieldset {
 	 */
 	public function control($type, $name, $callback = null)
 	{
-		$control = null;
+		if ($name instanceof Lang) $name = $name->get();
+		
 		$label   = $name;
 		$config  = $this->config;
 
@@ -140,11 +141,11 @@ class Fieldset {
 		{
 			case ! is_string($label) :
 				$callback = $label;
-				$label    = null;
-				$name     = null;
+				$label    = '';
+				$name     = '';
 				break;
-			case (($callback instanceof Lang) or is_string($callback)) :
-				$name     = $callback;
+			case is_string($callback) :
+				$name     = Str::lower($callback);
 				$callback = null;
 				break;
 			default :
@@ -153,21 +154,16 @@ class Fieldset {
 				break;
 		}
 
-		// populate the column when label is a string
-		if (is_string($label))
-		{
-			$name    = Str::lower($name);
-			$control = new Fluent(array(
-				'id'      => $name,
-				'name'    => $name,
-				'value'   => null,
-				'label'   => $label,
-				'attr'    => array(),
-				'options' => array(),
-				'checked' => false,
-				'field'   => null,
-			));
-		}
+		$control = new Fluent(array(
+			'id'      => $name,
+			'name'    => $name,
+			'value'   => null,
+			'label'   => $label,
+			'attr'    => array(),
+			'options' => array(),
+			'checked' => false,
+			'field'   => null,
+		));
 
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $control);

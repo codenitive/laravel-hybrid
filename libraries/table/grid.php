@@ -197,17 +197,20 @@ class Grid {
 	 */
 	public function column($name, $callback = null)
 	{
+		if ($name instanceof Lang) $name = $name->get();
+
 		$value = '';
+		$label = $name;
 
 		switch (true)
 		{
-			case ($name instanceof Closure) :
+			case ! is_string($label) :
 				$callback = $name;
 				$name     = '';	
 				$label    = '';
 				break;
-			case (($callback instanceof Lang) or is_string($callback)) :
-				$label    = $callback;
+			case is_string($callback) :
+				$name     = Str::lower($callback);
 				$callback = null; 
 				break;
 			default :

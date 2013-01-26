@@ -6,9 +6,9 @@ php:
 
 notifications:
   irc: "irc.freenode.net#orchestra-platform"
- 
+
 before_install:
-  - cd ~/builds
+  - cd ../../
   - git clone git://github.com/laravel/laravel.git
   - mv ./codenitive/laravel-hybrid ./laravel/bundles/hybrid
   - echo "<?php return array('hybrid' => array('auto' => true));" > ./laravel/application/bundles.php

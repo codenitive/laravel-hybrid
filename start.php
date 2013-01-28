@@ -37,11 +37,9 @@ Autoloader::map(array(
 | Hybrid Events Listener
 |--------------------------------------------------------------------------
 |
-| Lets listen to when Hybrid bundle is started and `hybrid.auth.roles` event.
+| Lets listen for `hybrid.auth.roles` event.
 |
 */ 
-
-Event::listen('laravel.started: hybrid', function () { Hybrid\Core::start(); });
 
 Event::listen('hybrid.auth.roles', function ($user, $roles)
 {
@@ -52,3 +50,11 @@ Event::listen('hybrid.auth.roles', function ($user, $roles)
 		return call_user_func($callback, $user, $roles);
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Start your engine
+|--------------------------------------------------------------------------
+*/
+
+Hybrid\Core::start();

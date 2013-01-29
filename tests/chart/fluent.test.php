@@ -2,12 +2,12 @@
 
 Bundle::start('hybrid');
 
-class ChartPresentableTest extends PHPUnit_Framework_TestCase {
+class ChartFluentTest extends PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Chart instance.
 	 *
-	 * @var Hybrid\Chart\Presentable
+	 * @var Hybrid\Chart\Fluent
 	 */
 	private $stub = null;
 
@@ -16,7 +16,7 @@ class ChartPresentableTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->stub = new Hybrid\Chart\Presentable;
+		$this->stub = new Hybrid\Chart\Fluent;
 	}
 
 	/**

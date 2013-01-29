@@ -8,7 +8,7 @@
  * @author     Laravel Hybrid Development Team
  */
 
-use Hybrid\Chart\Presentable;
+use Hybrid\Chart\Fluent;
 
 class Chart {
 
@@ -26,12 +26,12 @@ class Chart {
 	 * 
 	 * @static
 	 * @access  public
-	 * @param   string              $name
-	 * @param   Chart\Presentable   $data
+	 * @param   string          $name
+	 * @param   Chart\Fluent    $data
 	 * @return  Chart\Driver 
 	 * @throws  Exception
 	 */
-	public static function make($name, Presentable $data = null) 
+	public static function make($name, Fluent $data = null) 
 	{
 		if (is_null($name)) $name = 'default';
 
@@ -39,7 +39,8 @@ class Chart {
 
 		if ( ! isset(static::$instances[$name]))
 		{
-			$driver = 'Hybrid\\Chart\\'.ucfirst($name);
+			$class  = ucfirst($name);
+			$driver = "Hybrid\Chart\\$class";
 			
 			if ( ! class_exists($driver))
 			{

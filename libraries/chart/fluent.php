@@ -2,7 +2,7 @@
 
 use Hybrid\Chart as Chart;
 
-class Presentable {
+class Fluent {
 	
 	/**
 	 * Make a new instance.

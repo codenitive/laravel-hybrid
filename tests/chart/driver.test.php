@@ -14,7 +14,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->chart = new ChartStub(new Hybrid\Chart\Presentable);
+		$this->chart = new ChartStub(new Hybrid\Chart\Fluent);
 
 		$this->chart->put(array(
 			'foo' => 'foobar',

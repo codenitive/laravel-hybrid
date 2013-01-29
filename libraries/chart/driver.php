@@ -37,9 +37,9 @@ abstract class Driver {
 	/**
 	* Collection instance
 	*
-	* @var Hybrid\Chart\Presentable
+	* @var Hybrid\Chart\Fluent
 	*/
-	public $presentable;
+	public $fluent;
 
 	/**
 	 * Construct a new instance
@@ -50,20 +50,17 @@ abstract class Driver {
 	* </code>
 	*
 	* @access public
-	* @param  Presentable   $presentable
-	* @param  array         $attributes
+	* @param  Fluent    $fluent
+	* @param  array     $attributes
 	* @return void
 	*/
-	public function __construct(Presentable $presentable = null, array $attributes = array())
+	public function __construct(Fluent $fluent = null, array $attributes = array())
 	{
-		if (is_null($presentable))
-		{
-			$presentable = new Presentable;
-		}
+		if (is_null($fluent)) $fluent = new Fluent;
 
 		if ( ! empty($attributes)) $this->put($attributes);
 
-		$this->attach($presentable);
+		$this->attach($fluent);
 		$this->uuid();
 		$this->initiate();
 	}
@@ -78,15 +75,15 @@ abstract class Driver {
 	public abstract function initiate();
 
 	/**
-	 * Attach a presentable collection.
+	 * Attach a fluent collection.
 	 *
-	 * @access public
-	 * @param  Presentable  $presentable
+	 * @access public 	
+	 * @param  Fluent   $fluent
 	 * @return void
 	 */
-	public function attach(Presentable $presentable)
+	public function attach(Fluent $fluent)
 	{
-		$this->presentable = $presentable;
+		$this->fluent = $fluent;
 	}
 
 	/**
@@ -184,8 +181,8 @@ abstract class Driver {
 	public function render()
 	{
 		$attributes = json_encode($this->attributes);
-		$columns    = $this->presentable->get_columns();
-		$rows       = $this->presentable->get_rows();
+		$columns    = $this->fluent->get_columns();
+		$rows       = $this->fluent->get_rows();
 		$id         = $this->uuid();
 		$name       = $this->name;
 

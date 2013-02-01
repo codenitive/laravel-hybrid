@@ -94,7 +94,6 @@ class Acl {
 			{
 				$operation = 'fill';
 			}
-			
 
 			foreach (static::$instances as $acl)
 			{

@@ -84,7 +84,13 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$runtime = new Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+		$stub    = new Hybrid\Acl\Container('foo');
+
+		$this->assertFalse($stub->attached());
+
+		$stub->attach($runtime);
+
+		$this->assertTrue($stub->attached());
 
 		$stub->add_role('foo');
 		$stub->add_action('foobar');

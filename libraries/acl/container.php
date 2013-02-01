@@ -75,7 +75,18 @@ class Container {
 	}
 
 	/**
-	 * Bind current Acl instance with a Registry
+	 * Check whether a Memory instance is already attached to Acl.
+	 *
+	 * @access public
+	 * @return boolean
+	 */
+	public function attached()
+	{
+		return ( ! is_null($this->memory));
+	}
+
+	/**
+	 * Bind current Acl instance with a Memory instance.
 	 *
 	 * @access  public				
 	 * @param   MemoryDriver    $memory
@@ -84,7 +95,7 @@ class Container {
 	 */
 	public function attach(MemoryDriver $memory = null)
 	{
-		if ( ! is_null($this->memory))
+		if ($this->attached())
 		{
 			throw new RuntimeException(
 				"Unable to assign multiple Hybrid\Memory instance."

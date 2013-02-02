@@ -58,6 +58,41 @@ abstract class Driver {
 	}
 
 	/**
+	 * Convert filter to string, this process is required to filter stream 
+	 * data return from Postgres where blob type schema would actually use 
+	 * BYTEA and convert the string to stream.
+	 * 
+	 * @access protected
+	 * @param  mixed    $data
+	 * @return string
+	 */
+	protected function stringify($data)
+	{
+		// check if it's actually a resource, we can directly convert 
+		// string without any issue.
+		if (is_resource($data))
+		{
+			// Get the content from stream.
+			$hex = stream_get_contents($data);
+
+			// For some reason HEX would always start with 'x' and if we
+			// don't filter out this char, it would mess up hex to string 
+			// conversion.
+			if (preg_match('/^x(.*)$/', $hex, $matches)) $hex = $matches[1];
+
+			$data = '';
+
+			// Convert hex to string.
+			for ($i=0; $i < strlen($hex)-1; $i+=2)
+			{
+				$data .= chr(hexdec($hex[$i].$hex[$i+1]));
+			}
+		}
+
+		return unserialize($data);
+	}
+
+	/**
 	 * Get value of a key
 	 *
 	 * @access  public

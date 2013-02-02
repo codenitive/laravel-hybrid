@@ -50,13 +50,13 @@ class Fluent extends Driver {
 
 		foreach ($memories as $memory)
 		{
-			$value = unserialize($memory->value);
+			$value = $this->stringify($memory->value);
 
 			$this->put($memory->name, $value);
 
 			$this->key_map[$memory->name] = array(
 				'id'       => $memory->id,
-				'checksum' => md5($memory->value),
+				'checksum' => md5(serialize($value)),
 			);
 		}
 	}
@@ -95,7 +95,7 @@ class Fluent extends Driver {
 				// Insert the new key:value
 				DB::table($this->table)
 					->insert(array(
-						'name' => $key,
+						'name'  => $key,
 						'value' => $serialize,
 					));
 			}

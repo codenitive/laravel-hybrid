@@ -40,13 +40,13 @@ class Eloquent extends Driver {
 
 		foreach ($memories as $memory)
 		{
-			$value = unserialize($memory->value);
+			$value = $this->stringify($memory->value);
 
 			$this->put($memory->name, $value);
 
 			$this->key_map[$memory->name] = array(
 				'id'       => $memory->id,
-				'checksum' => md5($memory->value),
+				'checksum' => md5(serialize($value)),
 			);
 		}
 	}
@@ -83,7 +83,7 @@ class Eloquent extends Driver {
 			if (true === $is_new and $count < 1)
 			{
 				call_user_func(array($this->name, 'create'), array(
-					'name' => $key,
+					'name'  => $key,
 					'value' => $serialize,
 				));
 			}

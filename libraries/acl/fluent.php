@@ -162,12 +162,4 @@ class Fluent {
 	{
 		return isset($this->collections[$id]);
 	}
-
-	/**
-	 * Magic method for __toString()
-	 */
-	public function __toString()
-	{
-		return $this->get();
-	}
 }

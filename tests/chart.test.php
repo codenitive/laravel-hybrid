@@ -23,12 +23,21 @@ class ChartTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test Chart::make() given invalid driver
 	 *
-	 * @test
 	 * @expectedException Hybrid\Exception
 	 */
-	public function testMakeExpectedException()
+	public function testMakeThrowsExpectedException()
 	{
 		Hybrid\Chart::make('date');
+	}
+
+	/**
+	 * Test Chart::make() given invalid driver
+	 *
+	 * @expectedException Hybrid\RuntimeException
+	 */
+	public function testConstructThrowsExpectedException()
+	{
+		$stub =new Hybrid\Chart;
 	}
 
 	/**

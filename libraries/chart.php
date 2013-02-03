@@ -56,9 +56,12 @@ class Chart {
 	/**
 	 * Hybrid\Chart doesn't support a construct method
 	 *
-	 * @access  protected
+	 * @access  public
 	 */
-	protected function __construct() {}
+	public function __construct() 
+	{
+		throw new RuntimeException("Hybrid\Chart doesn't support a construct method.");
+	}
 	
 	/**
 	 * Load Google JavaSript API Library

@@ -35,12 +35,25 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 	public function testColumns()
 	{
 		$this->stub->set_columns(array(
+			'Date'          => 'date',
 			'Task'          => 'string',
 			'Hours per Day' => 'number',
 		));
 
-		$this->assertEquals("data.addColumn('string', 'Task');\r\ndata.addColumn('number', 'Hours per Day');", 
-			$this->stub->get_columns());
+		$refl = new \ReflectionObject($this->stub);
+		$columns = $refl->getProperty('columns');
+		$columns->setAccessible(true);
+
+		$expected = array(
+			"data.addColumn('date', 'Date');",
+			"data.addColumn('string', 'Task');",
+			"data.addColumn('number', 'Hours per Day');",
+		);
+
+		$this->assertEquals(implode('\r\n', $expected), $this->stub->get_columns());
+		$this->assertEquals($expected, $columns->getValue($this->stub));
+
+		$this->assertTrue(is_string($this->stub->get_columns()));
 	}
 
 	/**
@@ -51,13 +64,32 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 	public function testRows()
 	{
 		$this->stub->set_rows(array(
-			'Work'  => array(11),
-			'Sleep' => array(8),
-			'Eat'   => array(0.5),
+			'Work'  => array('2011-01-01 00:00:00', 11),
+			'Sleep' => array('2011-01-01 00:00:00', 8),
+			'Eat'   => array('2011-01-01 00:00:00', 0.5),
 		));
 
-		$this->assertEquals("data.addRows(3);\r\ndata.setValue(0, 0, 'Work');\r\ndata.setValue(0, 1, 11);\r\ndata.setValue(1, 0, 'Sleep');\r\ndata.setValue(1, 1, 8);\r\ndata.setValue(2, 0, 'Eat');\r\ndata.setValue(2, 1, 0.5);", 
-			$this->stub->get_rows());
+		$expected = array(
+			"data.addRows(3);",
+			"data.setValue(0, 0, 'Work');",
+			"data.setValue(0, 1, 2011-01-01 00:00:00);",
+			"data.setValue(0, 2, 11);",
+			"data.setValue(1, 0, 'Sleep');",
+			"data.setValue(1, 1, 2011-01-01 00:00:00);",
+			"data.setValue(1, 2, 8);",
+			"data.setValue(2, 0, 'Eat');",
+			"data.setValue(2, 1, 2011-01-01 00:00:00);",
+			"data.setValue(2, 2, 0.5);"
+		);
+
+		$refl = new \ReflectionObject($this->stub);
+		$rows = $refl->getProperty('rows');
+		$rows->setAccessible(true);
+
+		$this->assertEquals(implode('\r\n', $expected), $this->stub->get_rows());
+		$this->assertEquals($expected, $rows->getValue($this->stub));
+
+		$this->assertTrue(is_string($this->stub->get_rows()));
 	}
 
 	/**
@@ -74,7 +106,5 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('Hybrid\Chart\Scatter', $this->stub->export('scatter'));
 		$this->assertInstanceOf('Hybrid\Chart\Table', $this->stub->export('table'));
 		$this->assertInstanceOf('Hybrid\Chart\Timeline', $this->stub->export('timeline'));
-
-
 	}
 }

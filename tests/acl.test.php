@@ -84,6 +84,12 @@ class AclTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($acl1->has_role('manager'));
 		$this->assertFalse($acl2->has_role('manager'));
 
+		$this->assertTrue(is_array(Hybrid\Acl::all()));
+		$this->assertFalse(array() === Hybrid\Acl::all());
+
+		Hybrid\Acl::shutdown();
+
+		$this->assertEquals(array(), Hybrid\Acl::all());
 	}
 	
 }

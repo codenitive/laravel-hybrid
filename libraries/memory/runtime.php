@@ -24,7 +24,10 @@ class Runtime extends Driver {
 	 * @access  public
 	 * @return  void
 	 */
-	public function initiate() {}
+	public function initiate() 
+	{
+		return true;
+	}
 
 	/**
 	 * No shutdown method for runtime
@@ -32,5 +35,8 @@ class Runtime extends Driver {
 	 * @access  public
 	 * @return  void
 	 */
-	public function shutdown() {}
+	public function shutdown() 
+	{
+		return true;
+	}
 }

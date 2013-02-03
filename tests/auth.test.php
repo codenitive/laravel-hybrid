@@ -20,11 +20,23 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 * 
 	 * @test
 	 */
-	public function testRole()
+	public function testRolesMethod()
 	{
 		$expected = array('admin', 'editor');
 		$output   = Hybrid\Auth::roles();
 
 		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	 * Test Hybrid\Auth::is() returning valid roles
+	 * 
+	 * @test
+	 */
+	public function testIsMethod()
+	{
+		$this->assertTrue(Hybrid\Auth::is('admin'));
+		$this->assertTrue(Hybrid\Auth::is('editor'));
+		$this->assertFalse(Hybrid\Auth::is('user'));
 	}
 }

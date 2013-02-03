@@ -61,6 +61,16 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test Hybrid\Memory::start() method.
+	 *
+	 * @test
+	 */
+	public function testStartMethod()
+	{
+		$this->assertTrue(Hybrid\Memory::start());
+	}
+
+	/**
 	 * Test that Hybrid\Memory return valid values
 	 *
 	 * @test
@@ -101,6 +111,11 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('HELLO WORLD', $mock->get('hello.world'));
 	}
 
+	/**
+	 * Test Hybrid\Memory::extend() return valid Memory instance.
+	 *
+	 * @test
+	 */
 	public function testStubMemory()
 	{
 		$stub = Hybrid\Memory::make('stub.mock');
@@ -113,6 +128,17 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals('stub', $storage->getValue($stub));
 	}
+
+	/**
+	 * Test Hybrid\Memory::__construct() method.
+	 *
+	 * @expectedException Hybrid\RuntimeException
+	 */
+	public function testConstructMethod()
+	{
+		$stub = new Hybrid\Memory;
+	}
+
 }
 
 class MemoryStub extends Hybrid\Memory\Driver

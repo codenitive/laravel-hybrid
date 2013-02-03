@@ -46,15 +46,14 @@ class Memory {
 	 */
 	public static function start()
 	{
-		if (false === static::$initiated)
-		{
-			Event::listen('laravel.done', function() 
-			{ 
-				Memory::shutdown(); 
-			});
+		if (true === static::$initiated) return true;
 
-			static::$initiated = true;
-		}
+		Event::listen('laravel.done', function() 
+		{ 
+			Memory::shutdown(); 
+		});
+
+		return static::$initiated = true;
 	}
 
 	/**
@@ -133,9 +132,13 @@ class Memory {
 	/**
 	 * Hybrid\Memory doesn't support a construct method
 	 *
-	 * @access  protected
+	 * @access  public
+	 * @throws  Hybrid\RuntimeException
 	 */
-	protected function __construct() {}
+	public function __construct() 
+	{
+		throw new RuntimeException("Hybrid\Memory doesn't support a construct method.");
+	}
 
 	/**
 	 * Loop every instance and execute shutdown method (if available)

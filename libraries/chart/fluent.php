@@ -98,7 +98,8 @@ class Fluent {
 			}
 		}
 
-		$this->rows = array("data.addRows(".$x.");", implode("\r\n", $dataset));
+		array_unshift($dataset, "data.addRows(".$x.");");
+		$this->rows = $dataset;
 
 		return $this;
 	}

@@ -50,7 +50,7 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 			"data.addColumn('number', 'Hours per Day');",
 		);
 
-		$this->assertEquals(implode('\r\n', $expected), $this->stub->get_columns());
+		$this->assertEquals(implode("\r\n", $expected), $this->stub->get_columns());
 		$this->assertEquals($expected, $columns->getValue($this->stub));
 
 		$this->assertTrue(is_string($this->stub->get_columns()));
@@ -86,9 +86,8 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 		$rows = $refl->getProperty('rows');
 		$rows->setAccessible(true);
 
-		$this->assertEquals(implode('\r\n', $expected), $this->stub->get_rows());
+		$this->assertEquals(implode("\r\n", $expected), $this->stub->get_rows());
 		$this->assertEquals($expected, $rows->getValue($this->stub));
-
 		$this->assertTrue(is_string($this->stub->get_rows()));
 	}
 

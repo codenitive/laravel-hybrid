@@ -75,17 +75,25 @@ abstract class Driver {
 			// Get the content from stream.
 			$hex = stream_get_contents($data);
 
-			// For some reason HEX would always start with 'x' and if we
+			// For some reason hex would always start with 'x' and if we
 			// don't filter out this char, it would mess up hex to string 
 			// conversion.
 			if (preg_match('/^x(.*)$/', $hex, $matches)) $hex = $matches[1];
 
-			$data = '';
-
-			// Convert hex to string.
-			for ($i = 0; $i < strlen($hex) - 1; $i += 2)
+			// Check if it's actually a hex string before trying to convert.
+			if (ctype_xdigit($hex))
 			{
-				$data .= chr(hexdec($hex[$i].$hex[$i+1]));
+				$data = '';
+
+				// Convert hex to string.
+				for ($i = 0; $i < strlen($hex) - 1; $i += 2)
+				{
+					$data .= chr(hexdec($hex[$i].$hex[$i+1]));
+				}
+			}
+			else 
+			{
+				$data = $hex;
 			}
 		}
 

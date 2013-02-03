@@ -42,11 +42,11 @@ class Eloquent extends Driver {
 		{
 			$value = $this->stringify($memory->value);
 
-			$this->put($memory->name, $value);
+			$this->put($memory->name, unserialize($value));
 
 			$this->key_map[$memory->name] = array(
 				'id'       => $memory->id,
-				'checksum' => md5(serialize($value)),
+				'checksum' => md5($value),
 			);
 		}
 	}

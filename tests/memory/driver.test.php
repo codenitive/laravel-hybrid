@@ -11,16 +11,22 @@ class MemoryDriverTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testStringify()
 	{
-		$stub = new MemoryDriverStub;
+		$stub     = new MemoryDriverStub;
+		$expected = 'a:2:{s:4:"name";s:9:"Orchestra";s:5:"theme";a:2:{s:7:"backend";s:7:"default";s:8:"frontend";s:7:"default";}}';
+		$stream   = fopen(Bundle::path('hybrid').'tests'.DS.'memory'.DS.'driver.stub.php', 'r');
+		$output   = $stub->stringify($stream);
 
-		$expected =  array(
-			'default_role' => 1, 
-			'member_role'  => 2,
+		$this->assertEquals($expected, $output);
+
+		$expected = array(
+			'name'  => 'Orchestra',
+			'theme' => array(
+				'backend' => 'default',
+				'frontend' => 'default',
+			),
 		);
-		
-		$data = 'a:2:{s:12:"default_role";i:1;s:11:"member_role";i:2;}';
 
-		$this->assertEquals($expected, $stub->test_stringify($data));
+		$this->assertEquals($expected, unserialize($output));
 	}
 }
 
@@ -28,11 +34,6 @@ class MemoryDriverStub extends Hybrid\Memory\Driver {
 
 	public $initiated = false;
 	public $shutdown  = false;
-
-	public function test_stringify($data)
-	{
-		return $this->stringify($data);
-	}
 
 	public function initiate() 
 	{

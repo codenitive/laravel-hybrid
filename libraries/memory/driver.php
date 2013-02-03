@@ -62,11 +62,11 @@ abstract class Driver {
 	 * data return from Postgres where blob type schema would actually use 
 	 * BYTEA and convert the string to stream.
 	 * 
-	 * @access protected
+	 * @access public
 	 * @param  mixed    $data
 	 * @return string
 	 */
-	protected function stringify($data)
+	public function stringify($data)
 	{
 		// check if it's actually a resource, we can directly convert 
 		// string without any issue.
@@ -83,13 +83,13 @@ abstract class Driver {
 			$data = '';
 
 			// Convert hex to string.
-			for ($i=0; $i < strlen($hex)-1; $i+=2)
+			for ($i = 0; $i < strlen($hex) - 1; $i += 2)
 			{
 				$data .= chr(hexdec($hex[$i].$hex[$i+1]));
 			}
 		}
 
-		return unserialize($data);
+		return $data;
 	}
 
 	/**

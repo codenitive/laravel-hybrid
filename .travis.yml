@@ -14,4 +14,4 @@ before_install:
   - echo "<?php return array('hybrid' => array('auto' => true));" > ./laravel/application/bundles.php
   - cd ./laravel
 
-script: "php artisan test hybrid"
+script: "phpunit --coverage-text --configuration bundles/hybrid/tests/travis/phpunit.xml"

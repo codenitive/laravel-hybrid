@@ -103,7 +103,15 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testStubMemory()
 	{
-		$this->assertInstanceOf('MemoryStub', Hybrid\Memory::make('stub.mock'));
+		$stub = Hybrid\Memory::make('stub.mock');
+
+		$this->assertInstanceOf('MemoryStub', $stub);
+
+		$refl    = new \ReflectionObject($stub);
+		$storage = $refl->getProperty('storage');
+		$storage->setAccessible(true);
+
+		$this->assertEquals('stub', $storage->getValue($stub));
 	}
 }
 

@@ -36,6 +36,17 @@ class HTMLTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test Hybrid\HTML::raw()
+	 *
+	 * @test
+	 */
+	public function testRawExpression()
+	{
+		$output = Hybrid\HTML::raw('hello');
+		$this->assertInstanceOf('Hybrid\Expression', $output);
+	}
+
+	/**
 	 * Test Hybrid\HTML::pre_attributes()
 	 *
 	 * @test

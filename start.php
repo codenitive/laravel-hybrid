@@ -50,11 +50,3 @@ Event::listen('hybrid.auth.roles', function ($user, $roles)
 		return call_user_func($callback, $user, $roles);
 	}
 });
-
-/*
-|--------------------------------------------------------------------------
-| Start your engine
-|--------------------------------------------------------------------------
-*/
-
-Hybrid\Core::start();

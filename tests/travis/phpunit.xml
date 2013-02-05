@@ -20,6 +20,10 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="false">
 			<directory suffix=".php">../../libraries</directory>
+			<exclude>
+				<directory suffix=".php">../../libraries/image/</directory>
+				<file>../../libraries/image.php</file>
+			</excliude>
 		</whitelist>
 	</filter>
 </phpunit>

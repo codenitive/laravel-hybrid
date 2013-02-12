@@ -12,7 +12,10 @@
  * @link       https://github.com/kbanman/laravel-squi
  */
 
-use \Closure, \Input, \Lang, \View;
+use \Closure, 
+	\Input, 
+	\IoC,
+	\Lang;
 
 class Table {
 	
@@ -182,8 +185,9 @@ class Table {
 		}
 
 		// Build the view and render it.
-		return View::make($grid->view)
-					->with('table_attr', $grid->attr)
+		$view = IoC::resolve('hybrid.view', array($grid->view));
+
+		return $view->with('table_attr', $grid->attr)
 					->with('row_attr', $grid->rows->attr)
 					->with('empty_message', $empty_message)
 					->with('columns', $grid->columns())

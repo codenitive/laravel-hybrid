@@ -50,3 +50,18 @@ Event::listen('hybrid.auth.roles', function ($user, $roles)
 		return call_user_func($callback, $user, $roles);
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Hybrid IoC
+|--------------------------------------------------------------------------
+|
+| Add IoC for request to View, allow other bundle to implement alternative 
+| template option.
+|
+*/
+
+IoC::register('hybrid.view', function($view)
+{
+	return View::make($view);
+});

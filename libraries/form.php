@@ -9,8 +9,9 @@
  */
 
 
-use \Closure, \Lang, \View;
-
+use \Closure, 
+	\IoC,
+	\Lang;
 
 class Form {
 	
@@ -173,8 +174,10 @@ class Form {
 			$submit_button = Lang::line($submit_button);
 		}
 
-		return View::make($grid->view)
-					->with('token', $grid->token)
+		// Build the view and render it.
+		$view = IoC::resolve('hybrid.view', array($grid->view));
+
+		return $view->with('token', $grid->token)
 					->with('hiddens', $grid->hiddens)
 					->with('row', $grid->row)
 					->with('form_action', $form_action)

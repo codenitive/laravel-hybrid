@@ -39,7 +39,7 @@ class Fieldset {
 	 *
 	 * @var array
 	 */
-	protected $attributes = array();
+	protected $markup = array();
 
 	/**
 	 * All the controls
@@ -88,7 +88,7 @@ class Fieldset {
 	 */
 	public function attr($key = null, $value = null)
 	{
-		return $this->attributes($key, $value);
+		return $this->markup($key, $value);
 	}
 
 	/**
@@ -99,20 +99,20 @@ class Fieldset {
 	 * @param   mixed       $value
 	 * @return  void
 	 */
-	public function attributes($key = null, $value = null)
+	public function markup($key = null, $value = null)
 	{
 		switch (true)
 		{
 			case is_null($key) :
-				return $this->attributes;
+				return $this->markup;
 				break;
 
 			case is_array($key) :
-				$this->attributes = array_merge($this->attributes, $key);
+				$this->markup = array_merge($this->markup, $key);
 				break;
 
 			default :
-				$this->attributes[$key] = $value;
+				$this->markup[$key] = $value;
 				break;
 		}
 	}
@@ -169,14 +169,14 @@ class Fieldset {
 		}
 
 		$control = new Fluent(array(
-			'id'         => $name,
-			'name'       => $name,
-			'value'      => null,
-			'label'      => $label,
-			'attributes' => array(),
-			'options'    => array(),
-			'checked'    => false,
-			'field'      => null,
+			'id'      => $name,
+			'name'    => $name,
+			'value'   => null,
+			'label'   => $label,
+			'markup'  => array(),
+			'options' => array(),
+			'checked' => false,
+			'field'   => null,
 		));
 
 		// run closure
@@ -211,7 +211,7 @@ class Fieldset {
 					
 					if ($options instanceof Closure) $options = $options($row, $control);
 
-					return F::select($name, $options, $value, HTML::markup($control->attributes, $config['select']));
+					return F::select($name, $options, $value, HTML::markup($control->markup, $config['select']));
 				
 				case (in_array($type, array('checkbox', 'input:checkbox'))) :
 					return F::checkbox($name, null, $control->checked);
@@ -220,18 +220,17 @@ class Fieldset {
 					return F::radio($name, $value, $row->checked);
 				
 				case (in_array($type, array('textarea', 'input:textarea'))):
-					return F::textarea($name, $value, HTML::markup($control->attributes, $config['textarea']));
+					return F::textarea($name, $value, HTML::markup($control->markup, $config['textarea']));
 				
 				case (in_array($type, array('password', 'input:password'))) :
-					return F::password($name, HTML::markup($control->attributes, $config['password']));
+					return F::password($name, HTML::markup($control->markup, $config['password']));
 				
 				case (isset($methods[0]) and $methods[0] === 'input') :
 					$methods[1] = $methods[1] ?: 'text';
-
-					return F::input($methods[1], $name, $value, HTML::markup($control->attributes, $config['input']));
+					return F::input($methods[1], $name, $value, HTML::markup($control->markup, $config['input']));
 				
 				default :
-					return F::input('text', $name, $value, HTML::markup($control->attributes, $config['input']));
+					return F::input('text', $name, $value, HTML::markup($control->markup, $config['input']));
 			}
 		};
 
@@ -304,7 +303,7 @@ class Fieldset {
 	{
 		$key = $this->key($key);
 
-		if (in_array($key, array('attributes', 'name', 'controls', 'view')))
+		if (in_array($key, array('markup', 'name', 'controls', 'view')))
 		{
 			return $this->{$key};
 		}
@@ -317,12 +316,12 @@ class Fieldset {
 	{
 		$key = $this->key($key);
 
-		if ( ! in_array($key, array('attributes')))
+		if ( ! in_array($key, array('markup')))
 		{
 			throw new Exception(__METHOD__.": unable to set {$key}");
 		}
 
-		$this->attributes($values, null);
+		$this->markup($values, null);
 	}
 
 	/**
@@ -332,7 +331,7 @@ class Fieldset {
 	{
 		$key = $this->key($key);
 
-		if (in_array($key, array('attributes', 'name', 'controls', 'view')))
+		if (in_array($key, array('markup', 'name', 'controls', 'view')))
 		{
 			return isset($this->{$key});
 		}
@@ -348,6 +347,6 @@ class Fieldset {
 	private function key($key)
 	{
 		// @deprecated 'attr' key should be removed in 1.2.
-		return ($key === 'attr') ? 'attributes' : $key;
+		return ($key === 'attr') ? 'markup' : $key;
 	}
 }

@@ -269,7 +269,7 @@ class Grid {
 	public function __isset($key)
 	{
 		$key = $this->key($key);
-		
+
 		if ( ! in_array($key, array('attributes', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
@@ -288,6 +288,6 @@ class Grid {
 	private function key($key)
 	{
 		// @deprecated 'attr' key should be removed in 1.2.
-		return ($key === 'attr') 'attributes' ? $key;
+		return ($key === 'attr') ? 'attributes' : $key;
 	}
 }

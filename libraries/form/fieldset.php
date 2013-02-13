@@ -348,6 +348,6 @@ class Fieldset {
 	private function key($key)
 	{
 		// @deprecated 'attr' key should be removed in 1.2.
-		return ($key === 'attr') 'attributes' ? $key;
+		return ($key === 'attr') ? 'attributes' : $key;
 	}
 }

@@ -13,18 +13,12 @@
  */
 
 use \Closure, 
+	\Config,
 	\Input, 
 	\IoC,
 	\Lang;
 
 class Table {
-	
-	/**
-	 * Set the no record message
-	 *
-	 * @var string
-	 */
-	public static $empty_message = null;
 	
 	/**
 	 * All of the registered table names.
@@ -65,14 +59,9 @@ class Table {
 	 */
 	protected function __construct(Closure $callback)
 	{
-		// Instantiate Table\Grid, this wrapper emulate table designer script 
-		// to create the table
-		$this->grid = new Table\Grid;
-
-		if ( ! is_null(static::$empty_message)) 
-		{
-			$this->grid->empty_message = static::$empty_message;
-		}
+		// Instantiate Table\Grid, this wrapper emulate table designer 
+		// script to create the table.
+		$this->grid = new Table\Grid(Config::get('hybrid::table'));
 
 		// run the table designer
 		call_user_func($callback, $this->grid);
@@ -115,7 +104,8 @@ class Table {
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name]       = new static($callback);
+			static::$names[$name] = new static($callback);
+
 			static::$names[$name]->name = $name;
 		}
 
@@ -167,10 +157,10 @@ class Table {
 	public function render()
 	{
 		// localize Table\Grid object
-		$grid     = $this->grid;
+		$grid  = $this->grid;
 		
 		// Add paginate value for current listing while appending query string
-		$input    = Input::query();
+		$input = Input::query();
 
 		// we shouldn't append ?page
 		if (isset($input['page'])) unset($input['page']);
@@ -184,15 +174,18 @@ class Table {
 			$empty_message = Lang::line($empty_message);
 		}
 
-		// Build the view and render it.
-		$view = IoC::resolve('hybrid.view', array($grid->view));
+		$data = array(
+			'table_markup'  => $grid->markup,
+			'row_markup'    => $grid->rows->markup,
+			'empty_message' => $empty_message,
+			'columns'       => $grid->columns(),
+			'rows'          => $grid->rows(),
+			'pagination'    => $paginate,
+		);
 
-		return $view->with('table_attr', $grid->attr)
-					->with('row_attr', $grid->rows->attr)
-					->with('empty_message', $empty_message)
-					->with('columns', $grid->columns())
-					->with('rows', $grid->rows())
-					->with('pagination', $paginate)
+		// Build the view and render it.
+		return IoC::resolve('hybrid.view', array($grid->view))
+					->with($data)
 					->render();
 	}
 }

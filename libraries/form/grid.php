@@ -48,37 +48,45 @@ class Grid {
 	 *
 	 * @var array
 	 */
-	protected $attr = array();
+	protected $markup = array();
 
 	/**
 	 * Set submit button message.
 	 *
 	 * @var string
 	 */
-	public $submit_button = 'label.submit';
+	public $submit_button = null;
 
 	/**
 	 * Set the no record message
 	 *
 	 * @var string
 	 */
-	public $error_message = '<p class="help-block error">:message</p>';
+	public $error_message = null;
 
 	/**
 	 * Selected view path for form layout
 	 *
 	 * @var array
 	 */
-	protected $view = 'hybrid::form.horizontal';
+	protected $view = null;
 
 	/**
 	 * Create a new Grid instance
 	 *
 	 * @access  public
+	 * @param   array   $config
 	 * @return  void
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
+		foreach ($config as $key => $value)
+		{
+			if ( ! property_exists($this, $key)) continue;
+
+			$this->{$key} = $value;
+		}
+
 		$this->row = array();
 	}
 
@@ -137,24 +145,38 @@ class Grid {
 	 * Add or append fieldset HTML attributes
 	 *
 	 * @access  public
+	 * @deprecated          To be removed in 1.2
 	 * @param   mixed       $key
 	 * @param   mixed       $value
 	 * @return  void
 	 */
 	public function attr($key = null, $value = null)
 	{
+		return $this->markup($key, $value);
+	}
+
+	/**
+	 * Add or append fieldset HTML attributes
+	 *
+	 * @access  public
+	 * @param   mixed       $key
+	 * @param   mixed       $value
+	 * @return  void
+	 */
+	public function markup($key = null, $value = null)
+	{
 		switch (true)
 		{
 			case is_null($key) :
-				return $this->attr;
+				return $this->markup;
 				break;
 
 			case is_array($key) :
-				$this->attr = array_merge($this->attr, $key);
+				$this->markup = array_merge($this->markup, $key);
 				break;
 
 			default :
-				$this->attr[$key] = $value;
+				$this->markup[$key] = $value;
 				break;
 		}
 	}
@@ -188,14 +210,14 @@ class Grid {
 		}
 
 		$field = new Fluent(array(
-			'name'  => $name,
-			'value' => $value ?: '',
-			'attr'  => array(),
+			'name'   => $name,
+			'value'  => $value ?: '',
+			'markup' => array(),
 		));
 
 		if ($callback instanceof Closure) call_user_func($callback, $field);
 
-		$this->hiddens[$name] = F::hidden($name, $field->value, $field->attr);
+		$this->hiddens[$name] = F::hidden($name, $field->value, $field->markup);
 	}
 
 	/**
@@ -216,7 +238,9 @@ class Grid {
 	 */
 	public function __get($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
+		$key = $this->key($key);
+		
+		if ( ! in_array($key, array('markup', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
@@ -229,12 +253,14 @@ class Grid {
 	 */
 	public function __set($key, array $arguments)
 	{
-		if ( ! in_array($key, array('attr')))
+		$key = $this->key($key);
+		
+		if ( ! in_array($key, array('markup')))
 		{
 			throw new Exception(__METHOD__.": unable to set {$key}");
 		}
 
-		$this->attr($arguments, null);
+		$this->markup($arguments, null);
 	}
 
 	/**
@@ -242,11 +268,26 @@ class Grid {
 	 */
 	public function __isset($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
+		$key = $this->key($key);
+
+		if ( ! in_array($key, array('markup', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
 		}
 
 		return isset($this->{$key});
+	}
+
+	/**
+	 * Valid key for magic methods.
+	 *
+	 * @access private 	
+	 * @param  string   $key
+	 * @return string
+	 */
+	private function key($key)
+	{
+		// @deprecated 'attr' key should be removed in 1.2.
+		return ($key === 'attr') ? 'markup' : $key;
 	}
 }

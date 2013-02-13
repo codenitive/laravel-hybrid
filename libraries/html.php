@@ -45,15 +45,14 @@ class HTML extends H {
 	 *
 	 * The encoding specified in the application configuration file will be used.
 	 *
+	 * @static
+	 * @access public
 	 * @param  string  $value
 	 * @return string
 	 */
 	public static function entities($value)
 	{
-		if ($value instanceof Expression)
-		{
-			return $value->get();
-		}
+		if ($value instanceof Expression) return $value->get();
 		
 		return htmlentities($value, ENT_QUOTES, static::encoding(), false);
 	}
@@ -63,6 +62,8 @@ class HTML extends H {
 	 *
 	 * Database expressions are used to inject HTML.
 	 * 
+	 * @static
+	 * @access public
 	 * @param  string      $value
 	 * @return Expression
 	 */
@@ -71,13 +72,33 @@ class HTML extends H {
 		return new Expression($value);
 	}
 
+
 	/**
 	 * Build a list of HTML attributes from one or two array.
 	 *
+	 * @static
+	 * @access public
+	 * @deprecated     To be removed in 1.2
 	 * @param  array   $attributes
+	 * @param  array   $defaults
 	 * @return array
+	 * @see    self::markup()
 	 */
 	public static function pre_attributes($attributes, $defaults = null)
+	{
+		return static::markup($attributes, $defaults);
+	}
+
+	/**
+	 * Build a list of HTML attributes from one or two array.
+	 *
+	 * @static
+	 * @access public
+	 * @param  array   $attributes
+	 * @param  array   $defaults
+	 * @return array
+	 */
+	public static function markup($attributes, $defaults = null)
 	{
 		// Special consideration to class, where we need to merge both string from
 		// $attributes and $defaults and take union of both.
@@ -99,7 +120,7 @@ class HTML extends H {
 		$class      = implode(' ', array_diff($current, $excludes));
 		$attributes = array_merge($defaults, $attributes);
 
-		if ($class !== '') $attributes['class'] = $class;
+		empty($class) or $attributes['class'] = $class;
 
 		return $attributes;
 	}
@@ -107,6 +128,8 @@ class HTML extends H {
 	/**
 	 * Get the appliction.encoding without needing to request it from Config::get() each time.
 	 *
+	 * @static
+	 * @access protected
 	 * @return string
 	 */
 	protected static function encoding()

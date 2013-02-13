@@ -39,7 +39,7 @@ class Fieldset {
 	 *
 	 * @var array
 	 */
-	protected $attr = array();
+	protected $markup = array();
 
 	/**
 	 * All the controls
@@ -81,24 +81,38 @@ class Fieldset {
 	 * Add or append fieldset HTML attributes
 	 *
 	 * @access  public
+	 * @deprecated          To be removed in 1.2
 	 * @param   mixed       $key
 	 * @param   mixed       $value
 	 * @return  void
 	 */
 	public function attr($key = null, $value = null)
 	{
+		return $this->markup($key, $value);
+	}
+
+	/**
+	 * Add or append fieldset HTML attributes
+	 *
+	 * @access  public
+	 * @param   mixed       $key
+	 * @param   mixed       $value
+	 * @return  void
+	 */
+	public function markup($key = null, $value = null)
+	{
 		switch (true)
 		{
 			case is_null($key) :
-				return $this->attr;
+				return $this->markup;
 				break;
 
 			case is_array($key) :
-				$this->attr = array_merge($this->attr, $key);
+				$this->markup = array_merge($this->markup, $key);
 				break;
 
 			default :
-				$this->attr[$key] = $value;
+				$this->markup[$key] = $value;
 				break;
 		}
 	}
@@ -159,7 +173,7 @@ class Fieldset {
 			'name'    => $name,
 			'value'   => null,
 			'label'   => $label,
-			'attr'    => array(),
+			'markup'  => array(),
 			'options' => array(),
 			'checked' => false,
 			'field'   => null,
@@ -168,16 +182,17 @@ class Fieldset {
 		// run closure
 		if (is_callable($callback)) call_user_func($callback, $control);
 
-		$field = function ($row, $control) use ($type, $config) {
+		$field = function ($row, $control) use ($type, $config) 
+		{
 			// prep control type information
 			$type    = ($type === 'input:password' ? 'password' : $type);
 			$methods = explode(':', $type);
 			
 			// set the name of the control
-			$name    = $control->name;
+			$name = $control->name;
 			
 			// set the value from old input, follow by row value.
-			$value   = Input::old($name);
+			$value = Input::old($name);
 
 			if (! is_null($row->{$name}) and is_null($value)) $value = $row->{$name};
 
@@ -190,40 +205,32 @@ class Fieldset {
 
 			switch (true)
 			{
-
 				case (in_array($type, array('select', 'input:select'))) :
 					// set the value of options, if it's callable run it first
 					$options = $control->options;
 					
 					if ($options instanceof Closure) $options = $options($row, $control);
 
-					return F::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
-					break;
-
+					return F::select($name, $options, $value, HTML::markup($control->markup, $config['select']));
+				
 				case (in_array($type, array('checkbox', 'input:checkbox'))) :
 					return F::checkbox($name, null, $control->checked);
-					break;
-
+				
 				case (in_array($type, array('radio', 'input:radio'))) :
 					return F::radio($name, $value, $row->checked);
-					break;
-
+				
 				case (in_array($type, array('textarea', 'input:textarea'))):
-					return F::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
-					break;
-
+					return F::textarea($name, $value, HTML::markup($control->markup, $config['textarea']));
+				
 				case (in_array($type, array('password', 'input:password'))) :
-					return F::password($name, HTML::pre_attributes($control->attr, $config['password']));
-					break;
-
+					return F::password($name, HTML::markup($control->markup, $config['password']));
+				
 				case (isset($methods[0]) and $methods[0] === 'input') :
 					$methods[1] = $methods[1] ?: 'text';
-
-					return F::input($methods[1], $name, $value, HTML::pre_attributes($control->attr, $config['input']));
-					break;
-
+					return F::input($methods[1], $name, $value, HTML::markup($control->markup, $config['input']));
+				
 				default :
-					return F::input('text', $name, $value, HTML::pre_attributes($control->attr, $config['input']));
+					return F::input('text', $name, $value, HTML::markup($control->markup, $config['input']));
 			}
 		};
 
@@ -294,7 +301,9 @@ class Fieldset {
 	 */
 	public function __get($key)
 	{
-		if (in_array($key, array('attr', 'name', 'controls', 'view')))
+		$key = $this->key($key);
+
+		if (in_array($key, array('markup', 'name', 'controls', 'view')))
 		{
 			return $this->{$key};
 		}
@@ -305,12 +314,14 @@ class Fieldset {
 	 */
 	public function __set($key, array $values)
 	{
-		if ( ! in_array($key, array('attr')))
+		$key = $this->key($key);
+
+		if ( ! in_array($key, array('markup')))
 		{
 			throw new Exception(__METHOD__.": unable to set {$key}");
 		}
 
-		$this->attr($values, null);
+		$this->markup($values, null);
 	}
 
 	/**
@@ -318,9 +329,24 @@ class Fieldset {
 	 */
 	public function __isset($key)
 	{
-		if (in_array($key, array('attr', 'name', 'controls', 'view')))
+		$key = $this->key($key);
+
+		if (in_array($key, array('markup', 'name', 'controls', 'view')))
 		{
 			return isset($this->{$key});
 		}
+	}
+
+	/**
+	 * Valid key for magic methods.
+	 *
+	 * @access private 	
+	 * @param  string   $key
+	 * @return string
+	 */
+	private function key($key)
+	{
+		// @deprecated 'attr' key should be removed in 1.2.
+		return ($key === 'attr') ? 'markup' : $key;
 	}
 }

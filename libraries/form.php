@@ -10,17 +10,11 @@
 
 
 use \Closure, 
+	\Config,
 	\IoC,
 	\Lang;
 
 class Form {
-	
-	/**
-	 * Set submit button message.
-	 *
-	 * @var string
-	 */
-	public static $submit_button = null;
 
 	/**
 	 * All of the registered form names.
@@ -59,12 +53,7 @@ class Form {
 	protected function __construct(Closure $callback)
 	{
 		// Instantiate Form\Grid
-		$this->grid = new Form\Grid;
-
-		if ( ! is_null(static::$submit_button)) 
-		{
-			$this->grid->submit_button = static::$submit_button;
-		}
+		$this->grid = new Form\Grid(Config::get('hybrid::form'));
 
 		// run the form designer
 		call_user_func($callback, $this->grid);
@@ -104,7 +93,8 @@ class Form {
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name]       = new static($callback);
+			static::$names[$name] = new static($callback);
+
 			static::$names[$name]->name = $name;
 		}
 
@@ -143,7 +133,6 @@ class Form {
 	 */
 	public function extend(Closure $callback)
 	{
-		// run the table designer
 		call_user_func($callback, $this->grid);
 	}
 
@@ -156,16 +145,16 @@ class Form {
 	public function render() 
 	{
 		// localize Grid instance.
-		$grid        = $this->grid;
-		$form_attr   = $grid->attr;
+		$grid      = $this->grid;
+		$attributes = $grid->markup;
 
 		// Build Form attribute, action and method should be unset from attr 
 		// as it is build using Form::open()
-		$form_method = $form_attr['method'];
-		$form_action = $form_attr['action'];
+		$form_method = $attributes['method'];
+		$form_action = $attributes['action'];
 
-		unset($form_attr['method']);
-		unset($form_attr['action']);
+		unset($attributes['method']);
+		unset($attributes['action']);
 
 		$submit_button = $grid->submit_button;
 
@@ -174,18 +163,21 @@ class Form {
 			$submit_button = Lang::line($submit_button);
 		}
 
-		// Build the view and render it.
-		$view = IoC::resolve('hybrid.view', array($grid->view));
+		$data = array(
+			'token'         => $grid->token,
+			'hiddens'       => $grid->hiddens,
+			'row'           => $grid->row,
+			'form_action'   => $form_action,
+			'form_method'   => $form_method,
+			'submit_button' => $submit_button,
+			'error_message' => $grid->error_message,
+			'markup'        => $attributes,
+			'fieldsets'     => $grid->fieldsets(),
+		);
 
-		return $view->with('token', $grid->token)
-					->with('hiddens', $grid->hiddens)
-					->with('row', $grid->row)
-					->with('form_action', $form_action)
-					->with('form_method', $form_method)
-					->with('submit_button', $submit_button)
-					->with('error_message', $grid->error_message)
-					->with('form_attr', $form_attr)
-					->with('fieldsets', $grid->fieldsets())
+		// Build the view and render it.
+		return IoC::resolve('hybrid.view', array($grid->view))
+					->with($data)
 					->render();
 	}
 }

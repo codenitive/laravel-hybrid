@@ -48,7 +48,7 @@ class Grid {
 	 *
 	 * @var array
 	 */
-	protected $attr = array();
+	protected $attributes = array();
 
 	/**
 	 * Set submit button message.
@@ -145,24 +145,38 @@ class Grid {
 	 * Add or append fieldset HTML attributes
 	 *
 	 * @access  public
+	 * @deprecated          To be removed in 1.2
 	 * @param   mixed       $key
 	 * @param   mixed       $value
 	 * @return  void
 	 */
 	public function attr($key = null, $value = null)
 	{
+		return $this->attributes($key, $value);
+	}
+
+	/**
+	 * Add or append fieldset HTML attributes
+	 *
+	 * @access  public
+	 * @param   mixed       $key
+	 * @param   mixed       $value
+	 * @return  void
+	 */
+	public function attributes($key = null, $value = null)
+	{
 		switch (true)
 		{
 			case is_null($key) :
-				return $this->attr;
+				return $this->attributes;
 				break;
 
 			case is_array($key) :
-				$this->attr = array_merge($this->attr, $key);
+				$this->attributes = array_merge($this->attributes, $key);
 				break;
 
 			default :
-				$this->attr[$key] = $value;
+				$this->attributes[$key] = $value;
 				break;
 		}
 	}
@@ -196,14 +210,14 @@ class Grid {
 		}
 
 		$field = new Fluent(array(
-			'name'  => $name,
-			'value' => $value ?: '',
-			'attr'  => array(),
+			'name'       => $name,
+			'value'      => $value ?: '',
+			'attributes' => array(),
 		));
 
 		if ($callback instanceof Closure) call_user_func($callback, $field);
 
-		$this->hiddens[$name] = F::hidden($name, $field->value, $field->attr);
+		$this->hiddens[$name] = F::hidden($name, $field->value, $field->attributes);
 	}
 
 	/**
@@ -224,7 +238,9 @@ class Grid {
 	 */
 	public function __get($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
+		$key = $this->key($key);
+		
+		if ( ! in_array($key, array('attributes', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __get for {$key}");
 		}
@@ -237,12 +253,14 @@ class Grid {
 	 */
 	public function __set($key, array $arguments)
 	{
-		if ( ! in_array($key, array('attr')))
+		$key = $this->key($key);
+		
+		if ( ! in_array($key, array('attributes')))
 		{
 			throw new Exception(__METHOD__.": unable to set {$key}");
 		}
 
-		$this->attr($arguments, null);
+		$this->attributes($arguments, null);
 	}
 
 	/**
@@ -250,11 +268,26 @@ class Grid {
 	 */
 	public function __isset($key)
 	{
-		if ( ! in_array($key, array('attr', 'row', 'view', 'hiddens')))
+		$key = $this->key($key);
+		
+		if ( ! in_array($key, array('attributes', 'row', 'view', 'hiddens')))
 		{
 			throw new Exception(__CLASS__.": unable to use __isset for {$key}");
 		}
 
 		return isset($this->{$key});
+	}
+
+	/**
+	 * Valid key for magic methods.
+	 *
+	 * @access private 	
+	 * @param  string   $key
+	 * @return string
+	 */
+	private function key($key)
+	{
+		// @deprecated 'attr' key should be removed in 1.2.
+		return ($key === 'attr') 'attributes' ? $key;
 	}
 }

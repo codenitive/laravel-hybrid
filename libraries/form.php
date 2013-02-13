@@ -146,15 +146,15 @@ class Form {
 	{
 		// localize Grid instance.
 		$grid      = $this->grid;
-		$form_attr = $grid->attr;
+		$attributes = $grid->attributes;
 
 		// Build Form attribute, action and method should be unset from attr 
 		// as it is build using Form::open()
-		$form_method = $form_attr['method'];
-		$form_action = $form_attr['action'];
+		$form_method = $attributes['method'];
+		$form_action = $attributes['action'];
 
-		unset($form_attr['method']);
-		unset($form_attr['action']);
+		unset($attributes['method']);
+		unset($attributes['action']);
 
 		$submit_button = $grid->submit_button;
 
@@ -171,7 +171,7 @@ class Form {
 			'form_method'   => $form_method,
 			'submit_button' => $submit_button,
 			'error_message' => $grid->error_message,
-			'form_attr'     => $form_attr,
+			'attributes'    => $attributes,
 			'fieldsets'     => $grid->fieldsets(),
 		);
 

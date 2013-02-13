@@ -175,8 +175,8 @@ class Table {
 		}
 
 		$data = array(
-			'table_attr'    => $grid->attr,
-			'row_attr'      => $grid->rows->attr,
+			'table_markup'  => $grid->markup,
+			'row_markup'    => $grid->rows->markup,
 			'empty_message' => $empty_message,
 			'columns'       => $grid->columns(),
 			'rows'          => $grid->rows(),

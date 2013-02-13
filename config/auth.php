@@ -2,12 +2,12 @@
 
 return array(
 	/*
-	|--------------------------------------------------------------------------
+	|----------------------------------------------------------------------
 	| Retrieve Role associated to current user
-	|--------------------------------------------------------------------------
+	|----------------------------------------------------------------------
 	|
-	| Laravel Hybrid would need to know the list of roles (name) associated to 
-	| the current user, based on roles defined in `\Hybrid\Acl::add_role()`.
+	| Laravel Hybrid would need to know the list of roles (name) associated 
+	| to the current user, based on roles defined in `\Hybrid\Acl::add_role()`.
 	|
 	| Example:
 	|

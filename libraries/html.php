@@ -52,10 +52,7 @@ class HTML extends H {
 	 */
 	public static function entities($value)
 	{
-		if ($value instanceof Expression)
-		{
-			return $value->get();
-		}
+		if ($value instanceof Expression) return $value->get();
 		
 		return htmlentities($value, ENT_QUOTES, static::encoding(), false);
 	}
@@ -81,11 +78,11 @@ class HTML extends H {
 	 *
 	 * @static
 	 * @access public
+	 * @deprecated     To be removed in 1.2
 	 * @param  array   $attributes
 	 * @param  array   $defaults
 	 * @return array
 	 * @see    self::markup()
-	 * @deprecated     Replaced with HTML::markup()
 	 */
 	public static function pre_attributes($attributes, $defaults = null)
 	{
@@ -123,7 +120,7 @@ class HTML extends H {
 		$class      = implode(' ', array_diff($current, $excludes));
 		$attributes = array_merge($defaults, $attributes);
 
-		if ($class !== '') $attributes['class'] = $class;
+		empty($class) or $attributes['class'] = $class;
 
 		return $attributes;
 	}

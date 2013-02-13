@@ -10,17 +10,11 @@
 
 
 use \Closure, 
+	\Config,
 	\IoC,
 	\Lang;
 
 class Form {
-	
-	/**
-	 * Set submit button message.
-	 *
-	 * @var string
-	 */
-	public static $submit_button = null;
 
 	/**
 	 * All of the registered form names.
@@ -59,12 +53,7 @@ class Form {
 	protected function __construct(Closure $callback)
 	{
 		// Instantiate Form\Grid
-		$this->grid = new Form\Grid;
-
-		if ( ! is_null(static::$submit_button)) 
-		{
-			$this->grid->submit_button = static::$submit_button;
-		}
+		$this->grid = new Form\Grid(Config::get('hybrid::form'));
 
 		// run the form designer
 		call_user_func($callback, $this->grid);
@@ -104,7 +93,8 @@ class Form {
 	{
 		if ( ! isset(static::$names[$name]))
 		{
-			static::$names[$name]       = new static($callback);
+			static::$names[$name] = new static($callback);
+
 			static::$names[$name]->name = $name;
 		}
 
@@ -143,7 +133,6 @@ class Form {
 	 */
 	public function extend(Closure $callback)
 	{
-		// run the table designer
 		call_user_func($callback, $this->grid);
 	}
 

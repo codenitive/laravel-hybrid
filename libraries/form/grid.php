@@ -55,30 +55,38 @@ class Grid {
 	 *
 	 * @var string
 	 */
-	public $submit_button = 'label.submit';
+	public $submit_button = null;
 
 	/**
 	 * Set the no record message
 	 *
 	 * @var string
 	 */
-	public $error_message = '<p class="help-block error">:message</p>';
+	public $error_message = null;
 
 	/**
 	 * Selected view path for form layout
 	 *
 	 * @var array
 	 */
-	protected $view = 'hybrid::form.horizontal';
+	protected $view = null;
 
 	/**
 	 * Create a new Grid instance
 	 *
 	 * @access  public
+	 * @param   array   $config
 	 * @return  void
 	 */
-	public function __construct()
+	public function __construct($config = array())
 	{
+		foreach ($config as $key => $value)
+		{
+			if ( ! property_exists($this, $key)) continue;
+
+			$this->{$key} = $value;
+		}
+
 		$this->row = array();
 	}
 

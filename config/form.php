@@ -1,27 +1,40 @@
 <?php
 
 return array(
+
 	/*
 	|----------------------------------------------------------------------
-	| Submit Button String
+	| Default Error Message String
 	|----------------------------------------------------------------------
 	|
-	| Set default submit button for Hybrid\Form.
+	| Set default error message string format for Hybrid\Form.
 	|
 	*/
 
-	'submit_button'  => null,
+	'error_message' => '<p class="help-block error">:message</p>',
+
+	/*
+	|----------------------------------------------------------------------
+	| Default Submit Button String
+	|----------------------------------------------------------------------
+	|
+	| Set default submit button string or language replacement key for 
+	| Hybrid\Form.
+	|
+	*/
+
+	'submit_button'  => 'label.submit',
 	
 	/*
 	|----------------------------------------------------------------------
-	| Layout
+	| Default View Layout
 	|----------------------------------------------------------------------
 	|
 	| Hybrid\Form would require a View to parse the provided form instance.
 	|
 	*/
 
-	'default_layout' => 'hybrid::form.horizontal',
+	'view' => 'hybrid::form.horizontal',
 	
 	/*
 	|----------------------------------------------------------------------
@@ -32,7 +45,7 @@ return array(
 	|
 	*/
 
-	'fieldset'       => array(
+	'fieldset' => array(
 		'select'   => array('class' => 'span4'),
 		'textarea' => array('class' => 'span4'),
 		'input'    => array('class' => 'span4'),

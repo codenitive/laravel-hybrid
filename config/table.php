@@ -23,6 +23,6 @@ return array(
 	|
 	*/
 
-	'view' => 'hybrid::form.horizontal',
+	'view' => 'hybrid::table.horizontal',
 
 );

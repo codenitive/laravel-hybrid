@@ -45,6 +45,8 @@ class HTML extends H {
 	 *
 	 * The encoding specified in the application configuration file will be used.
 	 *
+	 * @static
+	 * @access public
 	 * @param  string  $value
 	 * @return string
 	 */
@@ -63,6 +65,8 @@ class HTML extends H {
 	 *
 	 * Database expressions are used to inject HTML.
 	 * 
+	 * @static
+	 * @access public
 	 * @param  string      $value
 	 * @return Expression
 	 */
@@ -71,10 +75,30 @@ class HTML extends H {
 		return new Expression($value);
 	}
 
+
 	/**
 	 * Build a list of HTML attributes from one or two array.
 	 *
+	 * @static
+	 * @access public
 	 * @param  array   $attributes
+	 * @param  array   $defaults
+	 * @return array
+	 * @see    self::markup()
+	 * @deprecated     Replaced with HTML::markup()
+	 */
+	public static function pre_attributes($attributes, $defaults = null)
+	{
+		return static::markup($attributes, $defaults);
+	}
+
+	/**
+	 * Build a list of HTML attributes from one or two array.
+	 *
+	 * @static
+	 * @access public
+	 * @param  array   $attributes
+	 * @param  array   $defaults
 	 * @return array
 	 */
 	public static function markup($attributes, $defaults = null)
@@ -107,6 +131,8 @@ class HTML extends H {
 	/**
 	 * Get the appliction.encoding without needing to request it from Config::get() each time.
 	 *
+	 * @static
+	 * @access protected
 	 * @return string
 	 */
 	protected static function encoding()

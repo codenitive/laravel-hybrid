@@ -21,13 +21,6 @@ use \Closure,
 class Grid {
 
 	/**
-	 * Set the no record message
-	 *
-	 * @var string
-	 */
-	public $empty_message = 'message.no-record';
-
-	/**
 	 * List of rows in array, is used when model is null
 	 *
 	 * @var array
@@ -70,11 +63,18 @@ class Grid {
 	protected $paginate = false;
 
 	/**
+	 * Set the no record message
+	 *
+	 * @var string
+	 */
+	public $empty_message = null;
+
+	/**
 	 * Selected view path for table layout
 	 *
 	 * @var array
 	 */
-	protected $view = 'hybrid::table.horizontal';
+	protected $view = null;
 
 	/**
 	 * Create a new Grid instance
@@ -82,8 +82,15 @@ class Grid {
 	 * @access public
 	 * @return void
 	 */
-	public function __construct() 
+	public function __construct($config = array())
 	{
+		foreach ($config as $key => $value)
+		{
+			if ( ! property_exists($this, $key)) continue;
+
+			$this->{$key} = $value;
+		}
+		
 		$this->rows = new Fluent(array(
 			'data' => array(),
 			'attr' => function ($row) { return array(); },

@@ -145,8 +145,8 @@ class Form {
 	public function render() 
 	{
 		// localize Grid instance.
-		$grid        = $this->grid;
-		$form_attr   = $grid->attr;
+		$grid      = $this->grid;
+		$form_attr = $grid->attr;
 
 		// Build Form attribute, action and method should be unset from attr 
 		// as it is build using Form::open()

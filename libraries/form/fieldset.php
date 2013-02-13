@@ -197,7 +197,7 @@ class Fieldset {
 					
 					if ($options instanceof Closure) $options = $options($row, $control);
 
-					return F::select($name, $options, $value, HTML::pre_attributes($control->attr, $config['select']));
+					return F::select($name, $options, $value, HTML::markup($control->attr, $config['select']));
 					break;
 
 				case (in_array($type, array('checkbox', 'input:checkbox'))) :
@@ -209,21 +209,21 @@ class Fieldset {
 					break;
 
 				case (in_array($type, array('textarea', 'input:textarea'))):
-					return F::textarea($name, $value, HTML::pre_attributes($control->attr, $config['textarea']));
+					return F::textarea($name, $value, HTML::markup($control->attr, $config['textarea']));
 					break;
 
 				case (in_array($type, array('password', 'input:password'))) :
-					return F::password($name, HTML::pre_attributes($control->attr, $config['password']));
+					return F::password($name, HTML::markup($control->attr, $config['password']));
 					break;
 
 				case (isset($methods[0]) and $methods[0] === 'input') :
 					$methods[1] = $methods[1] ?: 'text';
 
-					return F::input($methods[1], $name, $value, HTML::pre_attributes($control->attr, $config['input']));
+					return F::input($methods[1], $name, $value, HTML::markup($control->attr, $config['input']));
 					break;
 
 				default :
-					return F::input('text', $name, $value, HTML::pre_attributes($control->attr, $config['input']));
+					return F::input('text', $name, $value, HTML::markup($control->attr, $config['input']));
 			}
 		};
 

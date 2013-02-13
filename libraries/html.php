@@ -77,7 +77,7 @@ class HTML extends H {
 	 * @param  array   $attributes
 	 * @return array
 	 */
-	public static function pre_attributes($attributes, $defaults = null)
+	public static function markup($attributes, $defaults = null)
 	{
 		// Special consideration to class, where we need to merge both string from
 		// $attributes and $defaults and take union of both.

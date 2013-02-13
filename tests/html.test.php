@@ -53,17 +53,17 @@ class HTMLTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testPreAttributes()
 	{
-		$output   = Hybrid\HTML::pre_attributes(array('class' => 'span4 table'), array('id' => 'foobar'));
+		$output   = Hybrid\HTML::markup(array('class' => 'span4 table'), array('id' => 'foobar'));
 		$expected = array('id' => 'foobar', 'class' => 'span4 table');
 
 		$this->assertEquals($expected, $output);
 
-		$output   = Hybrid\HTML::pre_attributes(array('class' => 'span4 !span12'), array('class' => 'span12'));
+		$output   = Hybrid\HTML::markup(array('class' => 'span4 !span12'), array('class' => 'span12'));
 		$expected = array('class' => 'span4');
 
 		$this->assertEquals($expected, $output);
 
-		$output   = Hybrid\HTML::pre_attributes(array('id' => 'table'), array('id' => 'foobar', 'class' => 'span4'));
+		$output   = Hybrid\HTML::markup(array('id' => 'table'), array('id' => 'foobar', 'class' => 'span4'));
 		$expected = array('id' => 'table', 'class' => 'span4');
 
 		$this->assertEquals($expected, $output);

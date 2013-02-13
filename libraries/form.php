@@ -163,18 +163,21 @@ class Form {
 			$submit_button = Lang::line($submit_button);
 		}
 
-		// Build the view and render it.
-		$view = IoC::resolve('hybrid.view', array($grid->view));
+		$data = array(
+			'token'         => $grid->token,
+			'hiddens'       => $grid->hiddens,
+			'row'           => $grid->row,
+			'form_action'   => $form_action,
+			'form_method'   => $form_method,
+			'submit_button' => $submit_button,
+			'error_message' => $grid->error_message,
+			'form_attr'     => $form_attr,
+			'fieldsets'     => $grid->fieldsets(),
+		);
 
-		return $view->with('token', $grid->token)
-					->with('hiddens', $grid->hiddens)
-					->with('row', $grid->row)
-					->with('form_action', $form_action)
-					->with('form_method', $form_method)
-					->with('submit_button', $submit_button)
-					->with('error_message', $grid->error_message)
-					->with('form_attr', $form_attr)
-					->with('fieldsets', $grid->fieldsets())
+		// Build the view and render it.
+		return IoC::resolve('hybrid.view', array($grid->view))
+					->with($data)
 					->render();
 	}
 }

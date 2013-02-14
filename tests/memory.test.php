@@ -132,11 +132,11 @@ class MemoryTest extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Test Hybrid\Memory::__construct() method.
 	 *
-	 * @expectedException Hybrid\RuntimeException
+	 * @expectedException \Hybrid\RuntimeException
 	 */
 	public function testConstructMethod()
 	{
-		$stub = new Hybrid\Memory;
+		$stub = new \Hybrid\Memory;
 	}
 
 }

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ResponseTest extends PHPUnit_Framework_TestCase {
+class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testStub()
 	{

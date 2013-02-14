@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class FtpTest extends PHPUnit_Framework_TestCase {
+class FtpTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test instance of Hybrid\FTP
@@ -11,6 +11,6 @@ class FtpTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testInstanceOf()
 	{
-		$this->assertInstanceOf('Hybrid\FTP', Hybrid\FTP::make());
+		$this->assertInstanceOf('\Hybrid\FTP', \Hybrid\FTP::make());
 	}
 }

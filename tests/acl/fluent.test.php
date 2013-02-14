@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Acl;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class AclFluentTest extends PHPUnit_Framework_TestCase {
+class FluentTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Stub instance.
@@ -16,7 +16,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->stub = new Hybrid\Acl\Fluent('stub');
+		$this->stub = new \Hybrid\Acl\Fluent('stub');
 		$this->stub->fill(array(
 			'Hello World'
 		));
@@ -29,7 +29,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testInstanceOf()
 	{
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $this->stub);
+		$this->assertInstanceOf('\Hybrid\Acl\Fluent', $this->stub);
 
 		$refl = new \ReflectionObject($this->stub);
 		$name = $refl->getProperty('name');
@@ -45,7 +45,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->add('foo');
 		$stub->add('foobar');
@@ -61,12 +61,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test Hybrid\Acl\Fluent::add() method null throw an exception.
 	 *
-	 * @test
-	 * @expectedException Hybrid\InvalidArgumentException
+	 * @expectedException \Hybrid\InvalidArgumentException
 	 */
 	public function testAddMethodNullThrownException()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->add(null);
 	}
@@ -78,7 +77,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testFillMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array('foo', 'foobar'));
 
@@ -93,12 +92,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test Hybrid\Acl\Fluent::add() method null throw an exception.
 	 *
-	 * @test
-	 * @expectedException Hybrid\InvalidArgumentException
+	 * @expectedException \Hybrid\InvalidArgumentException
 	 */
 	public function testFillMethodNullThrownException()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array(null));
 	}
@@ -121,7 +119,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testRenameMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array('foo', 'foobar'));
 
@@ -142,7 +140,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSearchMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array('foo', 'foobar'));
 
@@ -158,7 +156,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testExistMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array('foo', 'foobar'));
 
@@ -174,7 +172,7 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testRemoveMethod()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->fill(array('foo', 'foobar'));
 
@@ -201,12 +199,11 @@ class AclFluentTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test Hybrid\Acl\Fluent::remove() method null throw an exception.
 	 *
-	 * @test
-	 * @expectedException Hybrid\InvalidArgumentException
+	 * @expectedException \Hybrid\InvalidArgumentException
 	 */
 	public function testRemoveMethodNullThrownException()
 	{
-		$stub = new Hybrid\Acl\Fluent('foo');
+		$stub = new \Hybrid\Acl\Fluent('foo');
 
 		$stub->remove(null);
 	}

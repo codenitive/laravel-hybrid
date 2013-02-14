@@ -1,15 +1,15 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class AclTest extends PHPUnit_Framework_TestCase {
+class AclTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
 	public function setUp()
 	{
-		Hybrid\Acl::register('mock-one', function ($acl)
+		\Hybrid\Acl::register('mock-one', function ($acl)
 		{
 			$acl->add_actions(array('view blog', 'view forum', 'view news'));
 			$acl->allow('guest', array('view blog'));
@@ -24,7 +24,8 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$this->assertInstanceOf('Hybrid\Acl\Container', Hybrid\Acl::make('mock-one'));
+		$this->assertInstanceOf('\Hybrid\Acl\Container', 
+			\Hybrid\Acl::make('mock-one'));
 	}
 
 	/**
@@ -34,7 +35,7 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testHasRoleUsingMockOne()
 	{
-		$acl = Hybrid\Acl::make('mock-one');
+		$acl = \Hybrid\Acl::make('mock-one');
 		$this->assertTrue($acl->has_role('Guest'));
 		$this->assertFalse($acl->has_role('Adminy'));
 	}
@@ -46,8 +47,8 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCanUsingMockOne()
 	{
-		$acl    = Hybrid\Acl::make('mock-one');
-		$this->assertInstanceOf('Hybrid\Acl\Container', $acl);
+		$acl = \Hybrid\Acl::make('mock-one');
+		$this->assertInstanceOf('\Hybrid\Acl\Container', $acl);
 
 		$output = $acl->can('view blog');
 		$this->assertTrue($output);
@@ -66,30 +67,29 @@ class AclTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCanSyncRole()
 	{
-		$acl1 = Hybrid\Acl::make('mock-one');
-		$acl2 = Hybrid\Acl::make('mock-two');
+		$acl1 = \Hybrid\Acl::make('mock-one');
+		$acl2 = \Hybrid\Acl::make('mock-two');
 
-		Hybrid\Acl::add_role('admin');
-		Hybrid\Acl::add_role('manager');
+		\Hybrid\Acl::add_role('admin');
+		\Hybrid\Acl::add_role('manager');
 
 		$this->assertTrue($acl1->has_role('admin'));
 		$this->assertTrue($acl2->has_role('admin'));
 		$this->assertTrue($acl1->has_role('manager'));
 		$this->assertTrue($acl2->has_role('manager'));
 
-		Hybrid\Acl::remove_role('manager');
+		\Hybrid\Acl::remove_role('manager');
 
 		$this->assertTrue($acl1->has_role('admin'));
 		$this->assertTrue($acl2->has_role('admin'));
 		$this->assertFalse($acl1->has_role('manager'));
 		$this->assertFalse($acl2->has_role('manager'));
 
-		$this->assertTrue(is_array(Hybrid\Acl::all()));
-		$this->assertFalse(array() === Hybrid\Acl::all());
+		$this->assertTrue(is_array(\Hybrid\Acl::all()));
+		$this->assertFalse(array() === \Hybrid\Acl::all());
 
-		Hybrid\Acl::shutdown();
+		\Hybrid\Acl::shutdown();
 
-		$this->assertEquals(array(), Hybrid\Acl::all());
+		$this->assertEquals(array(), \Hybrid\Acl::all());
 	}
-	
 }

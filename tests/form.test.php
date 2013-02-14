@@ -1,20 +1,20 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class FormTest extends PHPUnit_Framework_TestCase {
+class FormTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
 	public function setUp()
 	{
-		$mock_data = new Laravel\Fluent(array(
+		$mock_data = new \Laravel\Fluent(array(
 			'id' => 1, 
 			'name' => 'Laravel'
 		));
 
-		Hybrid\Form::of('mock', function ($form) use ($mock_data)
+		\Hybrid\Form::of('mock', function ($form) use ($mock_data)
 		{
 			$form->rows($mock_data);
 			$form->attr(array(
@@ -24,7 +24,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 			));
 		});
 
-		Hybrid\Form::of('mock-2', function ($form) use ($mock_data)
+		\Hybrid\Form::of('mock-2', function ($form) use ($mock_data)
 		{
 			$form->row($mock_data);
 			$form->attr = array(
@@ -42,9 +42,9 @@ class FormTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$this->assertInstanceOf('Hybrid\Form', Hybrid\Form::of('mock'));
-		$this->assertInstanceOf('Hybrid\Form\Grid', Hybrid\Form::of('mock')->grid);
-		$this->assertInstanceOf('Hybrid\Form\Grid', new Hybrid\Form\Grid);
+		$this->assertInstanceOf('\Hybrid\Form', \Hybrid\Form::of('mock'));
+		$this->assertInstanceOf('\Hybrid\Form\Grid', \Hybrid\Form::of('mock')->grid);
+		$this->assertInstanceOf('\Hybrid\Form\Grid', new \Hybrid\Form\Grid);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 	public function testRender()
 	{
 		ob_start();
-		echo Hybrid\Form::of('mock');
+		echo \Hybrid\Form::of('mock');
 		$output = ob_get_contents();
 		ob_end_clean();
 
@@ -69,7 +69,7 @@ class FormTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $output);
 
 		ob_start();
-		echo Hybrid\Form::of('mock-2');
+		echo \Hybrid\Form::of('mock-2');
 		$output = ob_get_contents();
 		ob_end_clean();
 

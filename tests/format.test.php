@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class FormatTest extends PHPUnit_Framework_TestCase {
+class FormatTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Add data provider
@@ -33,7 +33,8 @@ line 2","Value 3"',
 	 */
 	public function testFromCsv($array, $csv)
 	{
-		$this->assertEquals($array, Hybrid\Format::make($csv, 'csv')->to_array());
+		$this->assertEquals($array, 
+			\Hybrid\Format::make($csv, 'csv')->to_array());
 	}
 
 	/**
@@ -44,7 +45,8 @@ line 2","Value 3"',
 	 */
 	public function testToCsv($array, $csv)
 	{
-		$this->assertEquals($csv, Hybrid\Format::make($array)->to_csv());
+		$this->assertEquals($csv, 
+			\Hybrid\Format::make($array)->to_csv());
 	}
 
 	/**
@@ -136,7 +138,8 @@ line 2","Value 3"',
 			),
 		);
 
-		$this->assertEquals(Hybrid\Format::make($expected)->to_php(), Hybrid\Format::make($xml, 'xml')->to_php());
+		$this->assertEquals(\Hybrid\Format::make($expected)->to_php(), 
+			\Hybrid\Format::make($xml, 'xml')->to_php());
 	}
 
 	/**
@@ -148,6 +151,7 @@ line 2","Value 3"',
 	{
 		$array    = null;
 		$expected = array();
-		$this->assertEquals($expected, Hybrid\Format::make($array)->to_array());
+		$this->assertEquals($expected, 
+			\Hybrid\Format::make($array)->to_array());
 	}
 }

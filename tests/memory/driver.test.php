@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Memory;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class MemoryDriverTest extends PHPUnit_Framework_TestCase {
+class DriverTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test Hybrid\Memory\Driver::initiate()
@@ -37,7 +37,7 @@ class MemoryDriverTest extends PHPUnit_Framework_TestCase {
 	{
 		$stub     = new MemoryDriverStub;
 		$expected = 'a:2:{s:4:"name";s:9:"Orchestra";s:5:"theme";a:2:{s:7:"backend";s:7:"default";s:8:"frontend";s:7:"default";}}';
-		$stream   = fopen(Bundle::path('hybrid').'tests'.DS.'memory'.DS.'driver.stub.php', 'r');
+		$stream   = fopen(\Bundle::path('hybrid').'tests'.DS.'memory'.DS.'driver.stub.php', 'r');
 		$output   = $stub->stringify($stream);
 
 		$this->assertEquals($expected, $output);
@@ -54,7 +54,7 @@ class MemoryDriverTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class MemoryDriverStub extends Hybrid\Memory\Driver {
+class MemoryDriverStub extends \Hybrid\Memory\Driver {
 
 	public $initiated = false;
 	public $shutdown  = false;

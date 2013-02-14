@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Memory;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class MemoryEloquentTest extends PHPUnit_Framework_TestCase {
+class EloquentTest extends \PHPUnit_Framework_TestCase {
 
 	public function testStub()
 	{

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Chart;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ChartPieTest extends PHPUnit_Framework_TestCase {
+class PieTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Chart instance
@@ -16,7 +16,7 @@ class ChartPieTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->chart = new Hybrid\Chart\Pie;
+		$this->chart = new \Hybrid\Chart\Pie;
 	}
 
 	/**
@@ -30,18 +30,18 @@ class ChartPieTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test object is an instance of Hybrid\Chart\Driver.
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testObjectInstanceOf()
 	{
-		$this->assertInstanceOf('Hybrid\Chart\Driver', $this->chart);
-		$this->assertInstanceOf('Hybrid\Chart\Pie', $this->chart);
+		$this->assertInstanceOf('\Hybrid\Chart\Driver', $this->chart);
+		$this->assertInstanceOf('\Hybrid\Chart\Pie', $this->chart);
 	}
 
 	/**
 	 * Test generated UUID is always unique
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testGeneratedUUID()
 	{
@@ -51,7 +51,7 @@ class ChartPieTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test render is output the correct value
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testRenderIsOutputCorrectly()
 	{

@@ -1,20 +1,20 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ExpressionTest extends PHPUnit_Framework_TestCase {
+class ExpressionTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Test Laravel\Expression 
 	 *
-	 * @group laravel
+	 * @test
 	 */
 	public function testConstructReturnValid()
 	{
 		$expected = "foobar";
-		$actual   = new Hybrid\Expression($expected);
+		$actual   = new \Hybrid\Expression($expected);
 
-		$this->assertInstanceOf('Hybrid\Expression', $actual);
+		$this->assertInstanceOf('\Hybrid\Expression', $actual);
 		$this->assertEquals($expected, $actual);
 		$this->assertEquals($expected, $actual->get());
 	}

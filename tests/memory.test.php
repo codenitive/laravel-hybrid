@@ -1,21 +1,21 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class MemoryTest extends PHPUnit_Framework_TestCase {
+class MemoryTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
 	public function setUp()
 	{
-		$mock = Hybrid\Memory::make('runtime.mock');
+		$mock = \Hybrid\Memory::make('runtime.mock');
 
 		$mock->put('foo.bar', 'hello world');
 		
 		$mock->put('username', 'laravel');
 
-		$mock = Hybrid\Memory::make('cache.mock');
+		$mock = \Hybrid\Memory::make('cache.mock');
 
 		$mock->put('foo.bar', 'hello world');
 		
@@ -31,7 +31,7 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 
 		$mock->put('username', 'laravel');
 
-		Hybrid\Memory::extend('stub', function($driver, $config) 
+		\Hybrid\Memory::extend('stub', function($driver, $config) 
 		{
 			return new MemoryStub($driver, $config);
 		});
@@ -41,23 +41,23 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 * Test that Hybrid\Memory::make() return an instanceof Hybrid\Memory.
 	 * 
 	 * @test
-	 * @return  void
 	 */
 	public function testMake()
 	{
-		$this->assertInstanceOf('Hybrid\Memory\Runtime', Hybrid\Memory::make('runtime')); 
-		$this->assertInstanceOf('Hybrid\Memory\Cache', Hybrid\Memory::make('cache')); 
+		$this->assertInstanceOf('\Hybrid\Memory\Runtime', 
+			\Hybrid\Memory::make('runtime')); 
+		$this->assertInstanceOf('\Hybrid\Memory\Cache', 
+			\Hybrid\Memory::make('cache')); 
 	}
 
 	/**
 	 * Test that Hybrid\Memory::make() return exception when given invalid driver
 	 *
-	 * @test
-	 * @expectedException Hybrid\Exception
+	 * @expectedException \Hybrid\Exception
 	 */
 	public function testMakeExpectedException()
 	{
-		Hybrid\Memory::make('orm');
+		\Hybrid\Memory::make('orm');
 	}
 
 	/**
@@ -67,7 +67,7 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testStartMethod()
 	{
-		$this->assertTrue(Hybrid\Memory::start());
+		$this->assertTrue(\Hybrid\Memory::start());
 	}
 
 	/**
@@ -77,7 +77,7 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testGetRuntimeMock()
 	{
-		$mock = Hybrid\Memory::make('runtime.mock');
+		$mock = \Hybrid\Memory::make('runtime.mock');
 		
 		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
 		$this->assertEquals('hello world', $mock->get('foo.bar'));
@@ -91,7 +91,7 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCacheMock()
 	{
-		$mock = Hybrid\Memory::make('cache.mock');
+		$mock = \Hybrid\Memory::make('cache.mock');
 		
 		$this->assertEquals(array('bar' => 'hello world'), $mock->get('foo'));
 		$this->assertEquals('hello world', $mock->get('foo.bar'));
@@ -105,7 +105,7 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCacheMockWithClosure()
 	{
-		$mock = Hybrid\Memory::make('cache.mock');
+		$mock = \Hybrid\Memory::make('cache.mock');
 		
 		$this->assertEquals('hello world foobar', $mock->get('foobar'));
 		$this->assertEquals('HELLO WORLD', $mock->get('hello.world'));
@@ -118,9 +118,9 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testStubMemory()
 	{
-		$stub = Hybrid\Memory::make('stub.mock');
+		$stub = \Hybrid\Memory::make('stub.mock');
 
-		$this->assertInstanceOf('MemoryStub', $stub);
+		$this->assertInstanceOf('\Hybrid\Tests\MemoryStub', $stub);
 
 		$refl    = new \ReflectionObject($stub);
 		$storage = $refl->getProperty('storage');
@@ -132,16 +132,16 @@ class MemoryTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test Hybrid\Memory::__construct() method.
 	 *
-	 * @expectedException Hybrid\RuntimeException
+	 * @expectedException \Hybrid\RuntimeException
 	 */
 	public function testConstructMethod()
 	{
-		$stub = new Hybrid\Memory;
+		$stub = new \Hybrid\Memory;
 	}
 
 }
 
-class MemoryStub extends Hybrid\Memory\Driver
+class MemoryStub extends \Hybrid\Memory\Driver
 {
 	/**
 	 * Storage name

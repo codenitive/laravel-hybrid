@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class TableTest extends PHPUnit_Framework_TestCase {
+class TableTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
@@ -10,12 +10,12 @@ class TableTest extends PHPUnit_Framework_TestCase {
 	public function setUp()
 	{
 		$mock_data = array(
-			new Laravel\Fluent(array('id' => 1, 'name' => 'Laravel')),
-			new Laravel\Fluent(array('id' => 2, 'name' => 'Illuminate')),
-			new Laravel\Fluent(array('id' => 3, 'name' => 'Symfony')),
+			new \Laravel\Fluent(array('id' => 1, 'name' => 'Laravel')),
+			new \Laravel\Fluent(array('id' => 2, 'name' => 'Illuminate')),
+			new \Laravel\Fluent(array('id' => 3, 'name' => 'Symfony')),
 		);
 
-		Hybrid\Table::of('mock', function ($table) use ($mock_data)
+		\Hybrid\Table::of('mock', function ($table) use ($mock_data)
 		{
 			$table->rows($mock_data);
 			$table->attr(array('class' => 'foo'));
@@ -24,7 +24,7 @@ class TableTest extends PHPUnit_Framework_TestCase {
 			$table->column('name');
 		});
 
-		Hybrid\Table::of('mock-2', function ($table) use ($mock_data)
+		\Hybrid\Table::of('mock-2', function ($table) use ($mock_data)
 		{
 			$table->rows($mock_data);
 			$table->attr = array('class' => 'foo');
@@ -47,15 +47,15 @@ class TableTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$table = Hybrid\Table::make(function ($table) 
+		$table = \Hybrid\Table::make(function ($table) 
 		{
 			$table->attr = array('class' => 'foo');
 		});
 
-		$this->assertInstanceOf('Hybrid\Table', $table);
-		$this->assertInstanceOf('Hybrid\Table', Hybrid\Table::of('mock'));
-		$this->assertInstanceOf('Hybrid\Table\Grid', $table->grid);
-		$this->assertInstanceOf('Hybrid\Table\Grid', new Hybrid\Table\Grid);
+		$this->assertInstanceOf('\Hybrid\Table', $table);
+		$this->assertInstanceOf('\Hybrid\Table', \Hybrid\Table::of('mock'));
+		$this->assertInstanceOf('\Hybrid\Table\Grid', $table->grid);
+		$this->assertInstanceOf('\Hybrid\Table\Grid', new \Hybrid\Table\Grid);
 	}
 
 	/**
@@ -66,7 +66,7 @@ class TableTest extends PHPUnit_Framework_TestCase {
 	public function testRender()
 	{
 		ob_start();
-		echo Hybrid\Table::of('mock');
+		echo \Hybrid\Table::of('mock');
 		$output = ob_get_contents();
 		ob_end_clean();
 
@@ -97,7 +97,7 @@ class TableTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $output);
 
 		ob_start();
-		echo Hybrid\Table::of('mock-2');
+		echo \Hybrid\Table::of('mock-2');
 		$output = ob_get_contents();
 		ob_end_clean();
 
@@ -127,6 +127,4 @@ class TableTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expected, $output);
 	}
-
-
 }

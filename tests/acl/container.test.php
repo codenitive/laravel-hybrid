@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Acl;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class AclContainerTest extends PHPUnit_Framework_TestCase {
+class ContainerTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Acl Container instance.
@@ -16,12 +16,12 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$runtime = Hybrid\Memory::make('runtime.foo');
+		$runtime = \Hybrid\Memory::make('runtime.foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$this->stub = Hybrid\Acl::make('foo', $runtime);
+		$this->stub = \Hybrid\Acl::make('foo', $runtime);
 
-		Event::override('hybrid.auth.roles', function ($user_id, $roles)
+		\Event::override('hybrid.auth.roles', function ($user_id, $roles)
 		{
 			return array('guest');
 		});
@@ -67,10 +67,14 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$actions->setAccessible(true);
 		$acl->setAccessible(true);
 
-		$this->assertInstanceOf('Hybrid\Acl\Container', $this->stub);
-		$this->assertInstanceOf('Hybrid\Memory\Runtime', $memory->getValue($this->stub));
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $roles->getValue($this->stub));
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $actions->getValue($this->stub));
+		$this->assertInstanceOf('\Hybrid\Acl\Container', 
+			$this->stub);
+		$this->assertInstanceOf('\Hybrid\Memory\Runtime', 
+			$memory->getValue($this->stub));
+		$this->assertInstanceOf('\Hybrid\Acl\Fluent', 
+			$roles->getValue($this->stub));
+		$this->assertInstanceOf('\Hybrid\Acl\Fluent', 
+			$actions->getValue($this->stub));
 		$this->assertTrue(is_array($acl->getValue($this->stub)));
 	}
 
@@ -81,10 +85,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSyncMemoryAfterConstruct()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub    = new Hybrid\Acl\Container('foo');
+		$stub    = new \Hybrid\Acl\Container('foo');
 
 		$this->assertFalse($stub->attached());
 
@@ -136,10 +140,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAllowMethod()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+		$stub    = new \Hybrid\Acl\Container('foo', $runtime);
 
 		$stub->allow('guest', 'manage-user');
 
@@ -165,10 +169,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testDenyMethod()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+		$stub    = new \Hybrid\Acl\Container('foo', $runtime);
 
 		$stub->deny('admin', 'manage-user');
 
@@ -194,10 +198,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCanMethod()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub = new Hybrid\Acl\Container('foo', $runtime);
+		$stub = new \Hybrid\Acl\Container('foo', $runtime);
 
 		$stub->add_actions(array('Manage Page', 'Manage Photo'));
 		$stub->allow('guest', 'Manage Page');
@@ -214,10 +218,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testCheckMethod()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory());
 
-		$stub = new Hybrid\Acl\Container('foo', $runtime);
+		$stub = new \Hybrid\Acl\Container('foo', $runtime);
 
 		$stub->add_actions(array('Manage Page', 'Manage Photo'));
 		$stub->allow('guest', 'Manage Page');
@@ -244,9 +248,9 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$roles->setAccessible(true);
 		$actions->setAccessible(true);
 
-		$this->assertInstanceOf('Hybrid\Memory\Runtime', $memory->getValue($stub));
+		$this->assertInstanceOf('\Hybrid\Memory\Runtime', $memory->getValue($stub));
 
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $roles->getValue($stub));
+		$this->assertInstanceOf('\Hybrid\Acl\Fluent', $roles->getValue($stub));
 
 		$this->assertTrue($stub->roles()->has('guest'));
 		$this->assertTrue($stub->roles()->has('admin'));
@@ -255,7 +259,7 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('guest', 'admin'), $roles->getValue($stub)->get());
 		$this->assertEquals(array('guest', 'admin'), $stub->roles()->get());
 
-		$this->assertInstanceOf('Hybrid\Acl\Fluent', $actions->getValue($stub));
+		$this->assertInstanceOf('\Hybrid\Acl\Fluent', $actions->getValue($stub));
 
 		$this->assertTrue($stub->actions()->has('manage-user'));
 		$this->assertTrue($stub->actions()->has('manage'));
@@ -272,10 +276,10 @@ class AclContainerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testAddDuplicates()
 	{
-		$runtime = new Hybrid\Memory\Runtime('foo');
+		$runtime = new \Hybrid\Memory\Runtime('foo');
 		$runtime->put('acl_foo', static::providerMemory()); 
 
-		$stub    = new Hybrid\Acl\Container('foo', $runtime);
+		$stub    = new \Hybrid\Acl\Container('foo', $runtime);
 		$refl    = new \ReflectionObject($stub);
 		$actions = $refl->getProperty('actions');
 		$roles   = $refl->getProperty('roles');

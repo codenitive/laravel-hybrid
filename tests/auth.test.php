@@ -1,15 +1,15 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class AuthTest extends PHPUnit_Framework_TestCase {
+class AuthTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Setup the test environment.
 	 */
 	public function setUp()
 	{
-		Event::override('hybrid.auth.roles', function ($user_id, $roles)
+		\Event::override('hybrid.auth.roles', function ($user_id, $roles)
 		{
 			return array('admin', 'editor');
 		});
@@ -23,7 +23,7 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	public function testRolesMethod()
 	{
 		$expected = array('admin', 'editor');
-		$output   = Hybrid\Auth::roles();
+		$output   = \Hybrid\Auth::roles();
 
 		$this->assertEquals($expected, $output);
 	}
@@ -35,8 +35,8 @@ class AuthTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testIsMethod()
 	{
-		$this->assertTrue(Hybrid\Auth::is('admin'));
-		$this->assertTrue(Hybrid\Auth::is('editor'));
-		$this->assertFalse(Hybrid\Auth::is('user'));
+		$this->assertTrue(\Hybrid\Auth::is('admin'));
+		$this->assertTrue(\Hybrid\Auth::is('editor'));
+		$this->assertFalse(\Hybrid\Auth::is('user'));
 	}
 }

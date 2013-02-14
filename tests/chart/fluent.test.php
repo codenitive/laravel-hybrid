@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Chart;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ChartFluentTest extends PHPUnit_Framework_TestCase {
+class FluentTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Chart instance.
@@ -16,7 +16,7 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->stub = new Hybrid\Chart\Fluent;
+		$this->stub = new \Hybrid\Chart\Fluent;
 	}
 
 	/**
@@ -98,12 +98,12 @@ class ChartFluentTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testExport()
 	{
-		$this->assertInstanceOf('Hybrid\Chart\Area', $this->stub->export('area'));
-		$this->assertInstanceOf('Hybrid\Chart\Bar', $this->stub->export('bar'));
-		$this->assertInstanceOf('Hybrid\Chart\GeoMap', $this->stub->export('geoMap'));
-		$this->assertInstanceOf('Hybrid\Chart\Pie', $this->stub->export('pie'));
-		$this->assertInstanceOf('Hybrid\Chart\Scatter', $this->stub->export('scatter'));
-		$this->assertInstanceOf('Hybrid\Chart\Table', $this->stub->export('table'));
-		$this->assertInstanceOf('Hybrid\Chart\Timeline', $this->stub->export('timeline'));
+		$this->assertInstanceOf('\Hybrid\Chart\Area', $this->stub->export('area'));
+		$this->assertInstanceOf('\Hybrid\Chart\Bar', $this->stub->export('bar'));
+		$this->assertInstanceOf('\Hybrid\Chart\GeoMap', $this->stub->export('geoMap'));
+		$this->assertInstanceOf('\Hybrid\Chart\Pie', $this->stub->export('pie'));
+		$this->assertInstanceOf('\Hybrid\Chart\Scatter', $this->stub->export('scatter'));
+		$this->assertInstanceOf('\Hybrid\Chart\Table', $this->stub->export('table'));
+		$this->assertInstanceOf('\Hybrid\Chart\Timeline', $this->stub->export('timeline'));
 	}
 }

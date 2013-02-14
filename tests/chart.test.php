@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ChartTest extends PHPUnit_Framework_TestCase {
+class ChartTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Test Hybrid\Chart::make() return an instanceof Hybrid\Chart.
@@ -11,33 +11,33 @@ class ChartTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testMake()
 	{
-		$this->assertInstanceOf('Hybrid\Chart\Area', Hybrid\Chart::make('area'));
-		$this->assertInstanceOf('Hybrid\Chart\Bar', Hybrid\Chart::make('bar'));
-		$this->assertInstanceOf('Hybrid\Chart\GeoMap', Hybrid\Chart::make('geoMap'));
-		$this->assertInstanceOf('Hybrid\Chart\Line', Hybrid\Chart::make('line'));
-		$this->assertInstanceOf('Hybrid\Chart\Pie', Hybrid\Chart::make('pie'));
-		$this->assertInstanceOf('Hybrid\Chart\Table', Hybrid\Chart::make('table'));
-		$this->assertInstanceOf('Hybrid\Chart\Timeline', Hybrid\Chart::make('timeline'));
+		$this->assertInstanceOf('\Hybrid\Chart\Area', \Hybrid\Chart::make('area'));
+		$this->assertInstanceOf('\Hybrid\Chart\Bar', \Hybrid\Chart::make('bar'));
+		$this->assertInstanceOf('\Hybrid\Chart\GeoMap', \Hybrid\Chart::make('geoMap'));
+		$this->assertInstanceOf('\Hybrid\Chart\Line', \Hybrid\Chart::make('line'));
+		$this->assertInstanceOf('\Hybrid\Chart\Pie', \Hybrid\Chart::make('pie'));
+		$this->assertInstanceOf('\Hybrid\Chart\Table', \Hybrid\Chart::make('table'));
+		$this->assertInstanceOf('\Hybrid\Chart\Timeline', \Hybrid\Chart::make('timeline'));
 	}
 
 	/**
 	 * Test Chart::make() given invalid driver
 	 *
-	 * @expectedException Hybrid\Exception
+	 * @expectedException \Hybrid\Exception
 	 */
 	public function testMakeThrowsExpectedException()
 	{
-		Hybrid\Chart::make('date');
+		\Hybrid\Chart::make('date');
 	}
 
 	/**
 	 * Test Chart::make() given invalid driver
 	 *
-	 * @expectedException Hybrid\RuntimeException
+	 * @expectedException \Hybrid\RuntimeException
 	 */
 	public function testConstructThrowsExpectedException()
 	{
-		$stub =new Hybrid\Chart;
+		$stub =new \Hybrid\Chart;
 	}
 
 	/**
@@ -48,7 +48,7 @@ class ChartTest extends PHPUnit_Framework_TestCase {
 	public function testLoadJavaScript()
 	{
 		$expected = '<script src="https://www.google.com/jsapi"></script>';
-		$output   = Hybrid\Chart::js();
+		$output   = \Hybrid\Chart::js();
 
 		$this->assertEquals($expected, $output);
 	}

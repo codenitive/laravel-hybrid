@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Chart;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class ChartTimelineTest extends PHPUnit_Framework_TestCase {
+class TimelineTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Chart instance
@@ -16,7 +16,7 @@ class ChartTimelineTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->chart = new Hybrid\Chart\Timeline;
+		$this->chart = new \Hybrid\Chart\Timeline;
 	}
 
 	/**
@@ -34,8 +34,8 @@ class ChartTimelineTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testObjectInstanceOf()
 	{
-		$this->assertInstanceOf('Hybrid\Chart\Driver', $this->chart);
-		$this->assertInstanceOf('Hybrid\Chart\Timeline', $this->chart);
+		$this->assertInstanceOf('\Hybrid\Chart\Driver', $this->chart);
+		$this->assertInstanceOf('\Hybrid\Chart\Timeline', $this->chart);
 	}
 
 	/**

@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Memory;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class MemoryDriverTest extends PHPUnit_Framework_TestCase {
+class DriverTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Test Hybrid\Memory\Driver::initiate()
@@ -54,7 +54,7 @@ class MemoryDriverTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class MemoryDriverStub extends Hybrid\Memory\Driver {
+class MemoryDriverStub extends \Hybrid\Memory\Driver {
 
 	public $initiated = false;
 	public $shutdown  = false;

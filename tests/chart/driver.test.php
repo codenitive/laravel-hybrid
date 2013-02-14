@@ -1,6 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Chart;
 
-class ChartDriverTest extends PHPUnit_Framework_TestCase {
+\Bundle::start('hybrid');
+
+class DriverTest extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * Chart instance
@@ -14,7 +16,9 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->chart = new ChartStub(new Hybrid\Chart\Fluent);
+		$this->chart = new ChartStub(
+			new \Hybrid\Chart\Fluent
+		);
 
 		$this->chart->put(array(
 			'foo' => 'foobar',
@@ -35,17 +39,17 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test object is an instance of Laravie\Chartie\Driver.
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testObjectIsInstanceOfChartieDriver()
 	{
-		$this->assertInstanceOf('Hybrid\Chart\Driver', $this->chart);
+		$this->assertInstanceOf('\Hybrid\Chart\Driver', $this->chart);
 	}
 
 	/**
 	 * Test generated UUID
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testGeneratedUUID()
 	{
@@ -55,7 +59,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test generated UUID is always unique
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testGeneratedUUIDIsAlwaysUnique()
 	{
@@ -67,7 +71,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test setting attributes properly
 	 * 
-	 * @test core
+	 * @test
 	 */
 	public function testPutAttributes()
 	{
@@ -79,7 +83,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test get attributes properly
 	 * 
-	 * @test core
+	 * @test
 	 */
 	public function testGetAttributes()
 	{
@@ -91,8 +95,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test setting attributes causing an exception
 	 *
-	 * @test core
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testPutAttributesFailed()
 	{
@@ -102,7 +105,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test __toString render properly
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testToString()
 	{
@@ -112,7 +115,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * Test render is output the correct value
 	 *
-	 * @test core
+	 * @test
 	 */
 	public function testRenderIsOutputCorrectly()
 	{
@@ -120,7 +123,7 @@ class ChartDriverTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class ChartStub extends Hybrid\Chart\Driver {
+class ChartStub extends \Hybrid\Chart\Driver {
 
 	protected $name = 'stub';
 

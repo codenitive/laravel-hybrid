@@ -1,8 +1,8 @@
-<?php
+<?php namespace Hybrid\Tests\Memory;
 
-Bundle::start('hybrid');
+\Bundle::start('hybrid');
 
-class MemoryRuntimeTest extends PHPUnit_Framework_TestCase {
+class RuntimeTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Stub instance.
@@ -16,7 +16,7 @@ class MemoryRuntimeTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function setUp()
 	{
-		$this->stub = new Hybrid\Memory\Runtime('stub', array());
+		$this->stub = new \Hybrid\Memory\Runtime('stub', array());
 	}
 
 	/**

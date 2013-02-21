@@ -104,6 +104,9 @@ class Fluent {
 	 */
 	public function rename($from, $to)
 	{
+		$from = trim(Str::slug($from, '-'));
+		$to   = trim(Str::slug($to, '-'));
+
 		if (false === ($key = $this->search($from))) return false;
 
 		$this->collections[$key] = $to;
